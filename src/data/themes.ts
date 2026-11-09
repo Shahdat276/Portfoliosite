@@ -74,3 +74,4 @@ export const STUDIO_THEMES: Record<string, StudioTheme> = {
         bgSwatch: '#11100F'
     }
 };
+

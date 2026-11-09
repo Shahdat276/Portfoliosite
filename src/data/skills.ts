@@ -26,3 +26,4 @@ export const SOFTWARE_TOOLS: SoftwareTool[] = [
     { name: 'Adobe Photoshop', code: 'Ps', category: 'Design & Assets', role: 'Styleframes, Retouching & Matte Art' },
     { name: 'Adobe Illustrator', code: 'Ai', category: 'Design & Assets', role: 'Vector Systems & Typography Assets' }
 ];
+

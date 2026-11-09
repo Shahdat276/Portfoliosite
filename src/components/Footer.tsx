@@ -46,3 +46,4 @@ export function Footer({ theme, siteConfig }: FooterProps) {
         </footer>
     );
 }
+

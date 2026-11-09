@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shahdat Hossain — Senior Video Editor & Motion Graphics Designer Portfolio
 
-## Getting Started
+A modern, high-performance portfolio website built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS**, and **Framer Motion**.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Key Features
+
+- **4-Theme Studio System**:
+  - `Editorial Paper` (Light Architectural Luxury)
+  - `Nordic Minimal` (Cool Gallery)
+  - `Desert Studio` (Warm Architectural)
+  - `Cinema Gold` (Warm Dark Lounge)
+- **Clean Cinema Showreel Player**:
+  - Direct responsive embed with zero third-party branding overlays
+  - Custom Electric Lime NLE transport controls (Play/Pause, Audio On/Mute, Scrubber, Chapter quick-jumps)
+  - Fullscreen Theater Mode
+  - Supports both YouTube/Vimeo embeds and direct native `.mp4` video files
+- **Curated Selected Works Archive**:
+  - Asymmetric editorial bento grid
+  - Category filters (Fashion Films, Commercials, Motion Graphics, Product Videos, Brand Campaigns, Social Media Reels, Logo Animation, VFX)
+  - Deep-dive case study view for each project
+- **Capabilities & Software Matrix**:
+  - 12 Core capabilities
+  - 9 Industry-standard software tools
+- **Professional Career Timeline**:
+  - Expandable accordion detailing responsibilities and achievements
+- **Contact & Inquiry System**:
+  - Validated client inquiry form with direct mailto fallback
+  - Quick-copy email, WhatsApp, and social channel links
+- **Live Studio CMS Drawer**:
+  - Test real-time changes to text, video URLs, and themes directly in the browser
+  - 1-click JSON export
+
+---
+
+## 📁 Project Architecture
+
+```text
+src/
+├── app/
+│   ├── layout.tsx         # Root Layout, Google Fonts & Global SEO Metadata
+│   ├── page.tsx           # Main Page Component
+│   └── globals.css        # Tailwind CSS & Typography Variables
+│
+├── components/            # Modular UI Components
+│   ├── Navbar.tsx         # Header & 4-Theme Switcher
+│   ├── Hero.tsx           # Intro & Showreel Preview
+│   ├── Showreel.tsx       # Showreel Player & Custom Transport Controls
+│   ├── WorkGallery.tsx    # Asymmetrical Project Grid & Filters
+│   ├── CaseStudyView.tsx  # In-depth Case Study Template
+│   ├── About.tsx          # Biography, Portrait & Resume Download
+│   ├── Capabilities.tsx   # 12 Core Capabilities & 9 Software Tools
+│   ├── ExperienceSection.tsx # Career Timeline Accordion
+│   ├── ContactSection.tsx # Inquiry Form & Contact Cards
+│   ├── Footer.tsx         # Minimalist Footer
+│   ├── ShowreelModal.tsx  # Fullscreen Theater Modal
+│   ├── CmsDrawer.tsx      # Live Studio CMS Drawer
+│   └── EditorialVisualFrame.tsx # Procedural Kinetic Preview Frame
+│
+├── data/                  # Centralized Content (Easily Editable)
+│   ├── siteConfig.ts      # Bio, Showreel, Contact & SEO details
+│   ├── projects.ts        # All 8 project case studies & media
+│   ├── skills.ts          # Capabilities & software tools
+│   ├── experience.ts      # Organizations, roles & achievements
+│   └── themes.ts          # Studio color theme palettes
+│
+├── types/
+│   └── index.ts           # TypeScript Interfaces & Definitions
+│
+└── public/
+    ├── images/            # Drop portrait and project photos here
+    ├── videos/            # Drop local showreel / video .mp4 files here
+    └── cv/                # Drop PDF resumes here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Install Dependencies
+```bash
+npm install
+```
 
-## Learn More
+### 2. Run Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Build for Production
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Run Linter
+```bash
+npm run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📝 How to Update Your Content
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| To Update | Edit File |
+| :--- | :--- |
+| Your Name, Bio, Email, WhatsApp | `src/data/siteConfig.ts` |
+| Showreel Video URL | `src/data/siteConfig.ts` (`showreel.videoUrl`) |
+| Profile Photo | Drop in `public/images/` & set path in `siteConfig.ts` |
+| Resume / CV | Drop in `public/cv/` & set path in `siteConfig.ts` |
+| Projects & Videos | `src/data/projects.ts` |
+| Experience History | `src/data/experience.ts` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚀 Deployment
+
+The project is ready for one-click deployment to **[Vercel](https://vercel.com)**:
+1. Push your repository to GitHub.
+2. Import the repository on Vercel.
+3. Deploy!

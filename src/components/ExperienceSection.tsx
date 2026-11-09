@@ -150,3 +150,4 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
         </section>
     );
 }
+

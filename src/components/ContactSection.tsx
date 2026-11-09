@@ -328,3 +328,4 @@ export function ContactSection({ theme, siteConfig }: ContactSectionProps) {
         </section>
     );
 }
+

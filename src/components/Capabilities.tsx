@@ -140,3 +140,4 @@ export function Capabilities({ theme }: CapabilitiesProps) {
         </section>
     );
 }
+
