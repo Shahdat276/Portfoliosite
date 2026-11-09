@@ -16,7 +16,7 @@ export function Capabilities({ theme }: CapabilitiesProps) {
             className="py-24 md:py-32 border-b"
             style={{ borderColor: theme.border }}
         >
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 {/* 12 Core Capabilities */}
                 <div className="mb-24">
                     <div className="max-w-2xl mb-12">

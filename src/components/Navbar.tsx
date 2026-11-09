@@ -56,7 +56,7 @@ export function Navbar({
                 borderColor: theme.border
             }}
         >
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between gap-4">
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] h-20 flex items-center justify-between gap-4">
                 {/* Brand Wordmark */}
                 <button
                     onClick={() => navigateToSection('home')}

@@ -30,13 +30,13 @@ export function Hero({
     return (
         <section
             id="home"
-            className="pt-28 pb-16 md:pt-36 md:pb-24 border-b transition-colors duration-500"
+            className="pt-28 pb-16 md:pt-32 md:pb-20 min-h-[calc(100vh-5rem)] flex items-center border-b transition-colors duration-500"
             style={{
                 backgroundColor: theme.bg,
                 borderColor: theme.border
             }}
         >
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
                     {/* Left Column (7 Cols): Editorial Typography Hero */}
                     <motion.div
@@ -70,7 +70,7 @@ export function Hero({
                             {siteConfig.heroSecondaryHeadline}
                         </p>
 
-                        <h1 className="font-display text-4xl sm:text-6xl xl:text-[68px] font-semibold leading-[1.03] tracking-tight mb-6">
+                        <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-[76px] 2xl:text-[88px] font-semibold leading-[1.02] tracking-tight mb-6">
                             Crafting{' '}
                             <span
                                 className="font-serif-italic font-normal px-1"
@@ -84,7 +84,7 @@ export function Hero({
 
                         {/* Supporting Introduction */}
                         <p
-                            className="text-base sm:text-lg leading-relaxed max-w-2xl mb-8"
+                            className="text-base sm:text-lg lg:text-xl leading-relaxed max-w-3xl mb-8"
                             style={{ color: theme.textMuted }}
                         >
                             {siteConfig.heroIntro}
@@ -92,7 +92,7 @@ export function Hero({
 
                         {/* Key Credentials Row */}
                         <div
-                            className="grid grid-cols-3 gap-4 py-5 px-5 rounded-2xl border mb-8 max-w-2xl"
+                            className="grid grid-cols-3 gap-4 py-5 px-5 rounded-2xl border mb-8 max-w-3xl"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border

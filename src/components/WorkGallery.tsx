@@ -36,7 +36,7 @@ export function WorkGallery({
             className="py-24 md:py-32 border-b"
             style={{ borderColor: theme.border }}
         >
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
                     <div>
                         <span

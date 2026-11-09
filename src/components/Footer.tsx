@@ -18,7 +18,7 @@ export function Footer({ theme, siteConfig }: FooterProps) {
                 borderColor: theme.border
             }}
         >
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: theme.textMuted }}>
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: theme.textMuted }}>
                 <div className="flex items-center gap-3">
                     <span
                         className="w-2 h-2 rounded-full"

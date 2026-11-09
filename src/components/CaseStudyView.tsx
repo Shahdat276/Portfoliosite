@@ -30,7 +30,7 @@ export function CaseStudyView({
             transition={{ duration: 0.35 }}
             className="pt-28 pb-24"
         >
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 {/* Back to Selected Works */}
                 <div className="flex items-center justify-between mb-10">
                     <button

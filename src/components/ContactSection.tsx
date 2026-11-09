@@ -78,7 +78,7 @@ interface ContactSectionProps {
                     className="py-24 md:py-32"
                     style={{ backgroundColor: theme.bg }}
                 >
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+                    <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
                                     {/* Left 6 Columns: Contact Details & Direct Reaches */}
                                     <div className="lg:col-span-6 space-y-8">
