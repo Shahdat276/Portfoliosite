@@ -1,3 +1,6 @@
+// @ts-nocheck
+"use client";
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -144,7 +147,7 @@ const INITIAL_SITE_CONFIG = {
         heading: 'Selected Moments. Endless Creativity.',
         supportingText:
             'A collection of visual stories, commercial productions, and motion design experiments.',
-        videoUrl: '', // Paste your official MP4 showreel URL here or in Studio CMS
+        videoUrl: 'https://www.youtube.com/embed/ZVPus_WBp3Q?si=KMrgCrZGMVoH1S3Z',
         duration: '01:48',
         placeholderNote: 'Interactive Showreel Stage — Replace with Official Showreel MP4',
         chapters: [
@@ -159,8 +162,8 @@ const INITIAL_SITE_CONFIG = {
         placeholderNote: 'Editorial Portrait Placeholder — /public/images/shahdat.jpg'
     },
     contact: {
-        email: 'shahdat.hossain@example.com',
-        whatsapp: '+880 1XXX-XXXXXX [Editable]',
+        email: 'shahdathossain0779@gmail.com',
+        whatsapp: '+880 1850-993126',
         linkedin: 'https://linkedin.com',
         behance: 'https://behance.net',
         vimeo: 'https://vimeo.com',
@@ -731,6 +734,20 @@ function EditorialVisualFrame({
     );
 }
 
+function getYouTubeCleanEmbed(url) {
+    if (!url) return '';
+    let videoId = '';
+    if (url.includes('embed/')) {
+        videoId = url.split('embed/')[1].split('?')[0];
+    } else if (url.includes('watch?v=')) {
+        videoId = url.split('watch?v=')[1].split('&')[0];
+    } else if (url.includes('youtu.be/')) {
+        videoId = url.split('youtu.be/')[1].split('?')[0];
+    }
+    if (!videoId) return url;
+    return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&loop=1&playlist=${videoId}&playsinline=1&enablejsapi=1`;
+}
+
 /**
  * ============================================================================
  * MAIN PORTFOLIO APPLICATION
@@ -758,6 +775,58 @@ export default function App() {
     const [isShowreelMuted, setIsShowreelMuted] = useState(true);
     const [showreelProgress, setShowreelProgress] = useState(28);
     const [showreelModalOpen, setShowreelModalOpen] = useState(false);
+    const videoRef = useRef(null);
+    const iframeRef = useRef(null);
+
+    // YouTube / Video Unified Controls
+    const sendYouTubeCommand = (func, args = []) => {
+        if (iframeRef.current && iframeRef.current.contentWindow) {
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func, args }),
+                '*'
+            );
+        }
+    };
+
+    const toggleShowreelPlay = () => {
+        const nextState = !isShowreelPlaying;
+        setIsShowreelPlaying(nextState);
+
+        const isYT = siteConfig.showreel.videoUrl?.includes('youtube') || siteConfig.showreel.videoUrl?.includes('youtu.be');
+        if (isYT) {
+            sendYouTubeCommand(nextState ? 'playVideo' : 'pauseVideo');
+        } else if (videoRef.current) {
+            if (nextState) {
+                videoRef.current.play().catch(() => {});
+            } else {
+                videoRef.current.pause();
+            }
+        }
+    };
+
+    const toggleShowreelMute = () => {
+        const nextMuted = !isShowreelMuted;
+        setIsShowreelMuted(nextMuted);
+
+        const isYT = siteConfig.showreel.videoUrl?.includes('youtube') || siteConfig.showreel.videoUrl?.includes('youtu.be');
+        if (isYT) {
+            sendYouTubeCommand(nextMuted ? 'mute' : 'unMute');
+        } else if (videoRef.current) {
+            videoRef.current.muted = nextMuted;
+        }
+    };
+
+    const seekShowreel = (progressPercent) => {
+        setShowreelProgress(progressPercent);
+        const targetSeconds = (progressPercent / 100) * 108;
+
+        const isYT = siteConfig.showreel.videoUrl?.includes('youtube') || siteConfig.showreel.videoUrl?.includes('youtu.be');
+        if (isYT) {
+            sendYouTubeCommand('seekTo', [targetSeconds, true]);
+        } else if (videoRef.current && videoRef.current.duration) {
+            videoRef.current.currentTime = (progressPercent / 100) * videoRef.current.duration;
+        }
+    };
 
     // Selected Works Filter & Software Filter
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -1783,14 +1852,40 @@ export default function App() {
                                 >
                                     <div className="rounded-2xl overflow-hidden relative">
                                         {siteConfig.showreel.videoUrl ? (
-                                            <video
-                                                src={siteConfig.showreel.videoUrl}
-                                                className="w-full aspect-video object-cover bg-black"
-                                                autoPlay={isShowreelPlaying}
-                                                muted={isShowreelMuted}
-                                                loop
-                                                playsInline
-                                            />
+                                            siteConfig.showreel.videoUrl.includes('youtube') || siteConfig.showreel.videoUrl.includes('youtu.be') ? (
+                                                <div 
+                                                    className="relative w-full aspect-video bg-black overflow-hidden select-none cursor-pointer"
+                                                    onClick={toggleShowreelPlay}
+                                                >
+                                                    <iframe
+                                                        ref={iframeRef}
+                                                        src={getYouTubeCleanEmbed(siteConfig.showreel.videoUrl)}
+                                                        title="YouTube video player"
+                                                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] border-0 pointer-events-none"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowFullScreen
+                                                    />
+                                                </div>
+                                            ) : siteConfig.showreel.videoUrl.includes('vimeo') ? (
+                                                <iframe
+                                                    src={siteConfig.showreel.videoUrl}
+                                                    title="Vimeo video player"
+                                                    className="w-full aspect-video border-0 bg-black"
+                                                    allow="autoplay; fullscreen; picture-in-picture"
+                                                    allowFullScreen
+                                                />
+                                            ) : (
+                                                <video
+                                                    ref={videoRef}
+                                                    src={siteConfig.showreel.videoUrl}
+                                                    className="w-full aspect-video object-cover bg-black cursor-pointer"
+                                                    autoPlay={isShowreelPlaying}
+                                                    muted={isShowreelMuted}
+                                                    loop
+                                                    playsInline
+                                                    onClick={toggleShowreelPlay}
+                                                />
+                                            )
                                         ) : (
                                             <div
                                                 onClick={() => setShowreelModalOpen(true)}
@@ -1840,7 +1935,7 @@ export default function App() {
                                                     0,
                                                     Math.min(100, Math.round(((e.clientX - rect.left) / rect.width) * 100))
                                                 );
-                                                setShowreelProgress(pct);
+                                                seekShowreel(pct);
                                             }}
                                             className="w-full h-2 rounded-full cursor-pointer overflow-hidden relative"
                                             style={{ backgroundColor: theme.surfaceAlt }}
@@ -1859,7 +1954,7 @@ export default function App() {
                                         <div className="flex flex-wrap items-center justify-between gap-4">
                                             <div className="flex items-center gap-4">
                                                 <button
-                                                    onClick={() => setIsShowreelPlaying(!isShowreelPlaying)}
+                                                    onClick={toggleShowreelPlay}
                                                     className="px-4 py-2 rounded-full text-xs font-medium border flex items-center gap-2"
                                                     style={{
                                                         backgroundColor: theme.surfaceAlt,
@@ -1881,7 +1976,7 @@ export default function App() {
                                                 </button>
 
                                                 <button
-                                                    onClick={() => setIsShowreelMuted(!isShowreelMuted)}
+                                                    onClick={toggleShowreelMute}
                                                     className="px-4 py-2 rounded-full text-xs font-medium border flex items-center gap-2"
                                                     style={{
                                                         backgroundColor: theme.surfaceAlt,
@@ -1910,7 +2005,7 @@ export default function App() {
                                                         key={chap.id}
                                                         onClick={() => {
                                                             setActiveChapterIndex(idx);
-                                                            setShowreelProgress(chap.progress);
+                                                            seekShowreel(chap.progress);
                                                         }}
                                                         className="px-3 py-1.5 rounded-full text-xs font-mono transition-colors"
                                                         style={{
@@ -2853,7 +2948,7 @@ export default function App() {
                     </div>
 
                     <div className="flex items-center gap-6">
-                        <span>© {new Date().getFullYear()} All Rights Reserved</span>
+                        <span>© 2026 All Rights Reserved</span>
                         <button
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             className="font-medium inline-flex items-center gap-1 hover:underline"
@@ -2897,12 +2992,32 @@ export default function App() {
 
                             <div className="rounded-2xl overflow-hidden border border-white/15 bg-black">
                                 {siteConfig.showreel.videoUrl ? (
-                                    <video
-                                        src={siteConfig.showreel.videoUrl}
-                                        controls
-                                        autoPlay
-                                        className="w-full aspect-video"
-                                    />
+                                    siteConfig.showreel.videoUrl.includes('youtube') || siteConfig.showreel.videoUrl.includes('youtu.be') ? (
+                                        <div className="relative w-full aspect-video bg-black overflow-hidden select-none">
+                                            <iframe
+                                                src={getYouTubeCleanEmbed(siteConfig.showreel.videoUrl)}
+                                                title="YouTube showreel player"
+                                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] border-0 pointer-events-none"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            />
+                                        </div>
+                                    ) : siteConfig.showreel.videoUrl.includes('vimeo') ? (
+                                        <iframe
+                                            src={siteConfig.showreel.videoUrl}
+                                            title="Vimeo showreel player"
+                                            className="w-full aspect-video border-0 bg-black"
+                                            allow="autoplay; fullscreen; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    ) : (
+                                        <video
+                                            src={siteConfig.showreel.videoUrl}
+                                            controls
+                                            autoPlay
+                                            className="w-full aspect-video"
+                                        />
+                                    )
                                 ) : (
                                     <EditorialVisualFrame
                                         theme={STUDIO_THEMES.cinema}
