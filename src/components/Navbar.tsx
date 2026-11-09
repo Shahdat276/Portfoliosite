@@ -67,45 +67,47 @@ export function Navbar({
                         style={{ backgroundColor: theme.accent }}
                     />
                     <div>
-                        <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none">
-                            {siteConfig.wordmark}
-                        </span>
-                        <span
-                            className="font-mono text-[10px] uppercase tracking-[0.2em] block mt-1"
-                            style={{ color: theme.textMuted }}
-                        >
-                            Senior Editor & Motion
-                        </span>
+                            <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none">
+                                {siteConfig.wordmark}
+                            </span>
+                            <span
+                                className="font-mono text-[10px] uppercase tracking-[0.2em] block mt-1"
+                                style={{ color: theme.textMuted }}
+                            >
+                                Senior Editor & Motion
+                            </span>
                     </div>
                 </button>
 
                 {/* Center Navigation Links */}
                 <nav className="hidden xl:flex items-center gap-7" aria-label="Main Navigation">
-                    {navItems.map((item) => {
-                        const isActive =
-                            activeRoute.page === 'case-study'
-                                ? item.id === 'work'
-                                : activeSection === item.id;
-                        return (
-                            <button
-                                key={item.id}
-                                onClick={() => navigateToSection(item.id)}
-                                className="text-sm font-medium transition-colors relative py-1"
-                                style={{
-                                    color: isActive ? theme.text : theme.textMuted
-                                }}
-                            >
-                                {item.label}
-                                {isActive && (
-                                    <motion.span
-                                        layoutId="editorialNavUnderline"
-                                        className="absolute -bottom-1 left-0 right-0 h-[2px]"
-                                        style={{ backgroundColor: theme.accent }}
-                                    />
-                                )}
-                            </button>
-                        );
-                    })}
+                        {
+                            navItems.map((item) => {
+                                const isActive =
+                                    activeRoute.page === 'case-study'
+                                        ? item.id === 'work'
+                                        : activeSection === item.id;
+                                return (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => navigateToSection(item.id)}
+                                        className="text-sm font-medium transition-colors relative py-1"
+                                        style={{
+                                            color: isActive ? theme.text : theme.textMuted
+                                        }}
+                                    >
+                                        {item.label}
+                                        {isActive && (
+                                            <motion.span
+                                                layoutId="editorialNavUnderline"
+                                                className="absolute -bottom-1 left-0 right-0 h-[2px]"
+                                                style={{ backgroundColor: theme.accent }}
+                                            />
+                                        )}
+                                    </button>
+                                );
+                            })
+                        }
                 </nav>
 
                 {/* Right Controls: 1-Click 4-Theme Switcher + Studio CMS + Let's Talk */}
@@ -147,47 +149,47 @@ export function Navbar({
                     </button>
                 </div>
 
-                {/* Mobile Menu & Theme Trigger */}
-                <div className="flex md:hidden items-center gap-2">
-                    <button
-                        onClick={() => setCmsOpen(true)}
-                        className="p-2 rounded-full border text-xs"
-                        style={{
-                            backgroundColor: theme.surfaceAlt,
-                            borderColor: theme.border,
-                            color: theme.text
-                        }}
-                        aria-label="Open CMS"
-                    >
-                        <SlidersHorizontal className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="p-2 rounded-full border transition-colors"
-                        style={{
-                            backgroundColor: theme.surface,
-                            borderColor: theme.border,
-                            color: theme.text
-                        }}
-                        aria-label="Toggle navigation drawer"
-                    >
-                        <Menu className="w-5 h-5" />
-                    </button>
+                    {/* Mobile Menu & Theme Trigger */}
+                    <div className="flex md:hidden items-center gap-2">
+                        <button
+                            onClick={() => setCmsOpen(true)}
+                            className="p-2 rounded-full border text-xs"
+                            style={{
+                                backgroundColor: theme.surfaceAlt,
+                                borderColor: theme.border,
+                                color: theme.text
+                            }}
+                            aria-label="Open CMS"
+                        >
+                            <SlidersHorizontal className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="p-2 rounded-full border transition-colors"
+                            style={{
+                                backgroundColor: theme.surface,
+                                borderColor: theme.border,
+                                color: theme.text
+                            }}
+                            aria-label="Toggle navigation drawer"
+                        >
+                            <Menu className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            {/* Mobile Navigation Drawer */}
-            <MobileMenu
-                isOpen={mobileMenuOpen}
-                onClose={() => setMobileMenuOpen(false)}
-                theme={theme}
-                siteConfig={siteConfig}
-                activeRoute={activeRoute}
-                activeSection={activeSection}
-                navigateToSection={navigateToSection}
-                activeThemeKey={activeThemeKey}
-                setActiveThemeKey={setActiveThemeKey}
-            />
+                {/* Mobile Navigation Drawer */}
+                <MobileMenu
+                    isOpen={mobileMenuOpen}
+                    onClose={() => setMobileMenuOpen(false)}
+                    theme={theme}
+                    siteConfig={siteConfig}
+                    activeRoute={activeRoute}
+                    activeSection={activeSection}
+                    navigateToSection={navigateToSection}
+                    activeThemeKey={activeThemeKey}
+                    setActiveThemeKey={setActiveThemeKey}
+                />
         </header>
     );
 }

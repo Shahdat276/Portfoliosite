@@ -93,7 +93,7 @@ export function Showreel({
                     <div className="rounded-2xl overflow-hidden relative">
                         {siteConfig.showreel.videoUrl ? (
                             siteConfig.showreel.videoUrl.includes('youtube') || siteConfig.showreel.videoUrl.includes('youtu.be') ? (
-                                <div 
+                                <div
                                     className="relative w-full aspect-video bg-black overflow-hidden select-none cursor-pointer"
                                     onClick={toggleShowreelPlay}
                                 >
@@ -120,58 +120,58 @@ export function Showreel({
                                 </div>
                             )
                         ) : (
-                            <div className="aspect-video relative group cursor-pointer" onClick={() => setShowreelModalOpen(true)}>
-                                <EditorialVisualFrame
-                                    theme={theme}
-                                    index="REEL"
-                                    category="Motion Direction"
-                                    aspectClass="aspect-video"
-                                    pattern="waveform"
-                                    isHovered={false}
-                                    badgeText="Interactive Showreel"
-                                />
-                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-xs transition-opacity group-hover:bg-black/25">
-                                    <div
-                                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110"
-                                        style={{
-                                            backgroundColor: theme.accent,
-                                            color: theme.accentText
-                                        }}
-                                    >
-                                        <Play className="w-7 h-7 fill-current ml-1" />
+                                <div className="aspect-video relative group cursor-pointer" onClick={() => setShowreelModalOpen(true)}>
+                                    <EditorialVisualFrame
+                                        theme={theme}
+                                        index="REEL"
+                                        category="Motion Direction"
+                                        aspectClass="aspect-video"
+                                        pattern="waveform"
+                                        isHovered={false}
+                                        badgeText="Interactive Showreel"
+                                    />
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-xs transition-opacity group-hover:bg-black/25">
+                                            <div
+                                                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110"
+                                                style={{
+                                                    backgroundColor: theme.accent,
+                                                    color: theme.accentText
+                                                }}
+                                            >
+                                                <Play className="w-7 h-7 fill-current ml-1" />
+                                            </div>
+                                            <span
+                                                className="mt-4 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest border"
+                                                style={{
+                                                    backgroundColor: theme.surface,
+                                                    borderColor: theme.border,
+                                                    color: theme.text
+                                                }}
+                                            >
+                                                Launch Fullscreen Showreel
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span
-                                        className="mt-4 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest border"
-                                        style={{
-                                            backgroundColor: theme.surface,
-                                            borderColor: theme.border,
-                                            color: theme.text
-                                        }}
-                                    >
-                                        Launch Fullscreen Showreel
-                                    </span>
-                                </div>
-                            </div>
                         )}
-                    </div>
+                                </div>
 
-                    {/* Extracted Modular Player Controls */}
-                    <ShowreelControls
-                        theme={theme}
-                        siteConfig={siteConfig}
-                        activeChapterIndex={activeChapterIndex}
-                        setActiveChapterIndex={setActiveChapterIndex}
-                        isShowreelPlaying={isShowreelPlaying}
-                        isShowreelMuted={isShowreelMuted}
-                        showreelProgress={showreelProgress}
-                        toggleShowreelPlay={toggleShowreelPlay}
-                        toggleShowreelMute={toggleShowreelMute}
-                        seekShowreel={seekShowreel}
-                        setShowreelModalOpen={setShowreelModalOpen}
-                        setCmsOpen={setCmsOpen}
-                    />
-                </div>
+                                {/* Extracted Modular Player Controls */}
+                                <ShowreelControls
+                                    theme={theme}
+                                    siteConfig={siteConfig}
+                                    activeChapterIndex={activeChapterIndex}
+                                    setActiveChapterIndex={setActiveChapterIndex}
+                                    isShowreelPlaying={isShowreelPlaying}
+                                    isShowreelMuted={isShowreelMuted}
+                                    showreelProgress={showreelProgress}
+                                    toggleShowreelPlay={toggleShowreelPlay}
+                                    toggleShowreelMute={toggleShowreelMute}
+                                    seekShowreel={seekShowreel}
+                                    setShowreelModalOpen={setShowreelModalOpen}
+                                    setCmsOpen={setCmsOpen}
+                                />
+                            </div>
             </div>
-        </section>
-    );
+                </section>
+                );
 }
