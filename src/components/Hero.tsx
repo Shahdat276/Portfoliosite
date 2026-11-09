@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Play, Film } from 'lucide-react';
 import { StudioTheme, SiteConfig, ShowreelChapter } from '@/types';
@@ -27,6 +28,17 @@ export function Hero({
     setShowreelProgress,
     setShowreelModalOpen
 }: HeroProps) {
+    let youtubeThumbnail = '';
+    if (siteConfig.showreel.videoUrl) {
+        let videoId = '';
+        const url = siteConfig.showreel.videoUrl;
+        if (url.includes('embed/')) videoId = url.split('embed/')[1].split('?')[0];
+        else if (url.includes('watch?v=')) videoId = url.split('watch?v=')[1].split('&')[0];
+        else if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0];
+        if (videoId) {
+            youtubeThumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+        }
+    }
     return (
         <section
             id="home"
@@ -198,24 +210,47 @@ export function Hero({
                             {/* Interactive Preview Frame */}
                             <div
                                 onClick={() => setShowreelModalOpen(true)}
-                                className="rounded-2xl overflow-hidden relative cursor-pointer group"
+                                className="rounded-2xl overflow-hidden relative cursor-pointer group aspect-[4/3] bg-black"
                             >
-                                <EditorialVisualFrame
-                                    theme={theme}
-                                    index={activeChapter.id}
-                                    category={activeChapter.note}
-                                    aspectClass="aspect-[4/3]"
-                                    pattern={
-                                        activeChapterIndex % 2 === 0 ? 'editorial-arch' : 'orbital-rings'
-                                    }
-                                    isHovered={true}
-                                    badgeText="Click for Theater Mode"
-                                />
+                                {youtubeThumbnail ? (
+                                    <>
+                                        <Image
+                                            src={youtubeThumbnail}
+                                            alt="Showreel Preview Thumbnail"
+                                            fill
+                                            unoptimized
+                                            className="object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
 
-                                {/* Centered Play Button */}
-                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        {/* Chapter Badge */}
+                                        <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
+                                                No. {activeChapter.id} — {activeChapter.note}
+                                            </span>
+                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
+                                                Theater Mode
+                                            </span>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <EditorialVisualFrame
+                                        theme={theme}
+                                        index={activeChapter.id}
+                                        category={activeChapter.note}
+                                        aspectClass="aspect-[4/3]"
+                                        pattern={
+                                            activeChapterIndex % 2 === 0 ? 'editorial-arch' : 'orbital-rings'
+                                        }
+                                        isHovered={true}
+                                        badgeText="Click for Theater Mode"
+                                    />
+                                )}
+
+                                {/* Centered Glowing Play Button */}
+                                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
                                     <div
-                                        className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110"
+                                        className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-115"
                                         style={{
                                             backgroundColor: theme.accent,
                                             color: theme.accentText

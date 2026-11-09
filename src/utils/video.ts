@@ -70,3 +70,4 @@ export function formatUniversalVideoEmbed(url: string): VideoEmbedResult {
         embedUrl: trimmed
     };
 }
+
