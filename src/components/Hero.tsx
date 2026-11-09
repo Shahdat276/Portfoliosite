@@ -223,79 +223,79 @@ export function Hero({
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
 
-                                        {/* Chapter Badge */}
-                                        <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
-                                                No. {activeChapter.id} — {activeChapter.note}
-                                            </span>
-                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
-                                                Theater Mode
-                                            </span>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <EditorialVisualFrame
-                                        theme={theme}
-                                        index={activeChapter.id}
-                                        category={activeChapter.note}
-                                        aspectClass="aspect-[4/3]"
-                                        pattern={
-                                            activeChapterIndex % 2 === 0 ? 'editorial-arch' : 'orbital-rings'
-                                        }
-                                        isHovered={true}
-                                        badgeText="Click for Theater Mode"
-                                    />
+                                            {/* Chapter Badge */}
+                                            <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+                                                <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
+                                                    No. {activeChapter.id} — {activeChapter.note}
+                                                </span>
+                                                <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
+                                                    Theater Mode
+                                                </span>
+                                            </div>
+                                        </>
+                                        ) : (
+                                        <EditorialVisualFrame
+                                            theme={theme}
+                                            index={activeChapter.id}
+                                            category={activeChapter.note}
+                                            aspectClass="aspect-[4/3]"
+                                            pattern={
+                                                activeChapterIndex % 2 === 0 ? 'editorial-arch' : 'orbital-rings'
+                                            }
+                                            isHovered={true}
+                                            badgeText="Click for Theater Mode"
+                                        />
                                 )}
 
-                                {/* Centered Glowing Play Button */}
-                                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                                    <div
-                                        className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-115"
-                                        style={{
-                                            backgroundColor: theme.accent,
-                                            color: theme.accentText
-                                        }}
+                                        {/* Centered Glowing Play Button */}
+                                        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                            <div
+                                                className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-115"
+                                                style={{
+                                                    backgroundColor: theme.accent,
+                                                    color: theme.accentText
+                                                }}
+                                            >
+                                                <Play className="w-6 h-6 fill-current ml-0.5" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {/* 4 Interactive Chapter Pills */}
+                                <div className="mt-4 pt-3 border-t" style={{ borderColor: theme.border }}>
+                                    <span
+                                        className="font-mono text-[10px] uppercase tracking-wider block mb-2.5"
+                                        style={{ color: theme.textMuted }}
                                     >
-                                        <Play className="w-6 h-6 fill-current ml-0.5" />
+                                        Interactive Showreel Chapters:
+                                    </span>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {siteConfig.showreel.chapters.map((chap, idx) => {
+                                            const isCurrent = idx === activeChapterIndex;
+                                            return (
+                                                <button
+                                                    key={chap.id}
+                                                    onClick={() => {
+                                                        setActiveChapterIndex(idx);
+                                                        setShowreelProgress(chap.progress);
+                                                    }}
+                                                    className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all flex items-center justify-between"
+                                                    style={{
+                                                        backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
+                                                        borderColor: isCurrent ? theme.accent : 'transparent',
+                                                        color: isCurrent ? theme.accent : theme.text
+                                                    }}
+                                                >
+                                                    <span className="truncate">{chap.label}</span>
+                                                    <span className="font-mono text-[10px] opacity-75">
+                                                        {chap.time}
+                                                    </span>
+                                                </button>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>
-
-                            {/* 4 Interactive Chapter Pills */}
-                            <div className="mt-4 pt-3 border-t" style={{ borderColor: theme.border }}>
-                                <span
-                                    className="font-mono text-[10px] uppercase tracking-wider block mb-2.5"
-                                    style={{ color: theme.textMuted }}
-                                >
-                                    Interactive Showreel Chapters:
-                                </span>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {siteConfig.showreel.chapters.map((chap, idx) => {
-                                        const isCurrent = idx === activeChapterIndex;
-                                        return (
-                                            <button
-                                                key={chap.id}
-                                                onClick={() => {
-                                                    setActiveChapterIndex(idx);
-                                                    setShowreelProgress(chap.progress);
-                                                }}
-                                                className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all flex items-center justify-between"
-                                                style={{
-                                                    backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
-                                                    borderColor: isCurrent ? theme.accent : 'transparent',
-                                                    color: isCurrent ? theme.accent : theme.text
-                                                }}
-                                            >
-                                                <span className="truncate">{chap.label}</span>
-                                                <span className="font-mono text-[10px] opacity-75">
-                                                    {chap.time}
-                                                </span>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
                     </motion.div>
                 </div>
             </div>
