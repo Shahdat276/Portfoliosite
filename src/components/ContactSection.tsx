@@ -1,17 +1,26 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ArrowUpRight, Check, Copy, CheckCircle2 } from 'lucide-react';
-import { StudioTheme, SiteConfig } from '@/types';
+import {
+    Mail,
+    Copy,
+    Check,
+    ArrowUpRight
+} from 'lucide-react';
+import { StudioTheme, SiteConfig, ContactFormData } from '@/types';
+import { ContactForm } from './ContactForm';
 
 interface ContactSectionProps {
     theme: StudioTheme;
     siteConfig: SiteConfig;
 }
 
-export function ContactSection({ theme, siteConfig }: ContactSectionProps) {
-    const [copiedLabel, setCopiedLabel] = useState('');
-    const [formData, setFormData] = useState({
+export function ContactSection({
+    theme,
+    siteConfig
+}: ContactSectionProps) {
+    const [copiedLabel, setCopiedLabel] = useState<string>('');
+    const [formData, setFormData] = useState<ContactFormData>({
         name: '',
         email: '',
         subject: '',
@@ -23,140 +32,199 @@ export function ContactSection({ theme, siteConfig }: ContactSectionProps) {
     const handleCopy = (text: string, label: string) => {
         navigator.clipboard.writeText(text);
         setCopiedLabel(label);
-        setTimeout(() => setCopiedLabel(''), 2200);
+        setTimeout(() => setCopiedLabel(''), 2500);
     };
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const errs: Record<string, string> = {};
-        if (!formData.name.trim()) errs.name = 'Please enter your name';
-        if (!formData.email.trim() || !/^\S+@\S+\.\S+$/.test(formData.email))
-            errs.email = 'Please enter a valid email address';
-        if (!formData.subject.trim()) errs.subject = 'Please enter a subject';
-        if (!formData.message.trim() || formData.message.trim().length < 10)
-            errs.message = 'Please write a short project message (10+ characters)';
+        if (!formData.name.trim()) errs.name = 'Please provide your name';
+        if (!formData.email.trim() || !formData.email.includes('@'))
+            errs.email = 'Valid email is required';
+        if (!formData.subject.trim()) errs.subject = 'Please provide a subject';
+        if (!formData.message.trim()) errs.message = 'Please provide project details';
 
-        setFormErrors(errs);
-        if (Object.keys(errs).length > 0) return;
+        if (Object.keys(errs).length > 0) {
+            setFormErrors(errs);
+            return;
+        }
 
         setFormStatus('submitting');
-        await new Promise((r) => setTimeout(r, 600));
-        setFormStatus('success');
+
+        const mailtoUrl = `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
+            `[Portfolio Inquiry] ${formData.subject} - from ${formData.name}`
+        )}&body=${encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.subject}\n\nProject Details:\n${formData.message}`
+        )}`;
+
+        setTimeout(() => {
+            window.location.href = mailtoUrl;
+            setFormStatus('success');
+            setFormData({ name: '', email: '', subject: '', message: '' });
+            setTimeout(() => setFormStatus('idle'), 5000);
+        }, 600);
     };
 
+    const socialLinks = [
+        { label: 'LinkedIn', url: siteConfig.contact.linkedin },
+        { label: 'Behance', url: siteConfig.contact.behance },
+        { label: 'Vimeo', url: siteConfig.contact.vimeo },
+        { label: 'YouTube', url: siteConfig.contact.youtube }
+    ];
+
     return (
-        <section id="contact" className="py-24 md:py-32">
+        <section
+            id="contact"
+            className="py-24 md:py-32"
+            style={{ backgroundColor: theme.bg }}
+        >
             <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    {/* Left 6 Columns: Direct Contact Cards & Socials */}
-                    <div className="lg:col-span-6 flex flex-col justify-between">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                    {/* Left 6 Columns: Contact Details & Direct Reaches */}
+                    <div className="lg:col-span-6 space-y-8">
                         <div>
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
                             >
-                                07 / Contact
+                                06 / Direct Connect
                             </span>
-                            <h2 className="font-display text-4xl sm:text-6xl font-semibold leading-[1.04] mb-5">
-                                Have a{' '}
-                                <span className="font-serif-italic font-normal" style={{ color: theme.accent }}>
-                                    Story
-                                </span>{' '}
-                                Worth Telling?
+                            <h2 className="font-display text-4xl sm:text-6xl font-semibold leading-tight">
+                                Let&apos;s Create Visuals That{' '}
+                                <span className="font-serif-italic font-normal">Resonate.</span>
                             </h2>
                             <p
-                                className="text-base sm:text-lg max-w-md mb-10"
+                                className="text-base sm:text-lg mt-5 leading-relaxed max-w-lg"
                                 style={{ color: theme.textMuted }}
                             >
-                                Let&apos;s create something extraordinary together. Available for senior roles,
-                                commercial campaigns, and freelance collaborations.
+                                Available for senior editorial commissions, brand campaigns, motion systems, and full-time senior agency leadership.
                             </p>
+                        </div>
 
-                            {/* Direct Contact Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                                <div
-                                    className="p-5 rounded-2xl border"
-                                    style={{
-                                        backgroundColor: theme.surface,
-                                        borderColor: theme.border
-                                    }}
-                                >
-                                    <span
-                                        className="font-mono text-[10px] uppercase tracking-wider block mb-1"
-                                        style={{ color: theme.textMuted }}
+                        {/* Direct Channel Cards */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Email Card */}
+                            <div
+                                className="p-5 rounded-2xl border flex flex-col justify-between gap-4 transition-all"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                    borderColor: theme.border
+                                }}
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div
+                                        className="w-10 h-10 rounded-xl flex items-center justify-center"
+                                        style={{ backgroundColor: theme.surfaceAlt }}
                                     >
-                                        Professional Email
-                                    </span>
-                                    <div className="flex items-center justify-between gap-2">
-                                        <a
-                                            href={`mailto:${siteConfig.contact.email}`}
-                                            className="font-display text-sm font-semibold truncate hover:underline"
-                                        >
-                                            {siteConfig.contact.email}
-                                        </a>
-                                        <button
-                                            onClick={() => handleCopy(siteConfig.contact.email, 'Email')}
-                                            className="p-1.5 rounded-lg border shrink-0"
-                                            style={{ borderColor: theme.border }}
-                                            title="Copy Email"
-                                        >
-                                            {copiedLabel === 'Email' ? (
-                                                <Check className="w-3.5 h-3.5" style={{ color: theme.accent }} />
-                                            ) : (
-                                                <Copy className="w-3.5 h-3.5" />
-                                            )}
-                                        </button>
+                                        <Mail className="w-5 h-5" style={{ color: theme.accent }} />
                                     </div>
-                                </div>
-
-                                <div
-                                    className="p-5 rounded-2xl border"
-                                    style={{
-                                        backgroundColor: theme.surface,
-                                        borderColor: theme.border
-                                    }}
-                                >
-                                    <span
-                                        className="font-mono text-[10px] uppercase tracking-wider block mb-1"
-                                        style={{ color: theme.textMuted }}
+                                    <button
+                                        onClick={() => handleCopy(siteConfig.contact.email, 'email')}
+                                        className="px-2.5 py-1 rounded-md text-xs font-mono transition-colors flex items-center gap-1 border"
+                                        style={{
+                                            backgroundColor: theme.surfaceAlt,
+                                            borderColor: theme.border,
+                                            color: theme.textMuted
+                                        }}
+                                        title="Copy Email Address"
                                     >
-                                        WhatsApp / Direct
+                                        {copiedLabel === 'email' ? (
+                                            <>
+                                                <Check className="w-3 h-3 text-emerald-500" />
+                                                <span className="text-emerald-500 font-semibold">Copied</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Copy className="w-3 h-3" />
+                                                <span>Copy</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                                <div>
+                                    <span className="text-xs font-mono uppercase tracking-wider block mb-1" style={{ color: theme.textMuted }}>
+                                        Email Address
                                     </span>
-                                    <span className="font-display text-sm font-semibold block">
+                                    <a
+                                        href={`mailto:${siteConfig.contact.email}`}
+                                        className="text-sm font-semibold truncate block hover:underline"
+                                        style={{ color: theme.text }}
+                                    >
+                                        {siteConfig.contact.email}
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* WhatsApp Card */}
+                            <div
+                                className="p-5 rounded-2xl border flex flex-col justify-between gap-4 transition-all"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                    borderColor: theme.border
+                                }}
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div
+                                        className="w-10 h-10 rounded-xl flex items-center justify-center"
+                                        style={{ backgroundColor: theme.surfaceAlt }}
+                                    >
+                                        <span className="font-mono text-xs font-bold" style={{ color: theme.accent }}>
+                                            WA
+                                        </span>
+                                    </div>
+                                    <button
+                                        onClick={() => handleCopy(siteConfig.contact.whatsapp, 'wa')}
+                                        className="px-2.5 py-1 rounded-md text-xs font-mono transition-colors flex items-center gap-1 border"
+                                        style={{
+                                            backgroundColor: theme.surfaceAlt,
+                                            borderColor: theme.border,
+                                            color: theme.textMuted
+                                        }}
+                                        title="Copy WhatsApp Number"
+                                    >
+                                        {copiedLabel === 'wa' ? (
+                                            <>
+                                                <Check className="w-3 h-3 text-emerald-500" />
+                                                <span className="text-emerald-500 font-semibold">Copied</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Copy className="w-3 h-3" />
+                                                <span>Copy</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                                <div>
+                                    <span className="text-xs font-mono uppercase tracking-wider block mb-1" style={{ color: theme.textMuted }}>
+                                        WhatsApp Direct
+                                    </span>
+                                    <a
+                                        href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, '')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm font-semibold truncate block hover:underline"
+                                        style={{ color: theme.text }}
+                                    >
                                         {siteConfig.contact.whatsapp}
-                                    </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Social Profiles & Resume Bar */}
-                        <div
-                            className="p-6 rounded-2xl border"
-                            style={{
-                                backgroundColor: theme.surface,
-                                borderColor: theme.border
-                            }}
-                        >
-                            <span
-                                className="font-mono text-[10px] uppercase tracking-wider block mb-3"
-                                style={{ color: theme.textMuted }}
-                            >
-                                Networks & Portfolio Channels
+                        {/* Social Links Row */}
+                        <div className="pt-2">
+                            <span className="font-mono text-xs uppercase tracking-wider block mb-3" style={{ color: theme.textMuted }}>
+                                Creative Networks & Portfolios
                             </span>
-                            <div className="flex flex-wrap gap-3">
-                                {[
-                                    { label: 'LinkedIn', url: siteConfig.contact.linkedin },
-                                    { label: 'Behance', url: siteConfig.contact.behance },
-                                    { label: 'Vimeo', url: siteConfig.contact.vimeo },
-                                    { label: 'YouTube', url: siteConfig.contact.youtube },
-                                    { label: 'Download Resume', url: siteConfig.contact.cvUrl }
-                                ].map((link) => (
+                            <div className="flex flex-wrap gap-2.5">
+                                {socialLinks.map((link) => (
                                     <a
                                         key={link.label}
                                         href={link.url}
                                         target="_blank"
-                                        rel="noreferrer"
-                                        className="px-3.5 py-2 rounded-full text-xs font-medium border inline-flex items-center gap-1.5 transition-colors"
+                                        rel="noopener noreferrer"
+                                        className="px-4 py-2.5 rounded-full border text-xs font-mono font-medium transition-transform hover:-translate-y-0.5 flex items-center gap-1.5"
                                         style={{
                                             backgroundColor: theme.surfaceAlt,
                                             borderColor: theme.border,
@@ -171,161 +239,20 @@ export function ContactSection({ theme, siteConfig }: ContactSectionProps) {
                         </div>
                     </div>
 
-                    {/* Right 6 Columns: Contact Form */}
+                    {/* Right 6 Columns: Extracted Validated Contact Form */}
                     <div className="lg:col-span-6">
-                        <form
-                            onSubmit={handleFormSubmit}
-                            noValidate
-                            className="p-8 sm:p-10 rounded-3xl border space-y-6"
-                            style={{
-                                backgroundColor: theme.surface,
-                                borderColor: theme.border
-                            }}
-                        >
-                            <h3 className="font-display text-2xl font-semibold">
-                                Send a Project Inquiry
-                            </h3>
-
-                            <div>
-                                <label className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: theme.textMuted }}>
-                                    Your Name *
-                                </label>
-                                <input
-                                    type="text"
-                                    value={formData.name}
-                                    onChange={(e) => {
-                                        setFormData({ ...formData, name: e.target.value });
-                                        if (formErrors.name) setFormErrors({ ...formErrors, name: '' });
-                                    }}
-                                    placeholder="Enter your full name"
-                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none"
-                                    style={{
-                                        backgroundColor: theme.bg,
-                                        borderColor: formErrors.name ? '#DC2626' : theme.border,
-                                        color: theme.text
-                                    }}
-                                />
-                                {formErrors.name && (
-                                    <p className="text-xs text-red-500 mt-1">{formErrors.name}</p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: theme.textMuted }}>
-                                    Email Address *
-                                </label>
-                                <input
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => {
-                                        setFormData({ ...formData, email: e.target.value });
-                                        if (formErrors.email) setFormErrors({ ...formErrors, email: '' });
-                                    }}
-                                    placeholder="name@company.com"
-                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none"
-                                    style={{
-                                        backgroundColor: theme.bg,
-                                        borderColor: formErrors.email ? '#DC2626' : theme.border,
-                                        color: theme.text
-                                    }}
-                                />
-                                {formErrors.email && (
-                                    <p className="text-xs text-red-500 mt-1">{formErrors.email}</p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: theme.textMuted }}>
-                                    Subject / Inquiry Type *
-                                </label>
-                                <input
-                                    type="text"
-                                    value={formData.subject}
-                                    onChange={(e) => {
-                                        setFormData({ ...formData, subject: e.target.value });
-                                        if (formErrors.subject) setFormErrors({ ...formErrors, subject: '' });
-                                    }}
-                                    placeholder="Commercial Edit, Fashion Film, Motion Design, or Senior Role"
-                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none"
-                                    style={{
-                                        backgroundColor: theme.bg,
-                                        borderColor: formErrors.subject ? '#DC2626' : theme.border,
-                                        color: theme.text
-                                    }}
-                                />
-                                {formErrors.subject && (
-                                    <p className="text-xs text-red-500 mt-1">{formErrors.subject}</p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: theme.textMuted }}>
-                                    Project Details *
-                                </label>
-                                <textarea
-                                    rows={4}
-                                    value={formData.message}
-                                    onChange={(e) => {
-                                        setFormData({ ...formData, message: e.target.value });
-                                        if (formErrors.message) setFormErrors({ ...formErrors, message: '' });
-                                    }}
-                                    placeholder="Share timeline, deliverables, or role details..."
-                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none resize-none"
-                                    style={{
-                                        backgroundColor: theme.bg,
-                                        borderColor: formErrors.message ? '#DC2626' : theme.border,
-                                        color: theme.text
-                                    }}
-                                />
-                                {formErrors.message && (
-                                    <p className="text-xs text-red-500 mt-1">{formErrors.message}</p>
-                                )}
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={formStatus === 'submitting'}
-                                className="w-full py-4 rounded-full text-sm font-medium transition-transform active:scale-98 flex items-center justify-center gap-2"
-                                style={{
-                                    backgroundColor: theme.accent,
-                                    color: theme.accentText
-                                }}
-                            >
-                                <span>
-                                    {formStatus === 'submitting' ? 'Preparing Message...' : 'Send Message'}
-                                </span>
-                                <ArrowUpRight className="w-4 h-4" />
-                            </button>
-
-                            {formStatus === 'success' && (
-                                <div
-                                    className="p-4 rounded-xl border text-xs flex items-center justify-between gap-4"
-                                    style={{
-                                        backgroundColor: theme.accentSoft,
-                                        borderColor: theme.accent,
-                                        color: theme.text
-                                    }}
-                                >
-                                    <div className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: theme.accent }} />
-                                        <span>Message validated and ready to send.</span>
-                                    </div>
-                                    <a
-                                        href={`mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
-                                            formData.subject
-                                        )}&body=${encodeURIComponent(formData.message)}`}
-                                        className="font-semibold underline shrink-0"
-                                        style={{ color: theme.accent }}
-                                    >
-                                        Launch Email App →
-                                    </a>
-                                </div>
-                            )}
-                        </form>
+                        <ContactForm
+                            theme={theme}
+                            formData={formData}
+                            setFormData={setFormData}
+                            formErrors={formErrors}
+                            setFormErrors={setFormErrors}
+                            formStatus={formStatus}
+                            handleFormSubmit={handleFormSubmit}
+                        />
                     </div>
                 </div>
             </div>
         </section>
     );
 }
-

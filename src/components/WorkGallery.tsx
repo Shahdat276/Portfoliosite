@@ -2,10 +2,9 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
 import { StudioTheme, Project } from '@/types';
-import { PROJECT_CATEGORIES } from '@/data/siteConfig';
-import { EditorialVisualFrame } from './EditorialVisualFrame';
+import { CategoryFilter } from './CategoryFilter';
+import { ProjectCard } from './ProjectCard';
 
 interface WorkGalleryProps {
     theme: StudioTheme;
@@ -26,9 +25,10 @@ export function WorkGallery({
     setHoveredProjectSlug,
     openCaseStudy
 }: WorkGalleryProps) {
-    const filteredProjects = selectedCategory === 'All'
-        ? projects
-        : projects.filter((p) => p.category === selectedCategory);
+    const filteredProjects =
+        selectedCategory === 'All'
+            ? projects
+            : projects.filter((p) => p.category === selectedCategory);
 
     return (
         <section
@@ -59,29 +59,12 @@ export function WorkGallery({
                     </p>
                 </div>
 
-                {/* Category Filter Bar */}
-                <div
-                    className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-4 mb-12 border-b"
-                    style={{ borderColor: theme.border }}
-                >
-                    {PROJECT_CATEGORIES.map((category) => {
-                        const isActive = selectedCategory === category;
-                        return (
-                            <button
-                                key={category}
-                                onClick={() => setSelectedCategory(category)}
-                                className="px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all border"
-                                style={{
-                                    backgroundColor: isActive ? theme.text : theme.surface,
-                                    borderColor: isActive ? theme.text : theme.border,
-                                    color: isActive ? theme.bg : theme.textMuted
-                                }}
-                            >
-                                {category}
-                            </button>
-                        );
-                    })}
-                </div>
+                {/* Extracted Category Filter Bar */}
+                <CategoryFilter
+                    theme={theme}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                />
 
                 {/* Asymmetrical Bento/Editorial Project Grid */}
                 <motion.div
@@ -89,90 +72,21 @@ export function WorkGallery({
                     className="grid grid-cols-1 lg:grid-cols-12 gap-8"
                 >
                     <AnimatePresence mode="popLayout">
-                        {filteredProjects.map((project) => {
-                            const isHovered = hoveredProjectSlug === project.slug;
-                            return (
-                                <motion.article
-                                    layout
-                                    key={project.slug}
-                                    initial={{ opacity: 0, y: 18 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.97 }}
-                                    transition={{ duration: 0.35 }}
-                                    onClick={() => openCaseStudy(project.slug)}
-                                    onMouseEnter={() => setHoveredProjectSlug(project.slug)}
-                                    onMouseLeave={() => setHoveredProjectSlug(null)}
-                                    className={`${selectedCategory === 'All' ? project.gridSpan : 'lg:col-span-6'
-                                        } group cursor-pointer rounded-3xl border p-3.5 sm:p-5 transition-all duration-300 hover:shadow-md flex flex-col justify-between`}
-                                    style={{
-                                        backgroundColor: theme.surface,
-                                        borderColor: isHovered ? theme.borderStrong : theme.border
-                                    }}
-                                >
-                                    {/* Crisp Framed Thumbnail */}
-                                    <div className="rounded-2xl overflow-hidden mb-5">
-                                        <EditorialVisualFrame
-                                            theme={theme}
-                                            index={project.index}
-                                            category={project.category}
-                                            aspectClass={
-                                                selectedCategory === 'All'
-                                                    ? project.aspectClass
-                                                    : 'aspect-[16/10]'
-                                            }
-                                            pattern={project.pattern}
-                                            isHovered={isHovered}
-                                            badgeText="Open Case Study"
-                                        />
-                                    </div>
-
-                                    {/* Clean Typography Below Visual */}
-                                    <div className="px-1">
-                                        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                            <div className="flex items-center gap-2 text-xs">
-                                                <span
-                                                    className="font-mono uppercase tracking-wider font-medium"
-                                                    style={{ color: theme.accent }}
-                                                >
-                                                    {project.category}
-                                                </span>
-                                                <span style={{ color: theme.borderStrong }}>•</span>
-                                                <span style={{ color: theme.textMuted }}>{project.role}</span>
-                                            </div>
-                                            <span
-                                                className="font-mono text-xs"
-                                                style={{ color: theme.textMuted }}
-                                            >
-                                                {project.year}
-                                            </span>
-                                        </div>
-
-                                        <div className="flex items-baseline justify-between gap-4">
-                                            <h3 className="font-display text-xl sm:text-2xl font-semibold group-hover:underline">
-                                                {project.title}
-                                            </h3>
-                                            <span
-                                                className="text-xs font-mono shrink-0 hidden sm:inline-flex items-center gap-1"
-                                                style={{ color: theme.textMuted }}
-                                            >
-                                                Case Study <ArrowUpRight className="w-3.5 h-3.5" />
-                                            </span>
-                                        </div>
-
-                                        <p
-                                            className="text-sm mt-2 line-clamp-2 leading-relaxed"
-                                            style={{ color: theme.textMuted }}
-                                        >
-                                            {project.shortDescription}
-                                        </p>
-                                    </div>
-                                </motion.article>
-                            );
-                        })}
+                        {filteredProjects.map((project) => (
+                            <ProjectCard
+                                key={project.slug}
+                                project={project}
+                                theme={theme}
+                                selectedCategory={selectedCategory}
+                                isHovered={hoveredProjectSlug === project.slug}
+                                onMouseEnter={() => setHoveredProjectSlug(project.slug)}
+                                onMouseLeave={() => setHoveredProjectSlug(null)}
+                                openCaseStudy={openCaseStudy}
+                            />
+                        ))}
                     </AnimatePresence>
                 </motion.div>
             </div>
         </section>
     );
 }
-
