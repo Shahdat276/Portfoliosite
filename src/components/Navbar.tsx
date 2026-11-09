@@ -56,17 +56,17 @@ export function Navbar({
                 borderColor: theme.border
             }}
         >
-            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] h-20 flex items-center justify-between gap-4">
-                {/* Brand Wordmark */}
-                <button
-                    onClick={() => navigateToSection('home')}
-                    className="flex items-center gap-3 text-left group focus:outline-none shrink-0"
-                >
-                    <span
-                        className="w-2.5 h-2.5 rounded-full transition-transform group-hover:scale-125"
-                        style={{ backgroundColor: theme.accent }}
-                    />
-                    <div>
+                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] h-20 flex items-center justify-between gap-4">
+                    {/* Brand Wordmark */}
+                    <button
+                        onClick={() => navigateToSection('home')}
+                        className="flex items-center gap-3 text-left group focus:outline-none shrink-0"
+                    >
+                        <span
+                            className="w-2.5 h-2.5 rounded-full transition-transform group-hover:scale-125"
+                            style={{ backgroundColor: theme.accent }}
+                        />
+                        <div>
                             <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none">
                                 {siteConfig.wordmark}
                             </span>
@@ -76,11 +76,11 @@ export function Navbar({
                             >
                                 Senior Editor & Motion
                             </span>
-                    </div>
-                </button>
+                        </div>
+                    </button>
 
-                {/* Center Navigation Links */}
-                <nav className="hidden xl:flex items-center gap-7" aria-label="Main Navigation">
+                    {/* Center Navigation Links */}
+                    <nav className="hidden xl:flex items-center gap-7" aria-label="Main Navigation">
                         {
                             navItems.map((item) => {
                                 const isActive =
@@ -108,46 +108,46 @@ export function Navbar({
                                 );
                             })
                         }
-                </nav>
+                    </nav>
 
-                {/* Right Controls: 1-Click 4-Theme Switcher + Studio CMS + Let's Talk */}
-                <div className="hidden md:flex items-center gap-3">
-                    {/* 4-Theme Switcher Pill */}
-                    <ThemeSwitcher
-                        theme={theme}
-                        activeThemeKey={activeThemeKey}
-                        setActiveThemeKey={setActiveThemeKey}
-                        variant="pill"
-                    />
+                    {/* Right Controls: 1-Click 4-Theme Switcher + Studio CMS + Let's Talk */}
+                    <div className="hidden md:flex items-center gap-3">
+                        {/* 4-Theme Switcher Pill */}
+                        <ThemeSwitcher
+                            theme={theme}
+                            activeThemeKey={activeThemeKey}
+                            setActiveThemeKey={setActiveThemeKey}
+                            variant="pill"
+                        />
 
-                    {/* Studio CMS Drawer Trigger */}
-                    <button
-                        onClick={() => setCmsOpen(true)}
-                        className="px-3 py-1.5 rounded-full border text-xs font-mono transition-colors flex items-center gap-1.5"
-                        style={{
-                            backgroundColor: theme.surfaceAlt,
-                            borderColor: theme.border,
-                            color: theme.text
-                        }}
-                        title="Open Live Portfolio CMS / Studio Docs"
-                    >
-                        <SlidersHorizontal className="w-3.5 h-3.5" />
-                        <span className="hidden lg:inline">CMS</span>
-                    </button>
+                        {/* Studio CMS Drawer Trigger */}
+                        <button
+                            onClick={() => setCmsOpen(true)}
+                            className="px-3 py-1.5 rounded-full border text-xs font-mono transition-colors flex items-center gap-1.5"
+                            style={{
+                                backgroundColor: theme.surfaceAlt,
+                                borderColor: theme.border,
+                                color: theme.text
+                            }}
+                            title="Open Live Portfolio CMS / Studio Docs"
+                        >
+                            <SlidersHorizontal className="w-3.5 h-3.5" />
+                            <span className="hidden lg:inline">CMS</span>
+                        </button>
 
-                    {/* Primary Contact CTA Button */}
-                    <button
-                        onClick={() => navigateToSection('contact')}
-                        className="px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider font-semibold transition-transform active:scale-95 flex items-center gap-1.5 shadow-sm"
-                        style={{
-                            backgroundColor: theme.accent,
-                            color: theme.accentText
-                        }}
-                    >
-                        <span>Let&apos;s Talk</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
-                </div>
+                        {/* Primary Contact CTA Button */}
+                        <button
+                            onClick={() => navigateToSection('contact')}
+                            className="px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider font-semibold transition-transform active:scale-95 flex items-center gap-1.5 shadow-sm"
+                            style={{
+                                backgroundColor: theme.accent,
+                                color: theme.accentText
+                            }}
+                        >
+                            <span>Let&apos;s Talk</span>
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                        </button>
+                    </div>
 
                     {/* Mobile Menu & Theme Trigger */}
                     <div className="flex md:hidden items-center gap-2">

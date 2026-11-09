@@ -38,8 +38,8 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
         ]
     },
     portrait: {
-        imageUrl: '', // Paste portrait URL e.g. '/images/shahdat-portrait.jpg'
-        placeholderNote: 'Editorial Portrait Placeholder — /public/images/shahdat.jpg'
+        imageUrl: '/images/shahdat.jpg',
+        placeholderNote: 'Shahdat Hossain — Senior Video Editor & Motion Designer'
     },
     contact: {
         email: 'shahdathossain0779@gmail.com',

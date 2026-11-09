@@ -36,57 +36,57 @@ export function WorkGallery({
             className="py-24 md:py-32 border-b"
             style={{ borderColor: theme.border }}
         >
-            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-                    <div>
-                        <span
-                            className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
-                            style={{ color: theme.accent }}
+                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+                        <div>
+                            <span
+                                className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
+                                style={{ color: theme.accent }}
+                            >
+                                02 / Selected Works
+                            </span>
+                            <h2 className="font-display text-3xl sm:text-5xl font-semibold">
+                                Curated Visual{' '}
+                                <span className="font-serif-italic font-normal">Archive.</span>
+                            </h2>
+                        </div>
+                        <p
+                            className="text-sm sm:text-base max-w-md"
+                            style={{ color: theme.textMuted }}
                         >
-                            02 / Selected Works
-                        </span>
-                        <h2 className="font-display text-3xl sm:text-5xl font-semibold">
-                            Curated Visual{' '}
-                            <span className="font-serif-italic font-normal">Archive.</span>
-                        </h2>
+                            Exploring visual storytelling through editing, motion, and creative execution.
+                            Click any work to inspect the full case study.
+                        </p>
                     </div>
-                    <p
-                        className="text-sm sm:text-base max-w-md"
-                        style={{ color: theme.textMuted }}
+
+                    {/* Extracted Category Filter Bar */}
+                    <CategoryFilter
+                        theme={theme}
+                        selectedCategory={selectedCategory}
+                        setSelectedCategory={setSelectedCategory}
+                    />
+
+                    {/* Asymmetrical Bento/Editorial Project Grid */}
+                    <motion.div
+                        layout
+                        className="grid grid-cols-1 lg:grid-cols-12 gap-8"
                     >
-                        Exploring visual storytelling through editing, motion, and creative execution.
-                        Click any work to inspect the full case study.
-                    </p>
+                        <AnimatePresence mode="popLayout">
+                            {filteredProjects.map((project) => (
+                                <ProjectCard
+                                    key={project.slug}
+                                    project={project}
+                                    theme={theme}
+                                    selectedCategory={selectedCategory}
+                                    isHovered={hoveredProjectSlug === project.slug}
+                                    onMouseEnter={() => setHoveredProjectSlug(project.slug)}
+                                    onMouseLeave={() => setHoveredProjectSlug(null)}
+                                    openCaseStudy={openCaseStudy}
+                                />
+                            ))}
+                        </AnimatePresence>
+                    </motion.div>
                 </div>
-
-                {/* Extracted Category Filter Bar */}
-                <CategoryFilter
-                    theme={theme}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                />
-
-                {/* Asymmetrical Bento/Editorial Project Grid */}
-                <motion.div
-                    layout
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-8"
-                >
-                    <AnimatePresence mode="popLayout">
-                        {filteredProjects.map((project) => (
-                            <ProjectCard
-                                key={project.slug}
-                                project={project}
-                                theme={theme}
-                                selectedCategory={selectedCategory}
-                                isHovered={hoveredProjectSlug === project.slug}
-                                onMouseEnter={() => setHoveredProjectSlug(project.slug)}
-                                onMouseLeave={() => setHoveredProjectSlug(null)}
-                                openCaseStudy={openCaseStudy}
-                            />
-                        ))}
-                    </AnimatePresence>
-                </motion.div>
-            </div>
         </section>
     );
 }

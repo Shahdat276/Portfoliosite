@@ -6,20 +6,7 @@ import { X } from 'lucide-react';
 import { SiteConfig, ShowreelChapter } from '@/types';
 import { STUDIO_THEMES } from '@/data/themes';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
-
-function getYouTubeCleanEmbed(url: string) {
-    if (!url) return '';
-    let videoId = '';
-    if (url.includes('embed/')) {
-        videoId = url.split('embed/')[1].split('?')[0];
-    } else if (url.includes('watch?v=')) {
-        videoId = url.split('watch?v=')[1].split('&')[0];
-    } else if (url.includes('youtu.be/')) {
-        videoId = url.split('youtu.be/')[1].split('?')[0];
-    }
-    if (!videoId) return url;
-    return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&loop=1&playlist=${videoId}&playsinline=1&enablejsapi=1`;
-}
+import { formatUniversalVideoEmbed } from '@/utils/video';
 
 interface ShowreelModalProps {
     isOpen: boolean;
@@ -34,6 +21,8 @@ export function ShowreelModal({
     siteConfig,
     activeChapter
 }: ShowreelModalProps) {
+    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl);
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -55,7 +44,7 @@ export function ShowreelModal({
                             </div>
                             <button
                                 onClick={onClose}
-                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
+                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white cursor-pointer"
                                 aria-label="Close Showreel Modal"
                             >
                                 <X className="w-5 h-5" />
@@ -63,43 +52,61 @@ export function ShowreelModal({
                         </div>
 
                         <div className="rounded-2xl overflow-hidden border border-white/15 bg-black">
-                            {siteConfig.showreel.videoUrl ? (
-                                siteConfig.showreel.videoUrl.includes('youtube') || siteConfig.showreel.videoUrl.includes('youtu.be') ? (
-                                    <div className="relative w-full aspect-video bg-black overflow-hidden select-none">
-                                        <iframe
-                                            src={getYouTubeCleanEmbed(siteConfig.showreel.videoUrl)}
-                                            title="YouTube showreel player"
-                                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] border-0 pointer-events-none"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    </div>
-                                ) : siteConfig.showreel.videoUrl.includes('vimeo') ? (
+                            {videoData.type === 'youtube' && (
+                                <div className="relative w-full aspect-video bg-black overflow-hidden select-none">
                                     <iframe
-                                        src={siteConfig.showreel.videoUrl}
-                                        title="Vimeo showreel player"
-                                        className="w-full aspect-video border-0 bg-black"
-                                        allow="autoplay; fullscreen; picture-in-picture"
+                                        src={videoData.embedUrl}
+                                        title="YouTube showreel player"
+                                        className="w-full h-full border-0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
                                     />
-                                ) : (
-                                    <video
-                                        src={siteConfig.showreel.videoUrl}
-                                        controls
-                                        autoPlay
-                                        className="w-full aspect-video"
+                                </div>
+                            )}
+
+                            {videoData.type === 'drive' && (
+                                <div className="w-full aspect-video bg-black">
+                                    <iframe
+                                        src={videoData.embedUrl}
+                                        title="Google Drive showreel player"
+                                        className="w-full h-full border-0"
+                                        allow="autoplay"
+                                        allowFullScreen
                                     />
-                                )
-                            ) : (
-                                <EditorialVisualFrame
-                                    theme={STUDIO_THEMES.cinema}
-                                    index={activeChapter.id}
-                                    category={activeChapter.label}
-                                    aspectClass="aspect-video"
-                                    pattern="widescreen-cinema"
-                                    isHovered={true}
-                                    badgeText={siteConfig.showreel.placeholderNote}
+                                </div>
+                            )}
+
+                            {videoData.type === 'vimeo' && (
+                                <iframe
+                                    src={videoData.embedUrl}
+                                    title="Vimeo showreel player"
+                                    className="w-full aspect-video border-0 bg-black"
+                                    allow="autoplay; fullscreen; picture-in-picture"
+                                    allowFullScreen
                                 />
+                            )}
+
+                            {videoData.type === 'video' && videoData.embedUrl && (
+                                <video
+                                    src={videoData.embedUrl}
+                                    controls
+                                    autoPlay
+                                    className="w-full aspect-video"
+                                />
+                            )}
+
+                            {videoData.type === 'unknown' && (
+                                <div className="aspect-video relative">
+                                    <EditorialVisualFrame
+                                        theme={STUDIO_THEMES.cinema}
+                                        index="REEL"
+                                        category="Showreel Cinema Stage"
+                                        aspectClass="aspect-video"
+                                        pattern="waveform"
+                                        isHovered={false}
+                                        badgeText="Active Theatrical Session"
+                                    />
+                                </div>
                             )}
                         </div>
                     </div>
@@ -108,4 +115,3 @@ export function ShowreelModal({
         </AnimatePresence>
     );
 }
-

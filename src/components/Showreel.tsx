@@ -5,20 +5,7 @@ import { Play } from 'lucide-react';
 import { StudioTheme, SiteConfig, ShowreelChapter } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { ShowreelControls } from './ShowreelControls';
-
-function getYouTubeCleanEmbed(url: string) {
-    if (!url) return '';
-    let videoId = '';
-    if (url.includes('embed/')) {
-        videoId = url.split('embed/')[1].split('?')[0];
-    } else if (url.includes('watch?v=')) {
-        videoId = url.split('watch?v=')[1].split('&')[0];
-    } else if (url.includes('youtu.be/')) {
-        videoId = url.split('youtu.be/')[1].split('?')[0];
-    }
-    if (!videoId) return url;
-    return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&loop=1&playlist=${videoId}&playsinline=1&enablejsapi=1`;
-}
+import { formatUniversalVideoEmbed } from '@/utils/video';
 
 interface ShowreelProps {
     theme: StudioTheme;
@@ -54,6 +41,8 @@ export function Showreel({
     iframeRef,
     videoRef
 }: ShowreelProps) {
+    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl);
+
     return (
         <section
             id="showreel"
@@ -91,87 +80,111 @@ export function Showreel({
                     }}
                 >
                     <div className="rounded-2xl overflow-hidden relative">
-                        {siteConfig.showreel.videoUrl ? (
-                            siteConfig.showreel.videoUrl.includes('youtube') || siteConfig.showreel.videoUrl.includes('youtu.be') ? (
-                                <div
-                                    className="relative w-full aspect-video bg-black overflow-hidden select-none cursor-pointer"
-                                    onClick={toggleShowreelPlay}
-                                >
-                                    <iframe
-                                        ref={iframeRef}
-                                        src={getYouTubeCleanEmbed(siteConfig.showreel.videoUrl)}
-                                        title="Showreel"
-                                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] pointer-events-none"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    />
-                                    <div className="absolute inset-0 z-10" />
-                                </div>
-                            ) : (
-                                <div className="relative w-full aspect-video bg-black cursor-pointer" onClick={toggleShowreelPlay}>
-                                    <video
-                                        ref={videoRef}
-                                        src={siteConfig.showreel.videoUrl}
-                                        autoPlay
-                                        loop
-                                        muted={isShowreelMuted}
-                                        playsInline
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                            )
-                        ) : (
-                                <div className="aspect-video relative group cursor-pointer" onClick={() => setShowreelModalOpen(true)}>
-                                    <EditorialVisualFrame
-                                        theme={theme}
-                                        index="REEL"
-                                        category="Motion Direction"
-                                        aspectClass="aspect-video"
-                                        pattern="waveform"
-                                        isHovered={false}
-                                        badgeText="Interactive Showreel"
-                                    />
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-xs transition-opacity group-hover:bg-black/25">
-                                            <div
-                                                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110"
-                                                style={{
-                                                    backgroundColor: theme.accent,
-                                                    color: theme.accentText
-                                                }}
-                                            >
-                                                <Play className="w-7 h-7 fill-current ml-1" />
-                                            </div>
-                                            <span
-                                                className="mt-4 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest border"
-                                                style={{
-                                                    backgroundColor: theme.surface,
-                                                    borderColor: theme.border,
-                                                    color: theme.text
-                                                }}
-                                            >
-                                                Launch Fullscreen Showreel
-                                            </span>
-                                        </div>
-                                    </div>
+                        {videoData.type === 'youtube' && (
+                            <div 
+                                className="relative w-full aspect-video bg-black overflow-hidden select-none cursor-pointer"
+                                onClick={toggleShowreelPlay}
+                            >
+                                <iframe
+                                    ref={iframeRef}
+                                    src={videoData.embedUrl}
+                                    title="Showreel YouTube"
+                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] pointer-events-none"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                />
+                                <div className="absolute inset-0 z-10" />
+                            </div>
                         )}
-                                </div>
 
-                                {/* Extracted Modular Player Controls */}
-                                <ShowreelControls
-                                    theme={theme}
-                                    siteConfig={siteConfig}
-                                    activeChapterIndex={activeChapterIndex}
-                                    setActiveChapterIndex={setActiveChapterIndex}
-                                    isShowreelPlaying={isShowreelPlaying}
-                                    isShowreelMuted={isShowreelMuted}
-                                    showreelProgress={showreelProgress}
-                                    toggleShowreelPlay={toggleShowreelPlay}
-                                    toggleShowreelMute={toggleShowreelMute}
-                                    seekShowreel={seekShowreel}
-                                    setShowreelModalOpen={setShowreelModalOpen}
-                                    setCmsOpen={setCmsOpen}
+                        {videoData.type === 'drive' && (
+                            <div className="relative w-full aspect-video bg-black overflow-hidden">
+                                <iframe
+                                    src={videoData.embedUrl}
+                                    title="Showreel Google Drive"
+                                    className="w-full h-full border-0"
+                                    allow="autoplay"
                                 />
                             </div>
+                        )}
+
+                        {videoData.type === 'vimeo' && (
+                            <div className="relative w-full aspect-video bg-black overflow-hidden">
+                                <iframe
+                                    src={videoData.embedUrl}
+                                    title="Showreel Vimeo"
+                                    className="w-full h-full border-0"
+                                    allow="autoplay; fullscreen; picture-in-picture"
+                                />
+                            </div>
+                        )}
+
+                        {videoData.type === 'video' && videoData.embedUrl && (
+                            <div className="relative w-full aspect-video bg-black cursor-pointer" onClick={toggleShowreelPlay}>
+                                <video
+                                    ref={videoRef}
+                                    src={videoData.embedUrl}
+                                    autoPlay
+                                    loop
+                                    muted={isShowreelMuted}
+                                    playsInline
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )}
+
+                        {videoData.type === 'unknown' && (
+                            <div className="aspect-video relative group cursor-pointer" onClick={() => setShowreelModalOpen(true)}>
+                                <EditorialVisualFrame
+                                    theme={theme}
+                                    index="REEL"
+                                    category="Motion Direction"
+                                    aspectClass="aspect-video"
+                                    pattern="waveform"
+                                    isHovered={false}
+                                    badgeText="Interactive Showreel"
+                                />
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-xs transition-opacity group-hover:bg-black/25">
+                                    <div
+                                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110"
+                                        style={{
+                                            backgroundColor: theme.accent,
+                                            color: theme.accentText
+                                        }}
+                                    >
+                                        <Play className="w-7 h-7 fill-current ml-1" />
+                                    </div>
+                                    <span
+                                        className="mt-4 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest border"
+                                        style={{
+                                            backgroundColor: theme.surface,
+                                            borderColor: theme.border,
+                                            color: theme.text
+                                        }}
+                                    >
+                                        Launch Fullscreen Showreel
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Extracted Modular Player Controls */}
+                    <ShowreelControls
+                        theme={theme}
+                        siteConfig={siteConfig}
+                        activeChapterIndex={activeChapterIndex}
+                        setActiveChapterIndex={setActiveChapterIndex}
+                        isShowreelPlaying={isShowreelPlaying}
+                        isShowreelMuted={isShowreelMuted}
+                        showreelProgress={showreelProgress}
+                        toggleShowreelPlay={toggleShowreelPlay}
+                        toggleShowreelMute={toggleShowreelMute}
+                        seekShowreel={seekShowreel}
+                        setShowreelModalOpen={setShowreelModalOpen}
+                        setCmsOpen={setCmsOpen}
+                    />
+                </div>
             </div>
-                </section>
-                );
+        </section>
+    );
 }

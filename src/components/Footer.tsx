@@ -18,31 +18,31 @@ export function Footer({ theme, siteConfig }: FooterProps) {
                 borderColor: theme.border
             }}
         >
-            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: theme.textMuted }}>
-                <div className="flex items-center gap-3">
-                    <span
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: theme.accent }}
-                    />
-                    <span className="font-display font-semibold" style={{ color: theme.text }}>
-                        {siteConfig.name}
-                    </span>
-                    <span>—</span>
-                    <span>{siteConfig.title}</span>
-                </div>
+                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: theme.textMuted }}>
+                    <div className="flex items-center gap-3">
+                        <span
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: theme.accent }}
+                        />
+                        <span className="font-display font-semibold" style={{ color: theme.text }}>
+                            {siteConfig.name}
+                        </span>
+                        <span>—</span>
+                        <span>{siteConfig.title}</span>
+                    </div>
 
-                <div className="flex items-center gap-6">
-                    <span>© 2026 All Rights Reserved</span>
-                    <button
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="font-medium inline-flex items-center gap-1 hover:underline"
-                        style={{ color: theme.text }}
-                    >
-                        <span>Back to Top</span>
-                        <ArrowUp className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center gap-6">
+                        <span>© 2026 All Rights Reserved</span>
+                        <button
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className="font-medium inline-flex items-center gap-1 hover:underline"
+                            style={{ color: theme.text }}
+                        >
+                            <span>Back to Top</span>
+                            <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                    </div>
                 </div>
-            </div>
         </footer>
     );
 }
