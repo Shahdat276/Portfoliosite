@@ -1,0 +1,125 @@
+export interface StudioTheme {
+    id: string;
+    name: string;
+    badge: string;
+    isDark: boolean;
+    bg: string;
+    surface: string;
+    surfaceAlt: string;
+    text: string;
+    textMuted: string;
+    accent: string;
+    accentSoft: string;
+    accentText: string;
+    border: string;
+    borderStrong: string;
+    swatch: string;
+    bgSwatch: string;
+}
+
+export interface ShowreelChapter {
+    id: string;
+    label: string;
+    time: string;
+    progress: number;
+    note: string;
+}
+
+export interface SiteConfig {
+    name: string;
+    wordmark: string;
+    title: string;
+    experienceYears: string;
+    experienceFull: string;
+    location: string;
+    currentOrganization: string;
+    availabilityText: string;
+    heroPrimaryHeadline: string;
+    heroSecondaryHeadline: string;
+    heroIntro: string;
+    aboutHeadline: string;
+    aboutBioParagraphs: string[];
+    philosophy: string;
+    creativeApproach: string;
+    showreel: {
+        heading: string;
+        supportingText: string;
+        videoUrl: string;
+        duration: string;
+        placeholderNote: string;
+        chapters: ShowreelChapter[];
+    };
+    portrait: {
+        imageUrl: string;
+        placeholderNote: string;
+    };
+    contact: {
+        email: string;
+        whatsapp: string;
+        linkedin: string;
+        behance: string;
+        vimeo: string;
+        youtube: string;
+        cvUrl: string;
+        formEndpoint: string;
+    };
+}
+
+export interface SupportingVisual {
+    title: string;
+    caption: string;
+}
+
+export interface Project {
+    slug: string;
+    index: string;
+    title: string;
+    client: string;
+    category: string;
+    year: string;
+    role: string;
+    gridSpan: string;
+    aspectClass: string;
+    palette: string[];
+    pattern: string;
+    shortDescription: string;
+    overview: string;
+    challenge: string;
+    conceptAndDirection: string;
+    editingWorkflow: string;
+    motionGraphicsProcess: string;
+    colorGradingAndFinishing: string;
+    software: string[];
+    supportingVisuals: SupportingVisual[];
+    videoUrl?: string;
+}
+
+export interface Capability {
+    num: string;
+    title: string;
+    desc: string;
+}
+
+export interface SoftwareTool {
+    name: string;
+    code: string;
+    category: string;
+    role: string;
+}
+
+export interface ExperienceItem {
+    id: string;
+    organization: string;
+    role: string;
+    period: string;
+    status: string;
+    location: string;
+    summary: string;
+    responsibilities: string[];
+    contributions: string;
+}
+
+export interface ActiveRoute {
+    page: 'home' | 'case-study';
+    slug: string | null;
+}

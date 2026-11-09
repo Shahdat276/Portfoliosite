@@ -1,48 +1,4 @@
-export interface SiteConfig {
-    name: string;
-    wordmark: string;
-    title: string;
-    experienceYears: string;
-    experienceFull: string;
-    location: string;
-    currentOrganization: string;
-    availabilityText: string;
-    isAvailable: boolean;
-    heroPrimaryHeadline: string;
-    heroSecondaryHeadline: string;
-    heroIntro: string;
-    aboutHeadline: string;
-    aboutBioParagraphs: string[];
-    philosophy: string;
-    creativeApproach: string;
-    showreel: {
-        heading: string;
-        supportingText: string;
-        videoUrl: string;
-        posterUrl: string;
-        durationTimecode: string;
-        placeholderNotice: string;
-    };
-    portrait: {
-        imageUrl: string;
-        placeholderLabel: string;
-    };
-    contact: {
-        email: string;
-        whatsapp: string;
-        linkedin: string;
-        behance: string;
-        vimeo: string;
-        youtube: string;
-        cvUrl: string;
-        formEndpoint: string;
-    };
-    seo: {
-        title: string;
-        description: string;
-        canonicalUrl: string;
-    };
-}
+import { SiteConfig } from '@/types';
 
 export const INITIAL_SITE_CONFIG: SiteConfig = {
     name: 'Shahdat Hossain',
@@ -52,10 +8,9 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
     experienceFull: '9+ Years of Professional Experience',
     location: 'Dhaka, Bangladesh',
     currentOrganization: 'Amanat Shah Group (ASG)',
-    availabilityText: 'AVAILABLE FOR SELECT COMMERCIAL & CREATIVE PROJECTS',
-    isAvailable: true,
-    heroPrimaryHeadline: 'VISUALS THAT MOVE PEOPLE.',
-    heroSecondaryHeadline: 'Crafting Stories Through Motion.',
+    availabilityText: 'Available for Select Projects & Senior Roles',
+    heroPrimaryHeadline: 'Crafting Stories Through Motion.',
+    heroSecondaryHeadline: 'VISUALS THAT MOVE PEOPLE.',
     heroIntro:
         "I'm Shahdat Hossain, a Senior Video Editor & Motion Graphics Designer with 9+ years of professional experience transforming ideas into compelling visual experiences.",
     aboutHeadline: 'Creativity Meets Technical Precision.',
@@ -65,37 +20,47 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
         'I believe great visuals are not just about aesthetics. They are about communication, emotion, and storytelling.'
     ],
     philosophy:
-        'Every frame must earn its place in the timeline. From the rhythm of an editorial cut to the physics of a 3D motion keyframe, technical precision serves one ultimate master: human emotion.',
+        'Every frame has a reason to exist. I focus on rhythmic pacing, clean visual hierarchy, and emotional resonance—so the audience feels the story before they analyze the technique.',
     creativeApproach:
-        'Combining narrative pacing, intentional sound design synchronization, bespoke motion systems, and cinematic color pipelines that elevate commercial brand equity.',
+        'Uniting editorial storytelling, bespoke 2D/3D motion graphics, and cinema-grade color finishing into a cohesive production workflow tailored for commercial impact.',
     showreel: {
         heading: 'Selected Moments. Endless Creativity.',
         supportingText:
             'A collection of visual stories, commercial productions, and motion design experiments.',
         videoUrl: 'https://www.youtube.com/embed/ZVPus_WBp3Q?si=KMrgCrZGMVoH1S3Z',
-        posterUrl: '',
-        durationTimecode: '00:01:45:00',
-        placeholderNotice:
-            '[PLACEHOLDER ASSET: Configure siteConfig.showreel.videoUrl with your official Showreel MP4/Vimeo stream]'
+        duration: '01:48',
+        placeholderNote: 'Interactive Showreel Stage — Replace with Official Showreel MP4',
+        chapters: [
+            { id: '01', label: '01 Commercial', time: '00:00', progress: 18, note: 'TV & Digital Brand Spots' },
+            { id: '02', label: '02 Fashion Film', time: '00:28', progress: 44, note: 'Editorial Couture & Rhythm' },
+            { id: '03', label: '03 3D Motion', time: '00:56', progress: 72, note: 'Cinema 4D, Blender & After Effects' },
+            { id: '04', label: '04 Brand Campaign', time: '01:22', progress: 92, note: 'Integrated Visual Storytelling' }
+        ]
     },
     portrait: {
-        imageUrl: '', // Leave empty for studio viewfinder placeholder or paste portrait path e.g. '/images/shahdat-portrait.jpg'
-        placeholderLabel: '[PORTRAIT PLACEHOLDER — REPLACE WITH /public/images/shahdat-portrait.jpg]'
+        imageUrl: '', // Paste portrait URL e.g. '/images/shahdat-portrait.jpg'
+        placeholderNote: 'Editorial Portrait Placeholder — /public/images/shahdat.jpg'
     },
     contact: {
         email: 'shahdathossain0779@gmail.com',
         whatsapp: '+880 1850-993126',
-        linkedin: 'https://linkedin.com/in/shahdat-hossain-placeholder',
-        behance: 'https://behance.net/shahdat-hossain-placeholder',
-        vimeo: 'https://vimeo.com/shahdat-hossain-placeholder',
-        youtube: 'https://youtube.com/@shahdat-hossain-placeholder',
+        linkedin: 'https://linkedin.com',
+        behance: 'https://behance.net',
+        vimeo: 'https://vimeo.com',
+        youtube: 'https://youtube.com',
         cvUrl: '/cv/Shahdat_Hossain_CV.pdf',
-        formEndpoint: '' // Optional Formspree / custom API endpoint URL
-    },
-    seo: {
-        title: 'Shahdat Hossain | Senior Video Editor & Motion Graphics Designer',
-        description:
-            'Explore the portfolio of Shahdat Hossain, a Senior Video Editor and Motion Graphics Designer with 9+ years of experience in commercial video production, fashion films, motion graphics, and visual storytelling.',
-        canonicalUrl: 'https://shahdathossain.com'
+        formEndpoint: ''
     }
 };
+
+export const PROJECT_CATEGORIES = [
+    'All',
+    'Fashion Films',
+    'Commercial Advertisements',
+    'Motion Graphics',
+    'Product Videos',
+    'Brand Campaigns',
+    'Social Media Reels',
+    'Logo Animation',
+    'Animation & Visual Effects'
+] as const;
