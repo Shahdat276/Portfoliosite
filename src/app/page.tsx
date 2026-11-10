@@ -24,16 +24,15 @@ import { ExperienceSection } from '@/components/ExperienceSection';
 import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
 import { ShowreelModal } from '@/components/ShowreelModal';
-import { CmsDrawer } from '@/components/CmsDrawer';
 import { MotionVelocityTicker } from '@/components/MotionPrimitives';
 
 export default function Home() {
-    // 1. Theme State
-    const [activeThemeKey, setActiveThemeKey] = useState<string>('paper');
-    const theme: StudioTheme = STUDIO_THEMES[activeThemeKey] || STUDIO_THEMES.paper;
+    // 1. Theme State (Default: Cinema Gold)
+    const [activeThemeKey, setActiveThemeKey] = useState<string>('cinema');
+    const theme: StudioTheme = STUDIO_THEMES[activeThemeKey] || STUDIO_THEMES.cinema;
 
     // 2. Data State
-    const [siteConfig, setSiteConfig] = useState<SiteConfig>(INITIAL_SITE_CONFIG);
+    const [siteConfig] = useState<SiteConfig>(INITIAL_SITE_CONFIG);
     const [projects] = useState<Project[]>(INITIAL_PROJECTS);
     const [experiences] = useState<ExperienceItem[]>(INITIAL_EXPERIENCE);
 
@@ -54,9 +53,6 @@ export default function Home() {
     // 5. Work Gallery Filter State
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [hoveredProjectSlug, setHoveredProjectSlug] = useState<string | null>(null);
-
-    // 6. CMS Drawer State
-    const [cmsOpen, setCmsOpen] = useState<boolean>(false);
 
     // Active Chapter
     const activeChapter = siteConfig.showreel.chapters[0];
@@ -276,7 +272,6 @@ export default function Home() {
                 isScrolled={isScrolled}
                 mobileMenuOpen={mobileMenuOpen}
                 setMobileMenuOpen={setMobileMenuOpen}
-                setCmsOpen={setCmsOpen}
             />
 
             {/* View Router */}
@@ -343,22 +338,12 @@ export default function Home() {
             {/* Footer */}
             <Footer theme={theme} siteConfig={siteConfig} />
 
-            {/* Modals & Drawers */}
+            {/* Theater Showreel Modal */}
             <ShowreelModal
                 isOpen={showreelModalOpen}
                 onClose={closeShowreelModal}
                 siteConfig={siteConfig}
                 activeChapter={activeChapter}
-            />
-
-            <CmsDrawer
-                isOpen={cmsOpen}
-                onClose={() => setCmsOpen(false)}
-                theme={theme}
-                activeThemeKey={activeThemeKey}
-                setActiveThemeKey={setActiveThemeKey}
-                siteConfig={siteConfig}
-                setSiteConfig={setSiteConfig}
             />
         </div>
     );

@@ -85,7 +85,7 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans selection:bg-[#D9381E] selection:text-white">
+      <body className="min-h-full flex flex-col font-sans bg-[#11100F] selection:bg-[#D4AF37] selection:text-[#11100F]">
         {children}
       </body>
     </html>

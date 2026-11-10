@@ -94,7 +94,7 @@ export function ThemeSwitcher({
                             className="w-2 h-2 rounded-full shrink-0"
                             style={{ backgroundColor: t.swatch }}
                         />
-                        <span className="hidden xl:inline">{t.name.split(' ')[0]}</span>
+                        <span className="hidden sm:inline">{t.name.split(' ')[0]}</span>
                     </button>
                 );
             })}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SlidersHorizontal, ArrowUpRight, Menu } from 'lucide-react';
+import { ArrowUpRight, Menu } from 'lucide-react';
 import { StudioTheme, SiteConfig, ActiveRoute } from '@/types';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { MobileMenu } from './MobileMenu';
@@ -19,7 +19,6 @@ interface NavbarProps {
     isScrolled: boolean;
     mobileMenuOpen: boolean;
     setMobileMenuOpen: (open: boolean) => void;
-    setCmsOpen: (open: boolean) => void;
 }
 
 export function Navbar({
@@ -32,8 +31,7 @@ export function Navbar({
     navigateToSection,
     isScrolled,
     mobileMenuOpen,
-    setMobileMenuOpen,
-    setCmsOpen
+    setMobileMenuOpen
 }: NavbarProps) {
     const navItems = [
         { id: 'home', label: 'Home' },
@@ -113,30 +111,15 @@ export function Navbar({
                         }
                     </nav>
 
-                    {/* Right Controls: 1-Click 4-Theme Switcher + Studio CMS + Let's Talk */}
+                    {/* Right Controls: 1-Click 2-Theme Switcher + Let's Talk */}
                     <div className="hidden md:flex items-center gap-3">
-                        {/* 4-Theme Switcher Pill */}
+                        {/* 2-Theme Switcher Pill */}
                         <ThemeSwitcher
                             theme={theme}
                             activeThemeKey={activeThemeKey}
                             setActiveThemeKey={setActiveThemeKey}
                             variant="pill"
                         />
-
-                        {/* Studio CMS Drawer Trigger */}
-                        <button
-                            onClick={() => setCmsOpen(true)}
-                            className="p-2 rounded-full border text-xs font-mono transition-colors flex items-center justify-center cursor-pointer"
-                            style={{
-                                backgroundColor: theme.surfaceAlt,
-                                borderColor: theme.border,
-                                color: theme.textMuted
-                            }}
-                            title="Studio Theme & Configuration"
-                            aria-label="Studio Theme & Configuration"
-                        >
-                            <SlidersHorizontal className="w-3.5 h-3.5" />
-                        </button>
 
                         {/* Primary Contact CTA Button */}
                         <button
@@ -152,20 +135,8 @@ export function Navbar({
                         </button>
                     </div>
 
-                    {/* Mobile Menu & Theme Trigger */}
+                    {/* Mobile Menu Trigger */}
                     <div className="flex md:hidden items-center gap-2">
-                        <button
-                            onClick={() => setCmsOpen(true)}
-                            className="p-2 rounded-full border text-xs"
-                            style={{
-                                backgroundColor: theme.surfaceAlt,
-                                borderColor: theme.border,
-                                color: theme.text
-                            }}
-                            aria-label="Open CMS"
-                        >
-                            <SlidersHorizontal className="w-4 h-4" />
-                        </button>
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="p-2 rounded-full border transition-colors"

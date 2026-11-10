@@ -1,60 +1,6 @@
 import { StudioTheme } from '@/types';
 
 export const STUDIO_THEMES: Record<string, StudioTheme> = {
-    paper: {
-        id: 'paper',
-        name: 'Editorial Paper',
-        badge: 'Light Editorial',
-        isDark: false,
-        bg: '#F7F5F0',
-        surface: '#FFFFFF',
-        surfaceAlt: '#EFECE6',
-        text: '#141413',
-        textMuted: '#65625A',
-        accent: '#D9381E',
-        accentSoft: 'rgba(217, 56, 30, 0.10)',
-        accentText: '#FFFFFF',
-        border: '#E4E0D8',
-        borderStrong: '#CEC8BC',
-        swatch: '#D9381E',
-        bgSwatch: '#F7F5F0'
-    },
-    nordic: {
-        id: 'nordic',
-        name: 'Nordic Minimal',
-        badge: 'Cool Gallery',
-        isDark: false,
-        bg: '#F3F6FA',
-        surface: '#FFFFFF',
-        surfaceAlt: '#E6ECF5',
-        text: '#0F172A',
-        textMuted: '#526077',
-        accent: '#1D4ED8',
-        accentSoft: 'rgba(29, 78, 216, 0.10)',
-        accentText: '#FFFFFF',
-        border: '#DCE3EE',
-        borderStrong: '#C2CEE0',
-        swatch: '#1D4ED8',
-        bgSwatch: '#F3F6FA'
-    },
-    desert: {
-        id: 'desert',
-        name: 'Desert Studio',
-        badge: 'Warm Architectural',
-        isDark: false,
-        bg: '#EFE9DF',
-        surface: '#FAF7F2',
-        surfaceAlt: '#E4DDD0',
-        text: '#1C1917',
-        textMuted: '#696259',
-        accent: '#B45309',
-        accentSoft: 'rgba(180, 83, 9, 0.12)',
-        accentText: '#FFFFFF',
-        border: '#DCD3C4',
-        borderStrong: '#C5B9A5',
-        swatch: '#B45309',
-        bgSwatch: '#EFE9DF'
-    },
     cinema: {
         id: 'cinema',
         name: 'Cinema Gold',
@@ -72,6 +18,24 @@ export const STUDIO_THEMES: Record<string, StudioTheme> = {
         borderStrong: '#3D3832',
         swatch: '#D4AF37',
         bgSwatch: '#11100F'
+    },
+    paper: {
+        id: 'paper',
+        name: 'Editorial Paper',
+        badge: 'Light Editorial',
+        isDark: false,
+        bg: '#F7F5F0',
+        surface: '#FFFFFF',
+        surfaceAlt: '#EFECE6',
+        text: '#141413',
+        textMuted: '#65625A',
+        accent: '#D9381E',
+        accentSoft: 'rgba(217, 56, 30, 0.10)',
+        accentText: '#FFFFFF',
+        border: '#E4E0D8',
+        borderStrong: '#CEC8BC',
+        swatch: '#D9381E',
+        bgSwatch: '#F7F5F0'
     }
 };
 

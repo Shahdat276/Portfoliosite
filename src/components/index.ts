@@ -16,7 +16,6 @@ export * from './ContactSection';
 export * from './ContactForm';
 export * from './Footer';
 export * from './ShowreelModal';
-export * from './CmsDrawer';
 export * from './EditorialVisualFrame';
 export * from './SoftwareIcon';
 export * from './UniversalVideoPlayer';
