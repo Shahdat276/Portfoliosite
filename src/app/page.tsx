@@ -295,7 +295,6 @@ export default function Home() {
                         <Hero
                             theme={theme}
                             siteConfig={siteConfig}
-                            projects={projects}
                             navigateToSection={navigateToSection}
                             isShowreelPlaying={isShowreelPlaying}
                             isShowreelMuted={isShowreelMuted}

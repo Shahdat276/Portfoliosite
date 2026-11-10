@@ -16,7 +16,7 @@ import {
     Maximize2,
     Download
 } from 'lucide-react';
-import { StudioTheme, SiteConfig, Project } from '@/types';
+import { StudioTheme, SiteConfig } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { MOTION_EASE } from './MotionPrimitives';
 import { formatUniversalVideoEmbed } from '@/utils/video';
@@ -24,7 +24,6 @@ import { formatUniversalVideoEmbed } from '@/utils/video';
 interface HeroProps {
     theme: StudioTheme;
     siteConfig: SiteConfig;
-    projects: Project[];
     navigateToSection: (id: string) => void;
     isShowreelPlaying: boolean;
     isShowreelMuted: boolean;
@@ -40,7 +39,6 @@ interface HeroProps {
 export function Hero({
     theme,
     siteConfig,
-    projects,
     navigateToSection,
     isShowreelPlaying,
     isShowreelMuted,
@@ -52,10 +50,6 @@ export function Hero({
     iframeRef,
     videoRef
 }: HeroProps) {
-    const totalVideos = projects.reduce(
-        (acc, p) => acc + (p.galleryVideos ? p.galleryVideos.length : 0),
-        0
-    );
     const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl, { chromeless: true });
 
     const heroRef = useRef<HTMLElement>(null);
@@ -136,10 +130,10 @@ export function Hero({
                             {siteConfig.heroSecondaryHeadline}
                         </p>
 
-                        <h1 className="font-display text-4xl sm:text-5xl lg:text-[44px] xl:text-[52px] 2xl:text-[68px] font-semibold leading-[1.03] tracking-tight mb-4 sm:mb-6">
+                        <h1 className="font-display text-4xl sm:text-5xl lg:text-[44px] xl:text-[52px] 2xl:text-[66px] font-semibold leading-[1.04] tracking-tight mb-4 sm:mb-6">
                             Crafting{' '}
                             <span
-                                className="font-serif-italic font-normal px-1"
+                                className="font-serif-italic font-normal"
                                 style={{ color: theme.accent }}
                             >
                                 Stories
@@ -150,61 +144,70 @@ export function Hero({
 
                         {/* Supporting Introduction */}
                         <p
-                            className="text-sm sm:text-base xl:text-lg leading-relaxed max-w-xl mb-5 sm:mb-7"
+                            className="text-sm sm:text-base xl:text-lg leading-relaxed max-w-[590px] mb-5 sm:mb-7"
                             style={{ color: theme.textMuted }}
                         >
                             {siteConfig.heroIntro}
                         </p>
 
-                        {/* Key Credentials Row */}
+                        {/* Key Credentials Row (Symmetric Dividers & Unclipped Labels) */}
                         <div
-                            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 2xl:grid-cols-4 gap-3 sm:gap-4 py-3.5 px-4 sm:py-4 sm:px-5 rounded-2xl border mb-6 sm:mb-8 max-w-2xl"
+                            className="grid grid-cols-2 sm:flex sm:items-center sm:justify-between lg:grid lg:grid-cols-2 2xl:flex 2xl:items-center 2xl:justify-between gap-x-4 gap-y-3.5 sm:gap-0 lg:gap-x-4 lg:gap-y-3.5 2xl:gap-0 py-3.5 px-4 sm:py-4 sm:px-5 rounded-2xl border mb-6 sm:mb-8 max-w-[590px]"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border
                             }}
                         >
-                            <div>
+                            <div className="sm:pr-4 lg:pr-0 2xl:pr-4 shrink-0">
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
                                 >
                                     Experience
                                 </span>
-                                <span className="font-display text-sm sm:text-base font-semibold mt-0.5 block">
+                                <span className="font-display text-sm sm:text-[15px] font-semibold mt-0.5 block whitespace-nowrap">
                                     9+ Years Exp
                                 </span>
                             </div>
-                            <div className="sm:border-l sm:pl-4" style={{ borderColor: theme.border }}>
+                            <div
+                                className="sm:border-l lg:border-l-0 2xl:border-l sm:px-4 lg:px-0 2xl:px-4 shrink-0"
+                                style={{ borderColor: theme.border }}
+                            >
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
                                 >
                                     Portfolio
                                 </span>
-                                <span className="font-display text-sm sm:text-base font-semibold mt-0.5 block">
-                                    {totalVideos}+ Works
+                                <span className="font-display text-sm sm:text-[15px] font-semibold mt-0.5 block whitespace-nowrap">
+                                    1000+ Works
                                 </span>
                             </div>
-                            <div className="sm:border-l lg:border-l-0 2xl:border-l sm:pl-4 lg:pl-0 2xl:pl-4" style={{ borderColor: theme.border }}>
+                            <div
+                                className="sm:border-l lg:border-l-0 2xl:border-l sm:px-4 lg:px-0 2xl:px-4 shrink-0"
+                                style={{ borderColor: theme.border }}
+                            >
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
                                 >
                                     Current Role
                                 </span>
-                                <span className="font-display text-sm sm:text-base font-semibold mt-0.5 block truncate">
+                                <span className="font-display text-sm sm:text-[15px] font-semibold mt-0.5 block whitespace-nowrap">
                                     Amanat Shah Group
                                 </span>
                             </div>
-                            <div className="sm:border-l sm:pl-4" style={{ borderColor: theme.border }}>
+                            <div
+                                className="sm:border-l lg:border-l-0 2xl:border-l sm:pl-4 lg:pl-0 2xl:pl-4 shrink-0"
+                                style={{ borderColor: theme.border }}
+                            >
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
                                 >
                                     Location
                                 </span>
-                                <span className="font-display text-sm sm:text-base font-semibold mt-0.5 block">
+                                <span className="font-display text-sm sm:text-[15px] font-semibold mt-0.5 block whitespace-nowrap">
                                     Dhaka, BD
                                 </span>
                             </div>
@@ -214,7 +217,7 @@ export function Hero({
                         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5">
                             <button
                                 onClick={() => navigateToSection('work')}
-                                className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center gap-2 shadow-sm cursor-pointer"
+                                className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 inline-flex items-center gap-2 shadow-sm cursor-pointer"
                                 style={{
                                     backgroundColor: theme.text,
                                     color: theme.bg
@@ -226,7 +229,7 @@ export function Hero({
 
                             <button
                                 onClick={openShowreelTheaterModal}
-                                className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 flex items-center gap-2 cursor-pointer"
+                                className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.borderStrong,
@@ -243,7 +246,7 @@ export function Hero({
                             <a
                                 href={siteConfig.contact.cvUrl}
                                 download
-                                className="px-4 py-3 sm:px-5 sm:py-4 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
+                                className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surfaceAlt,
                                     borderColor: theme.border,
