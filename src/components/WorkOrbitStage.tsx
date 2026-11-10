@@ -227,8 +227,8 @@ export function WorkOrbitStage({
                 {/* Vertical Architectural Hairline Grid */}
                 <ArchitecturalGuides borderColor={theme.border} columns={5} />
 
-                {/* Headline in Original Top Position, Layer Underneath Character Head (z-[5] < Avatar z-[15]) */}
-                <div className="absolute top-[13svh] sm:top-[14svh] lg:top-[15svh] inset-x-0 z-[5] px-4 text-center pointer-events-none">
+                {/* Headline in Background Behind Character Avatar Layer (z-[1] < Arena z-[10]) */}
+                <div className="absolute top-[13svh] sm:top-[14svh] lg:top-[15svh] inset-x-0 z-[1] px-4 text-center pointer-events-none">
                     <SkewMaskReveal>
                         <h2 className="font-display text-5xl sm:text-8xl lg:text-[124px] xl:text-[150px] font-medium leading-[0.88] tracking-[-0.05em]">
                             Selected Work
@@ -240,13 +240,13 @@ export function WorkOrbitStage({
                     </SkewMaskReveal>
                 </div>
 
-                {/* Fullscreen 3D Orbital Arena Centered Vertically in Middle of Viewport */}
+                {/* Fullscreen 3D Orbital Arena Centered Vertically in Middle of Viewport (z-[10]) */}
                 <div
-                    className="absolute inset-0 flex items-center justify-center"
+                    className="absolute inset-0 z-[10] flex items-center justify-center pointer-events-auto"
                     style={{ perspective: 1200 }}
                 >
-                    {/* Transparent 3D Stylized Character Centerpiece Standing Tall from Bottom (z-[15]) */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[15] pointer-events-none select-none h-[78svh] sm:h-[86svh] lg:h-[90svh] w-[min(94vw,760px)] flex items-end justify-center">
+                    {/* Transparent 3D Stylized Character Centerpiece Standing Tall from Bottom (z-[10]) */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[10] pointer-events-none select-none h-[78svh] sm:h-[86svh] lg:h-[90svh] w-[min(94vw,760px)] flex items-end justify-center">
                         <Image
                             src="/images/shahdat-avatar.png"
                             alt={siteConfig.name}
@@ -270,7 +270,9 @@ export function WorkOrbitStage({
                         const rotateY = sin * -44;
                         const rotateX = cos * -4;
                         const rotateZ = sin * 3.5;
-                        const zIndex = cos > 0.08 ? Math.round((cos + 1) * 20) : Math.round((cos + 1) * 7);
+                        const zIndex = cos > 0.05
+                            ? Math.round((cos + 1) * 20) + 12
+                            : Math.round((cos + 1) * 4) + 1;
                         const opacity = cos < -0.45 ? Math.max(0.26, (cos + 1) * 0.7) : 1;
                         const videoCount = project.galleryVideos ? project.galleryVideos.length : 0;
                         const isFront = idx === frontIndex;
