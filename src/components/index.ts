@@ -20,4 +20,6 @@ export * from './ShowreelModal';
 export * from './CmsDrawer';
 export * from './EditorialVisualFrame';
 export * from './SoftwareIcon';
+export * from './UniversalVideoPlayer';
+export * from './ProjectVideoGallery';
 

@@ -41,7 +41,7 @@ export function Showreel({
     iframeRef,
     videoRef
 }: ShowreelProps) {
-    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl);
+    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl, { chromeless: true });
 
     return (
         <section

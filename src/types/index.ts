@@ -70,6 +70,16 @@ export interface SupportingVisual {
     caption: string;
 }
 
+export interface ProjectVideoItem {
+    id: string;
+    title: string;
+    url: string;
+    aspect?: 'video' | 'vertical' | 'square';
+    width?: number;
+    height?: number;
+    caption?: string;
+}
+
 export interface Project {
     slug: string;
     index: string;
@@ -94,6 +104,7 @@ export interface Project {
     videoUrl?: string;
     coverUrl?: string;
     behanceUrl?: string;
+    galleryVideos?: ProjectVideoItem[];
 }
 
 export interface Capability {

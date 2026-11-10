@@ -67,8 +67,10 @@ export function ProjectCard({
                             <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
                                 No. {project.index} — {project.category}
                             </span>
-                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                Case Study
+                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
+                                {project.galleryVideos && project.galleryVideos.length > 0
+                                    ? `${project.galleryVideos.length} ${project.galleryVideos.length === 1 ? 'Video' : 'Videos'}`
+                                    : 'Case Study'}
                             </span>
                         </div>
                     </>

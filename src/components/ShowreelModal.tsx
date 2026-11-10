@@ -21,7 +21,7 @@ export function ShowreelModal({
     siteConfig,
     activeChapter
 }: ShowreelModalProps) {
-    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl);
+    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl, { chromeless: false, autoplay: true });
 
     return (
         <AnimatePresence>
