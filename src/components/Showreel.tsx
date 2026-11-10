@@ -1,11 +1,19 @@
 "use client";
 
-import React, { RefObject } from 'react';
+import React, { RefObject, useRef } from 'react';
+import {
+    motion,
+    useScroll,
+    useTransform,
+    useSpring,
+    useReducedMotion
+} from 'framer-motion';
 import { Play, VolumeX } from 'lucide-react';
 import { StudioTheme, SiteConfig, ShowreelChapter } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { ShowreelControls } from './ShowreelControls';
 import { formatUniversalVideoEmbed } from '@/utils/video';
+import { KineticReveal } from './MotionPrimitives';
 
 interface ShowreelProps {
     theme: StudioTheme;
@@ -41,6 +49,20 @@ export function Showreel({
     videoRef
 }: ShowreelProps) {
     const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl, { chromeless: true });
+    const stageRef = useRef<HTMLDivElement>(null);
+    const shouldReduce = useReducedMotion();
+
+    const { scrollYProgress } = useScroll({
+        target: stageRef,
+        offset: ['start end', 'center center']
+    });
+    const smoothStage = useSpring(scrollYProgress, {
+        stiffness: 175,
+        damping: 28,
+        mass: 0.25
+    });
+    const stageScale = useTransform(smoothStage, [0, 1], [0.94, 1]);
+    const stageY = useTransform(smoothStage, [0, 1], [28, 0]);
 
     return (
         <section
@@ -49,43 +71,52 @@ export function Showreel({
             style={{ borderColor: theme.border }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-3 sm:gap-6 max-w-[980px] xl:max-w-[1040px] mx-auto">
-                    <div>
-                        <span
-                            className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
-                            style={{ color: theme.accent }}
-                        >
-                            01 / Official Master Showreel
-                        </span>
-                        <h2 className="font-display text-3xl sm:text-5xl font-semibold">
-                            Selected Moments.{' '}
-                            <span className="font-serif-italic font-normal">Endless Creativity.</span>
-                        </h2>
+                <KineticReveal>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-3 sm:gap-6 max-w-[980px] xl:max-w-[1040px] mx-auto">
+                        <div>
+                            <span
+                                className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
+                                style={{ color: theme.accent }}
+                            >
+                                01 / Official Master Showreel
+                            </span>
+                            <h2 className="font-display text-3xl sm:text-5xl font-semibold">
+                                Selected Moments.{' '}
+                                <span className="font-serif-italic font-normal">Endless Creativity.</span>
+                            </h2>
+                        </div>
+                        <div className="md:text-right">
+                            <span
+                                className="font-mono text-[11px] uppercase tracking-wider block mb-1"
+                                style={{ color: theme.accent }}
+                            >
+                                Now Playing Chapter {activeChapter.id} • {activeChapter.time}
+                            </span>
+                            <p
+                                className="text-sm sm:text-base max-w-md"
+                                style={{ color: theme.textMuted }}
+                            >
+                                {siteConfig.showreel.supportingText}
+                            </p>
+                        </div>
                     </div>
-                    <div className="md:text-right">
-                        <span
-                            className="font-mono text-[11px] uppercase tracking-wider block mb-1"
-                            style={{ color: theme.accent }}
-                        >
-                            Now Playing Chapter {activeChapter.id} • {activeChapter.time}
-                        </span>
-                        <p
-                            className="text-sm sm:text-base max-w-md"
-                            style={{ color: theme.textMuted }}
-                        >
-                            {siteConfig.showreel.supportingText}
-                        </p>
-                    </div>
-                </div>
+                </KineticReveal>
 
-                {/* Constrained Cinema Widescreen Stage (Fits Player + Timeline Cleanly in One Screen) */}
-                <div
-                    className="max-w-[980px] xl:max-w-[1040px] mx-auto rounded-3xl border p-3 sm:p-4 shadow-sm"
-                    style={{
-                        backgroundColor: theme.surface,
-                        borderColor: theme.border
-                    }}
-                >
+                {/* Constrained Cinema Widescreen Stage (Scales cleanly into place on scroll) */}
+                <div ref={stageRef}>
+                    <motion.div
+                        style={
+                            shouldReduce
+                                ? { backgroundColor: theme.surface, borderColor: theme.border }
+                                : {
+                                      scale: stageScale,
+                                      y: stageY,
+                                      backgroundColor: theme.surface,
+                                      borderColor: theme.border
+                                  }
+                        }
+                        className="max-w-[980px] xl:max-w-[1040px] mx-auto rounded-3xl border p-3 sm:p-4 shadow-sm will-change-transform"
+                    >
                     <div className="rounded-2xl overflow-hidden relative bg-black">
                         {videoData.type === 'youtube' && (
                             <div
@@ -219,6 +250,7 @@ export function Showreel({
                         seekShowreel={seekShowreel}
                         setShowreelModalOpen={setShowreelModalOpen}
                     />
+                    </motion.div>
                 </div>
             </div>
         </section>

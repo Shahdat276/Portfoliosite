@@ -4,6 +4,11 @@ import React from 'react';
 import Image from 'next/image';
 import { Download, ArrowUpRight } from 'lucide-react';
 import { StudioTheme, SiteConfig } from '@/types';
+import {
+    KineticReveal,
+    ParallaxDepthLayer,
+    ParallaxImageWindow
+} from './MotionPrimitives';
 
 interface AboutProps {
     theme: StudioTheme;
@@ -24,8 +29,9 @@ export function About({
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-12 items-start">
-                        {/* Left 5 Columns: Portrait Frame Card */}
+                        {/* Left 5 Columns: Portrait Frame Card with Counter-Depth Parallax */}
                         <div className="lg:col-span-5">
+                            <ParallaxDepthLayer speed={-18}>
                             <div
                                 className="rounded-2xl sm:rounded-3xl border p-3 sm:p-5"
                                 style={{
@@ -42,13 +48,15 @@ export function About({
                                 >
                                     {siteConfig.portrait.imageUrl ? (
                                         <>
-                                            <Image
-                                                src={siteConfig.portrait.imageUrl}
-                                                alt={siteConfig.name}
-                                                fill
-                                                unoptimized
-                                                className="object-cover object-top"
-                                            />
+                                            <ParallaxImageWindow travel={14} baseScale={1.12}>
+                                                <Image
+                                                    src={siteConfig.portrait.imageUrl}
+                                                    alt={siteConfig.name}
+                                                    fill
+                                                    unoptimized
+                                                    className="object-cover object-top"
+                                                />
+                                            </ParallaxImageWindow>
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                                             <div className="relative z-10 mt-auto flex items-end justify-between text-white pt-4">
                                                 <div>
@@ -110,10 +118,12 @@ export function About({
                                     )}
                                 </div>
                             </div>
+                            </ParallaxDepthLayer>
                         </div>
 
                         {/* Right 7 Columns: Biography, Philosophy & CV */}
                         <div className="lg:col-span-7">
+                            <KineticReveal delay={0.08}>
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
@@ -251,6 +261,7 @@ export function About({
                                     <ArrowUpRight className="w-4 h-4" style={{ color: theme.accent }} />
                                 </button>
                             </div>
+                            </KineticReveal>
                         </div>
                     </div>
                 </div>

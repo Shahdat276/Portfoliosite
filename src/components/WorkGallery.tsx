@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { StudioTheme, Project } from '@/types';
 import { CategoryFilter } from './CategoryFilter';
 import { ProjectCard } from './ProjectCard';
+import { KineticReveal } from './MotionPrimitives';
 
 interface WorkGalleryProps {
     theme: StudioTheme;
@@ -37,28 +38,30 @@ export function WorkGallery({
             style={{ borderColor: theme.border }}
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-3 sm:gap-6">
-                        <div>
-                            <span
-                                className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
-                                style={{ color: theme.accent }}
+                    <KineticReveal>
+                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-3 sm:gap-6">
+                            <div>
+                                <span
+                                    className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
+                                    style={{ color: theme.accent }}
+                                >
+                                    02 / Selected Works
+                                </span>
+                                <h2 className="font-display text-3xl sm:text-5xl font-semibold">
+                                    Curated Visual{' '}
+                                    <span className="font-serif-italic font-normal">Archive.</span>
+                                </h2>
+                            </div>
+                            <p
+                                className="text-sm sm:text-base max-w-md"
+                                style={{ color: theme.textMuted }}
                             >
-                                02 / Selected Works
-                            </span>
-                            <h2 className="font-display text-3xl sm:text-5xl font-semibold">
-                                Curated Visual{' '}
-                                <span className="font-serif-italic font-normal">Archive.</span>
-                            </h2>
+                                {projects.reduce((s, p) => s + (p.galleryVideos?.length || 0), 0)}+ curated video
+                                works organized by discipline. Select any collection below to watch every cut, film, and
+                                reel inside.
+                            </p>
                         </div>
-                        <p
-                            className="text-sm sm:text-base max-w-md"
-                            style={{ color: theme.textMuted }}
-                        >
-                            {projects.reduce((s, p) => s + (p.galleryVideos?.length || 0), 0)}+ curated video
-                            works organized by discipline. Select any collection below to watch every cut, film, and
-                            reel inside.
-                        </p>
-                    </div>
+                    </KineticReveal>
 
                     {/* Extracted Category Filter Bar */}
                     <CategoryFilter

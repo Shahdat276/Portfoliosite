@@ -7,6 +7,7 @@ import { ArrowUpRight, Play } from 'lucide-react';
 import { StudioTheme, Project } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { SoftwareIcon } from './SoftwareIcon';
+import { MOTION_EASE, ParallaxImageWindow } from './MotionPrimitives';
 
 interface ProjectCardProps {
     project: Project;
@@ -37,10 +38,11 @@ export function ProjectCard({
     return (
         <motion.article
             layout
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.05 }}
             exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.52, ease: MOTION_EASE }}
             onClick={() => openCaseStudy(project.slug)}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -52,17 +54,19 @@ export function ProjectCard({
                 borderColor: isHovered ? theme.borderStrong : theme.border
             }}
         >
-            {/* Crisp Framed Thumbnail */}
+            {/* Crisp Framed Thumbnail with Inner Scroll Parallax */}
             <div className={`rounded-xl sm:rounded-2xl overflow-hidden mb-3.5 sm:mb-5 relative bg-black ${aspectClass}`}>
                 {project.coverUrl ? (
                     <>
-                        <Image
-                            src={project.coverUrl}
-                            alt={project.title}
-                            fill
-                            unoptimized
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
+                        <ParallaxImageWindow travel={14} baseScale={1.12}>
+                            <Image
+                                src={project.coverUrl}
+                                alt={project.title}
+                                fill
+                                unoptimized
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                        </ParallaxImageWindow>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent opacity-65 group-hover:opacity-45 transition-opacity" />
 
                         {/* Top Badges */}

@@ -27,6 +27,7 @@ import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
 import { ShowreelModal } from '@/components/ShowreelModal';
 import { CmsDrawer } from '@/components/CmsDrawer';
+import { MotionVelocityTicker } from '@/components/MotionPrimitives';
 
 export default function Home() {
     // 1. Theme State
@@ -240,7 +241,7 @@ export default function Home() {
 
     return (
         <div
-            className="min-h-screen transition-colors duration-500 font-sans antialiased"
+            className="min-h-screen overflow-x-clip transition-colors duration-500 font-sans antialiased"
             style={{
                 backgroundColor: theme.bg,
                 color: theme.text
@@ -282,6 +283,8 @@ export default function Home() {
                             openCaseStudy={openCaseStudy}
                             openVideoModal={openVideoModal}
                         />
+
+                        <MotionVelocityTicker theme={theme} />
 
                         <Showreel
                             theme={theme}

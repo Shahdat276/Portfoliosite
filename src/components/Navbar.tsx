@@ -6,6 +6,7 @@ import { SlidersHorizontal, ArrowUpRight, Menu } from 'lucide-react';
 import { StudioTheme, SiteConfig, ActiveRoute } from '@/types';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { MobileMenu } from './MobileMenu';
+import { TimelineScrollBar } from './MotionPrimitives';
 
 interface NavbarProps {
     theme: StudioTheme;
@@ -193,6 +194,9 @@ export function Navbar({
                     activeThemeKey={activeThemeKey}
                     setActiveThemeKey={setActiveThemeKey}
                 />
+
+                {/* Timeline Scrubbing Scroll Progress Indicator */}
+                <TimelineScrollBar theme={theme} />
         </header>
     );
 }

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { StudioTheme, ExperienceItem } from '@/types';
 import { ExperienceCard } from './ExperienceCard';
+import { KineticReveal } from './MotionPrimitives';
 
 interface ExperienceSectionProps {
     theme: StudioTheme;
@@ -23,6 +24,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-12 items-start">
                     {/* Left 4 Columns Sticky Summary + Employer Logos */}
                     <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-4 sm:space-y-6">
+                        <KineticReveal>
                         <div>
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -39,6 +41,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
                                 and multimedia organizations.
                             </p>
                         </div>
+                        </KineticReveal>
 
                         {/* Interactive Company Emblem Wall */}
                         <div
@@ -101,6 +104,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
 
                     {/* Right 8 Columns Extracted Expandable Cards */}
                     <div className="lg:col-span-8 space-y-3 sm:space-y-4">
+                        <KineticReveal delay={0.06} className="space-y-3 sm:space-y-4">
                         {experiences.map((exp, idx) => (
                             <ExperienceCard
                                 key={exp.id}
@@ -111,6 +115,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
                                 theme={theme}
                             />
                         ))}
+                        </KineticReveal>
                     </div>
                 </div>
             </div>

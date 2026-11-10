@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { StudioTheme, SiteConfig, ContactFormData } from '@/types';
 import { ContactForm } from './ContactForm';
+import { KineticReveal } from './MotionPrimitives';
 
 interface ContactSectionProps {
     theme: StudioTheme;
@@ -150,6 +151,7 @@ export function ContactSection({
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-16 items-start">
                         {/* Left 6 Columns: Contact Details & Direct Reaches */}
                         <div className="lg:col-span-6 space-y-5 sm:space-y-8">
+                            <KineticReveal>
                             <div>
                                 <span
                                     className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -168,6 +170,7 @@ export function ContactSection({
                                     Available for senior editorial commissions, brand campaigns, motion systems, and full-time senior agency leadership.
                                 </p>
                             </div>
+                            </KineticReveal>
 
                             {/* Direct Channel Cards */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -309,6 +312,7 @@ export function ContactSection({
 
                         {/* Right 6 Columns: Extracted Validated Contact Form */}
                         <div className="lg:col-span-6">
+                            <KineticReveal delay={0.08}>
                             <ContactForm
                                 theme={theme}
                                 formData={formData}
@@ -323,6 +327,7 @@ export function ContactSection({
                                 fallbackMailtoUrl={buildMailtoUrl()}
                                 hasDirectEndpoint={Boolean(siteConfig.contact.formEndpoint)}
                             />
+                            </KineticReveal>
                         </div>
                     </div>
                 </div>

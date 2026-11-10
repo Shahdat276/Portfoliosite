@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import {
+    motion,
+    useScroll,
+    useTransform,
+    useSpring,
+    useReducedMotion
+} from 'framer-motion';
 import { ArrowUpRight, Play, Sparkles, Download, Film } from 'lucide-react';
 import { StudioTheme, SiteConfig, Project, ModalVideoTarget } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
+import {
+    TiltSpotlightCard,
+    ParallaxImageWindow,
+    MOTION_EASE
+} from './MotionPrimitives';
 
 interface HeroProps {
     theme: StudioTheme;
@@ -71,24 +82,59 @@ export function Hero({
         }
     };
 
+    const heroRef = useRef<HTMLElement>(null);
+    const shouldReduce = useReducedMotion();
+
+    const { scrollYProgress } = useScroll({
+        target: heroRef,
+        offset: ['start start', 'end start']
+    });
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 180,
+        damping: 28,
+        mass: 0.25
+    });
+
+    const leftColY = useTransform(smoothProgress, [0, 1], [0, -34]);
+    const rightColY = useTransform(smoothProgress, [0, 1], [0, 26]);
+    const orbY = useTransform(smoothProgress, [0, 1], [0, 72]);
+    const orbScale = useTransform(smoothProgress, [0, 1], [1, 1.08]);
+
     return (
         <section
+            ref={heroRef}
             id="home"
-            className="pt-24 pb-10 sm:pt-28 sm:pb-14 lg:pt-32 lg:pb-20 lg:min-h-[calc(100vh-5rem)] flex items-center border-b transition-colors duration-500"
+            className="relative overflow-x-clip pt-24 pb-10 sm:pt-28 sm:pb-14 lg:pt-32 lg:pb-20 lg:min-h-[calc(100vh-5rem)] flex items-center border-b transition-colors duration-500"
             style={{
                 backgroundColor: theme.bg,
                 borderColor: theme.border
             }}
         >
-            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
+            {/* Ambient Key-Light Studio Glow (Slowest Parallax Plane) */}
+            {!shouldReduce && (
+                <motion.div
+                    aria-hidden="true"
+                    style={{
+                        y: orbY,
+                        scale: orbScale,
+                        backgroundColor: theme.accent
+                    }}
+                    className="pointer-events-none absolute -top-24 right-[-10%] sm:right-[4%] w-[320px] sm:w-[540px] aspect-square rounded-full blur-[120px] opacity-[0.09] will-change-transform"
+                />
+            )}
+
+            <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 items-center">
-                    {/* Left Column (7 Cols): Editorial Typography Hero */}
+                    {/* Left Column (7 Cols): Editorial Typography Hero (Faster Upward Parallax) */}
                     <motion.div
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.55 }}
-                        className="lg:col-span-6 xl:col-span-7"
+                        style={shouldReduce ? undefined : { y: leftColY }}
+                        className="lg:col-span-6 xl:col-span-7 will-change-transform"
                     >
+                        <motion.div
+                            initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: MOTION_EASE }}
+                        >
                         {/* Availability Pill */}
                         <div
                             className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 rounded-full border mb-4 sm:mb-7"
@@ -232,22 +278,27 @@ export function Hero({
                                 <span>CV / Resume</span>
                             </a>
                         </div>
+                        </motion.div>
                     </motion.div>
 
-                    {/* Right Column (5 Cols): Discipline Spotlight Showcase (Distinct from Main Showreel) */}
+                    {/* Right Column (5 Cols): Discipline Spotlight Showcase (Counter-Depth Parallax + 3D Tilt) */}
                     <motion.div
-                        initial={{ opacity: 0, y: 22 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="lg:col-span-6 xl:col-span-5"
+                        style={shouldReduce ? undefined : { y: rightColY }}
+                        className="lg:col-span-6 xl:col-span-5 will-change-transform"
                     >
-                        <div
-                            className="rounded-3xl border p-3.5 sm:p-5 shadow-sm transition-colors"
-                            style={{
-                                backgroundColor: theme.surface,
-                                borderColor: theme.border
-                            }}
+                        <motion.div
+                            initial={shouldReduce ? false : { opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.65, delay: 0.12, ease: MOTION_EASE }}
                         >
+                            <TiltSpotlightCard
+                                accentColor={theme.accent}
+                                className="rounded-3xl border p-3.5 sm:p-5 shadow-sm transition-colors"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                    borderColor: theme.border
+                                }}
+                            >
                             {/* Top Card Bar */}
                             <div className="flex items-center justify-between px-1 pb-3.5">
                                 <div className="flex items-center gap-2">
@@ -271,14 +322,16 @@ export function Hero({
                             >
                                 {activeProject?.coverUrl ? (
                                     <>
-                                        <Image
-                                            key={activeProject.slug}
-                                            src={activeProject.coverUrl}
-                                            alt={activeProject.title}
-                                            fill
-                                            unoptimized
-                                            className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                                        />
+                                        <ParallaxImageWindow travel={10} baseScale={1.08}>
+                                            <Image
+                                                key={activeProject.slug}
+                                                src={activeProject.coverUrl}
+                                                alt={activeProject.title}
+                                                fill
+                                                unoptimized
+                                                className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                            />
+                                        </ParallaxImageWindow>
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
 
                                         {/* Top Badges */}
@@ -384,7 +437,8 @@ export function Hero({
                                     })}
                                 </div>
                             </div>
-                        </div>
+                            </TiltSpotlightCard>
+                        </motion.div>
                     </motion.div>
                 </div>
             </div>
