@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Download } from 'lucide-react';
+import { Download, ArrowUpRight } from 'lucide-react';
 import { StudioTheme, SiteConfig } from '@/types';
 
 interface AboutProps {
@@ -228,7 +228,7 @@ export function About({
                                 <a
                                     href={siteConfig.contact.cvUrl}
                                     download
-                                    className="px-7 py-4 rounded-full text-sm font-medium inline-flex items-center gap-2.5"
+                                    className="px-7 py-4 rounded-full text-sm font-medium inline-flex items-center gap-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 cursor-pointer"
                                     style={{
                                         backgroundColor: theme.accent,
                                         color: theme.accentText
@@ -240,14 +240,15 @@ export function About({
 
                                 <button
                                     onClick={() => navigateToSection('contact')}
-                                    className="px-7 py-4 rounded-full text-sm font-medium border"
+                                    className="px-7 py-4 rounded-full text-sm font-medium border inline-flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 cursor-pointer"
                                     style={{
                                         backgroundColor: theme.surface,
                                         borderColor: theme.borderStrong,
                                         color: theme.text
                                     }}
                                 >
-                                    Discuss a Project
+                                    <span>Discuss a Project</span>
+                                    <ArrowUpRight className="w-4 h-4" style={{ color: theme.accent }} />
                                 </button>
                             </div>
                         </div>

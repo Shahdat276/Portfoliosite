@@ -120,6 +120,10 @@ export interface Capability {
     num: string;
     title: string;
     desc: string;
+    group?: string;
+    icon?: string;
+    deliverable?: string;
+    relatedCategory?: string;
 }
 
 export interface SoftwareTool {

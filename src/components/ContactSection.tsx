@@ -120,7 +120,7 @@ export function ContactSection({
                                         </div>
                                         <button
                                             onClick={() => handleCopy(siteConfig.contact.email, 'email')}
-                                            className="px-2.5 py-1 rounded-md text-xs font-mono transition-colors flex items-center gap-1 border"
+                                            className="px-2.5 py-1 rounded-md text-xs font-mono transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center gap-1 border cursor-pointer"
                                             style={{
                                                 backgroundColor: theme.surfaceAlt,
                                                 borderColor: theme.border,
@@ -174,7 +174,7 @@ export function ContactSection({
                                         </div>
                                         <button
                                             onClick={() => handleCopy(siteConfig.contact.whatsapp, 'wa')}
-                                            className="px-2.5 py-1 rounded-md text-xs font-mono transition-colors flex items-center gap-1 border"
+                                            className="px-2.5 py-1 rounded-md text-xs font-mono transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center gap-1 border cursor-pointer"
                                             style={{
                                                 backgroundColor: theme.surfaceAlt,
                                                 borderColor: theme.border,

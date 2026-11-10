@@ -192,7 +192,7 @@ export function Hero({
                         <div className="flex flex-wrap items-center gap-3.5">
                             <button
                                 onClick={() => navigateToSection('work')}
-                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium transition-transform active:scale-95 flex items-center gap-2.5 shadow-sm cursor-pointer"
+                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center gap-2.5 shadow-sm cursor-pointer"
                                 style={{
                                     backgroundColor: theme.text,
                                     color: theme.bg
@@ -204,7 +204,7 @@ export function Hero({
 
                             <button
                                 onClick={() => navigateToSection('showreel')}
-                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium border transition-colors flex items-center gap-2.5 cursor-pointer hover:opacity-85"
+                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 flex items-center gap-2.5 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.borderStrong,
@@ -221,7 +221,7 @@ export function Hero({
                             <a
                                 href={siteConfig.contact.cvUrl}
                                 download
-                                className="px-5 py-3.5 sm:py-4 rounded-full text-sm font-medium border transition-colors inline-flex items-center gap-2 hover:opacity-85"
+                                className="px-5 py-3.5 sm:py-4 rounded-full text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surfaceAlt,
                                     borderColor: theme.border,
@@ -331,17 +331,22 @@ export function Hero({
 
                             {/* Active Discipline Action Row */}
                             {activeProject && (
-                                <div className="mt-3 px-1 flex items-center justify-between gap-2 text-xs">
+                                <div className="mt-3.5 px-1 flex items-center justify-between gap-2 text-xs">
                                     <span className="truncate font-mono" style={{ color: theme.textMuted }}>
                                         Role: {activeProject.role}
                                     </span>
                                     <button
                                         onClick={() => openCaseStudy(activeProject.slug)}
-                                        className="font-mono font-semibold shrink-0 inline-flex items-center gap-1 hover:underline cursor-pointer"
-                                        style={{ color: theme.accent }}
+                                        className="px-3 py-1.5 rounded-full border font-mono text-[11px] font-semibold shrink-0 inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                                        style={{
+                                            backgroundColor: theme.accentSoft,
+                                            borderColor: theme.border,
+                                            color: theme.accent
+                                        }}
                                     >
-                                        <Film className="w-3.5 h-3.5" />
-                                        <span>Open All {activeProject.galleryVideos?.length || 1} Videos</span>
+                                        <Film className="w-3 h-3" />
+                                        <span>Open {activeProject.galleryVideos?.length || 1} Videos</span>
+                                        <ArrowUpRight className="w-3 h-3" />
                                     </button>
                                 </div>
                             )}
@@ -361,10 +366,10 @@ export function Hero({
                                             <button
                                                 key={proj.slug}
                                                 onClick={() => setActiveIdx(idx)}
-                                                className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all flex items-center justify-between cursor-pointer"
+                                                className="px-3 py-2.5 rounded-xl text-left text-xs font-medium border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center justify-between cursor-pointer"
                                                 style={{
                                                     backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
-                                                    borderColor: isCurrent ? theme.accent : 'transparent',
+                                                    borderColor: isCurrent ? theme.accent : theme.border,
                                                     color: isCurrent ? theme.accent : theme.text
                                                 }}
                                             >

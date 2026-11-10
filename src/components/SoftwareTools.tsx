@@ -41,7 +41,7 @@ export function SoftwareTools({ theme }: SoftwareToolsProps) {
                         <button
                             key={grp}
                             onClick={() => setSelectedSoftwareGroup(grp)}
-                            className="px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer"
+                            className="px-3.5 py-2 rounded-full text-xs font-medium border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                             style={{
                                 backgroundColor:
                                     selectedSoftwareGroup === grp ? theme.text : theme.surface,

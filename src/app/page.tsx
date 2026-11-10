@@ -305,7 +305,13 @@ export default function Home() {
                             navigateToSection={navigateToSection}
                         />
 
-                        <Capabilities theme={theme} />
+                        <Capabilities
+                            theme={theme}
+                            onSelectWorkCategory={(cat) => {
+                                setSelectedCategory(cat);
+                                navigateToSection('work');
+                            }}
+                        />
 
                         <ExperienceSection theme={theme} experiences={experiences} />
 

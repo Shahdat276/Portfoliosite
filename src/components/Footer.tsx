@@ -31,15 +31,19 @@ export function Footer({ theme, siteConfig }: FooterProps) {
                         <span>{siteConfig.title}</span>
                     </div>
 
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-5">
                         <span>© 2026 All Rights Reserved</span>
                         <button
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className="font-medium inline-flex items-center gap-1 hover:underline"
-                            style={{ color: theme.text }}
+                            className="px-4 py-2 rounded-full border font-mono text-xs font-medium inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                            style={{
+                                backgroundColor: theme.surfaceAlt,
+                                borderColor: theme.border,
+                                color: theme.text
+                            }}
                         >
                             <span>Back to Top</span>
-                            <ArrowUp className="w-3.5 h-3.5" />
+                            <ArrowUp className="w-3.5 h-3.5" style={{ color: theme.accent }} />
                         </button>
                     </div>
                 </div>

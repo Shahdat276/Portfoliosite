@@ -27,7 +27,7 @@ export function ThemeSwitcher({
                         <button
                             key={t.id}
                             onClick={() => setActiveThemeKey(t.id)}
-                            className="p-3 rounded-xl border text-left flex items-center justify-between transition-all"
+                            className="p-3 rounded-xl border text-left flex items-center justify-between transition-all duration-200 active:scale-95 cursor-pointer"
                             style={{
                                 backgroundColor: isSelected ? theme.text : theme.surfaceAlt,
                                 borderColor: isSelected ? theme.text : theme.border,
@@ -39,7 +39,8 @@ export function ThemeSwitcher({
                                 <p
                                     className="text-[10px]"
                                     style={{
-                                        color: isSelected ? 'rgba(255,255,255,0.7)' : theme.textMuted
+                                        color: isSelected ? theme.bg : theme.textMuted,
+                                        opacity: isSelected ? 0.8 : 1
                                     }}
                                 >
                                     {t.badge}
@@ -82,7 +83,7 @@ export function ThemeSwitcher({
                     <button
                         key={t.id}
                         onClick={() => setActiveThemeKey(t.id)}
-                        className="px-2.5 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5"
+                        className="px-2.5 py-1 rounded-full text-xs font-medium transition-all duration-200 hover:opacity-90 active:scale-95 flex items-center gap-1.5 cursor-pointer"
                         style={{
                             backgroundColor: isSelected ? theme.text : 'transparent',
                             color: isSelected ? theme.bg : theme.textMuted

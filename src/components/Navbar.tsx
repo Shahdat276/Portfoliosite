@@ -91,7 +91,7 @@ export function Navbar({
                                     <button
                                         key={item.id}
                                         onClick={() => navigateToSection(item.id)}
-                                        className="text-sm font-medium transition-colors relative py-1"
+                                        className="text-sm font-medium transition-colors relative py-1 cursor-pointer hover:opacity-80"
                                         style={{
                                             color: isActive ? theme.text : theme.textMuted
                                         }}
@@ -138,7 +138,7 @@ export function Navbar({
                         {/* Primary Contact CTA Button */}
                         <button
                             onClick={() => navigateToSection('contact')}
-                            className="px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider font-semibold transition-transform active:scale-95 flex items-center gap-1.5 shadow-sm"
+                            className="px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center gap-1.5 shadow-sm cursor-pointer"
                             style={{
                                 backgroundColor: theme.accent,
                                 color: theme.accentText

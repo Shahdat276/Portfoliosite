@@ -219,7 +219,7 @@ export function CmsDrawer({
                                 onClick={() =>
                                     handleCopy(JSON.stringify(siteConfig, null, 2), 'Config JSON')
                                 }
-                                className="w-full py-3 rounded-full border text-xs font-medium flex items-center justify-center gap-2"
+                                className="w-full py-3 rounded-full border text-xs font-medium flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                                 style={{
                                     borderColor: theme.borderStrong,
                                     color: theme.text
@@ -240,7 +240,7 @@ export function CmsDrawer({
 
                             <button
                                 onClick={onClose}
-                                className="w-full py-3 rounded-full text-xs font-medium"
+                                className="w-full py-3 rounded-full text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer shadow-sm"
                                 style={{
                                     backgroundColor: theme.accent,
                                     color: theme.accentText

@@ -65,6 +65,7 @@ export function WorkGallery({
                         theme={theme}
                         selectedCategory={selectedCategory}
                         setSelectedCategory={setSelectedCategory}
+                        projects={projects}
                     />
 
                     {/* Asymmetrical Bento/Editorial Project Grid */}
