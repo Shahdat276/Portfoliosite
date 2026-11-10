@@ -131,6 +131,8 @@ export interface SoftwareTool {
     code: string;
     category: string;
     role: string;
+    proficiency: number;
+    level?: string;
 }
 
 export interface ExperienceItem {

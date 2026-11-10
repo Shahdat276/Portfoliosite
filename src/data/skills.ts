@@ -112,13 +112,76 @@ export const CORE_CAPABILITIES: Capability[] = [
 ];
 
 export const SOFTWARE_TOOLS: SoftwareTool[] = [
-    { name: 'Adobe Premiere Pro', code: 'Pr', category: 'Editing & Color', role: 'Nonlinear Editing & Timeline Finishing' },
-    { name: 'Adobe After Effects', code: 'Ae', category: 'Motion & VFX', role: '2D/3D Motion Graphics & Compositing' },
-    { name: 'DaVinci Resolve', code: 'DR', category: 'Editing & Color', role: 'Color Grading & Finishing Pipeline' },
-    { name: 'Cinema 4D', code: 'C4D', category: '3D & CGI', role: '3D Motion Design & Procedural Animation' },
-    { name: 'Blender', code: 'BL', category: '3D & CGI', role: '3D Modeling, Shading & Rendering' },
-    { name: 'Autodesk 3ds Max', code: '3ds', category: '3D & CGI', role: '3D Visualization & Product CGI' },
-    { name: 'Autodesk Maya', code: 'My', category: '3D & CGI', role: '3D Animation & VFX Pipeline' },
-    { name: 'Adobe Photoshop', code: 'Ps', category: 'Design & Assets', role: 'Styleframes, Retouching & Matte Art' },
-    { name: 'Adobe Illustrator', code: 'Ai', category: 'Design & Assets', role: 'Vector Systems & Typography Assets' }
+    {
+        name: 'Adobe Premiere Pro',
+        code: 'Pr',
+        category: 'Editing & Color',
+        role: 'Nonlinear Editing & Timeline Finishing',
+        proficiency: 95,
+        level: 'Mastery'
+    },
+    {
+        name: 'Adobe After Effects',
+        code: 'Ae',
+        category: 'Motion & VFX',
+        role: '2D/3D Motion Graphics & Compositing',
+        proficiency: 90,
+        level: 'Expert'
+    },
+    {
+        name: 'Adobe Photoshop',
+        code: 'Ps',
+        category: 'Design & Assets',
+        role: 'Styleframes, Retouching & Matte Art',
+        proficiency: 60,
+        level: 'Proficient'
+    },
+    {
+        name: 'Adobe Illustrator',
+        code: 'Ai',
+        category: 'Design & Assets',
+        role: 'Vector Systems & Typography Assets',
+        proficiency: 60,
+        level: 'Proficient'
+    },
+    {
+        name: 'DaVinci Resolve',
+        code: 'DR',
+        category: 'Editing & Color',
+        role: 'Color Grading & Finishing Pipeline',
+        proficiency: 50,
+        level: 'Intermediate'
+    },
+    {
+        name: 'Cinema 4D',
+        code: 'C4D',
+        category: '3D & CGI',
+        role: '3D Motion Design & Procedural Animation',
+        proficiency: 50,
+        level: 'Intermediate'
+    },
+    {
+        name: 'Blender',
+        code: 'BL',
+        category: '3D & CGI',
+        role: '3D Modeling, Shading & Rendering',
+        proficiency: 50,
+        level: 'Intermediate'
+    },
+    {
+        name: 'Autodesk 3ds Max',
+        code: '3ds',
+        category: '3D & CGI',
+        role: '3D Visualization & Product CGI',
+        proficiency: 30,
+        level: 'Foundation'
+    },
+    {
+        name: 'Autodesk Maya',
+        code: 'My',
+        category: '3D & CGI',
+        role: '3D Animation & VFX Pipeline',
+        proficiency: 30,
+        level: 'Foundation'
+    }
 ];
