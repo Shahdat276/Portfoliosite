@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import {
     motion,
     useScroll,
     useTransform,
     useSpring,
-    useReducedMotion
+    useReducedMotion,
+    useAnimationFrame
 } from 'framer-motion';
 import { StudioTheme, ExperienceItem, SoftwareTool } from '@/types';
 import { SOFTWARE_TOOLS } from '@/data/skills';
@@ -38,7 +39,64 @@ export function BrandOrbitSection({
     const activeTool: SoftwareTool = SOFTWARE_TOOLS[activeToolIdx] || SOFTWARE_TOOLS[0];
 
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const ringRef = useRef<HTMLDivElement>(null);
     const shouldReduce = useReducedMotion();
+
+    // 360-degree Continuous Animated Orbit
+    const [orbitAngle, setOrbitAngle] = useState(0);
+    const angleRef = useRef(0);
+    const velocityRef = useRef(0);
+    const isHoveredRef = useRef(false);
+    const isDraggingRef = useRef(false);
+    const lastPointerAngleRef = useRef(0);
+
+    const getPointerAngle = useCallback((clientX: number, clientY: number) => {
+        if (!ringRef.current) return 0;
+        const rect = ringRef.current.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        return (Math.atan2(clientY - cy, clientX - cx) * 180) / Math.PI;
+    }, []);
+
+    useAnimationFrame((_, delta) => {
+        if (shouldReduce) return;
+        const dt = Math.min(delta / 1000, 0.1);
+
+        if (isDraggingRef.current) return;
+
+        if (Math.abs(velocityRef.current) > 0.08) {
+            angleRef.current = (angleRef.current + velocityRef.current * dt * 60) % 360;
+            velocityRef.current *= Math.pow(0.92, dt * 60);
+            setOrbitAngle(angleRef.current);
+        } else if (!isHoveredRef.current) {
+            // Smooth, graceful orbital revolution (~11 deg/sec)
+            angleRef.current = (angleRef.current + dt * 11) % 360;
+            setOrbitAngle(angleRef.current);
+        }
+    });
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+        if ((e.target as HTMLElement).closest('button')) return;
+        isDraggingRef.current = true;
+        velocityRef.current = 0;
+        lastPointerAngleRef.current = getPointerAngle(e.clientX, e.clientY);
+    };
+
+    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+        if (!isDraggingRef.current) return;
+        const currentAngle = getPointerAngle(e.clientX, e.clientY);
+        let diff = currentAngle - lastPointerAngleRef.current;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        angleRef.current = (angleRef.current + diff) % 360;
+        velocityRef.current = diff * 0.45;
+        lastPointerAngleRef.current = currentAngle;
+        setOrbitAngle(angleRef.current);
+    };
+
+    const handlePointerUp = () => {
+        isDraggingRef.current = false;
+    };
 
     const { scrollYProgress } = useScroll({
         target: scrollAreaRef,
@@ -51,7 +109,6 @@ export function BrandOrbitSection({
     });
 
     const row1X = useTransform(smoothScroll, [0, 1], ['2%', '-10%']);
-    const orbitRotate = useTransform(smoothScroll, [0, 1], [-18, 28]);
 
     return (
         <section
@@ -189,44 +246,72 @@ export function BrandOrbitSection({
                         </p>
                     </div>
 
-                    {/* Right 7 Cols: Interactive Concentric Orbital Diagram */}
+                    {/* Right 7 Cols: Interactive Animated Concentric Orbital Diagram */}
                     <div className="lg:col-span-7 flex items-center justify-center py-4">
-                        <div className="relative w-full max-w-[420px] aspect-square flex items-center justify-center">
-                            {/* Outer Orbit Ring */}
+                        <div
+                            ref={ringRef}
+                            onPointerDown={handlePointerDown}
+                            onPointerMove={handlePointerMove}
+                            onPointerUp={handlePointerUp}
+                            onPointerCancel={handlePointerUp}
+                            onPointerEnter={() => { isHoveredRef.current = true; }}
+                            onPointerLeave={() => { isHoveredRef.current = false; isDraggingRef.current = false; }}
+                            className="relative w-full max-w-[420px] aspect-square flex items-center justify-center select-none cursor-grab active:cursor-grabbing"
+                        >
+                            {/* Outer Orbit Ring (Rotates smoothly in sync with tool revolution) */}
+                            <div
+                                className="absolute inset-4 rounded-full border border-dashed pointer-events-none transition-transform will-change-transform"
+                                style={{
+                                    borderColor: theme.borderStrong,
+                                    transform: `rotate(${orbitAngle}deg)`
+                                }}
+                                aria-hidden="true"
+                            />
+                            {/* Middle Orbit Ring (Gentle counter-spin for visual depth) */}
+                            <div
+                                className="absolute inset-10 sm:inset-12 rounded-full border border-dashed pointer-events-none transition-transform will-change-transform opacity-35"
+                                style={{
+                                    borderColor: theme.border,
+                                    transform: `rotate(${-orbitAngle * 0.5}deg)`
+                                }}
+                                aria-hidden="true"
+                            />
+                            {/* Inner Accent Ring with Subtle Breathing Pulse */}
                             <motion.div
-                                style={shouldReduce ? undefined : { rotate: orbitRotate }}
-                                className="absolute inset-4 rounded-full border border-dashed"
-                                aria-hidden="true"
-                            />
-                            <div
-                                aria-hidden="true"
-                                className="absolute inset-4 rounded-full border border-dashed pointer-events-none"
-                                style={{ borderColor: theme.borderStrong }}
-                            />
-                            <div
-                                aria-hidden="true"
+                                animate={shouldReduce ? undefined : { scale: [1, 1.05, 1], opacity: [0.55, 0.95, 0.55] }}
+                                transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
                                 className="absolute inset-16 sm:inset-20 rounded-full border pointer-events-none"
-                                style={{ borderColor: theme.border }}
+                                style={{ borderColor: theme.accent }}
+                                aria-hidden="true"
                             />
 
                             {/* Center Studio Core */}
                             <div
-                                className="relative z-10 w-28 h-28 sm:w-32 sm:h-32 rounded-full border flex flex-col items-center justify-center text-center p-3 shadow-lg"
+                                className="relative z-10 w-28 h-28 sm:w-32 sm:h-32 rounded-full border flex flex-col items-center justify-center text-center p-3 shadow-xl backdrop-blur-md pointer-events-none"
                                 style={{
                                     backgroundColor: theme.bg,
                                     borderColor: theme.accent
                                 }}
                             >
-                                <SoftwareIcon code={activeTool.code} className="w-8 h-8 mb-1.5" />
-                                <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: theme.accent }}>
-                                    {activeTool.code} • {activeTool.proficiency}%
-                                </span>
+                                <motion.div
+                                    key={activeTool.code}
+                                    initial={{ scale: 0.82, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                                    className="flex flex-col items-center justify-center"
+                                >
+                                    <SoftwareIcon code={activeTool.code} className="w-8 h-8 mb-1.5" />
+                                    <span className="font-mono text-[10px] uppercase tracking-widest font-semibold" style={{ color: theme.accent }}>
+                                        {activeTool.code} • {activeTool.proficiency}%
+                                    </span>
+                                </motion.div>
                             </div>
 
-                            {/* 9 Orbiting Software Nodes positioned cleanly on circle perimeter */}
+                            {/* 9 Orbiting Software Nodes revolving in continuous animated orbit */}
                             {SOFTWARE_TOOLS.map((tool, idx) => {
-                                const angleDeg = (idx / SOFTWARE_TOOLS.length) * 360 - 90;
-                                const angleRad = (angleDeg * Math.PI) / 180;
+                                const baseDeg = (idx / SOFTWARE_TOOLS.length) * 360 - 90;
+                                const currentDeg = baseDeg + orbitAngle;
+                                const angleRad = (currentDeg * Math.PI) / 180;
                                 const radiusPct = 42;
                                 const leftPct = 50 + radiusPct * Math.cos(angleRad);
                                 const topPct = 50 + radiusPct * Math.sin(angleRad);
@@ -236,7 +321,14 @@ export function BrandOrbitSection({
                                     <button
                                         key={tool.code}
                                         type="button"
-                                        onClick={() => {
+                                        onPointerEnter={() => {
+                                            isHoveredRef.current = true;
+                                        }}
+                                        onPointerLeave={() => {
+                                            isHoveredRef.current = false;
+                                        }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
                                             playStudioTick(soundEnabled, 700 + idx * 30);
                                             setActiveToolIdx(idx);
                                         }}
@@ -248,11 +340,11 @@ export function BrandOrbitSection({
                                             borderColor: isSelected ? theme.accent : theme.borderStrong
                                         }}
                                         title={`${tool.name} (${tool.proficiency}%)`}
-                                        className={`absolute z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl border flex items-center justify-center transition-all duration-300 hover:scale-115 shadow-sm cursor-pointer ${
-                                            isSelected ? 'scale-115 shadow-lg' : ''
+                                        className={`absolute z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl border flex items-center justify-center transition-all duration-200 hover:scale-125 shadow-sm cursor-pointer ${
+                                            isSelected ? 'scale-115 shadow-[0_0_24px_rgba(255,87,34,0.45)] ring-2 ring-white/20' : 'hover:border-white/40'
                                         }`}
                                     >
-                                        <SoftwareIcon code={tool.code} className="w-6 h-6 sm:w-7 sm:h-7" />
+                                        <SoftwareIcon code={tool.code} className="w-6 h-6 sm:w-7 sm:h-7 pointer-events-none" />
                                     </button>
                                 );
                             })}
