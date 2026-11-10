@@ -45,6 +45,7 @@ export function ProcessWorkflowSection({
 
     return (
         <section
+            id="process"
             className="py-16 sm:py-24 lg:py-28 border-b relative overflow-hidden"
             style={{
                 backgroundColor: theme.bg,

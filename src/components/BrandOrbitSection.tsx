@@ -56,6 +56,7 @@ export function BrandOrbitSection({
 
     return (
         <section
+            id="brands"
             ref={scrollAreaRef}
             className="relative py-16 sm:py-24 lg:py-32 border-b overflow-hidden"
             style={{

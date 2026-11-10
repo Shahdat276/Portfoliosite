@@ -2,11 +2,16 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { StudioTheme, Project, SiteConfig } from '@/types';
-import { CategoryFilter } from './CategoryFilter';
+import { PROJECT_CATEGORIES } from '@/data/siteConfig';
 import { ProjectCard } from './ProjectCard';
 import { WorkOrbitStage } from './WorkOrbitStage';
-import { ArchitecturalGuides, KineticReveal } from './MotionPrimitives';
+import {
+    ArchitecturalGuides,
+    SkewMaskReveal,
+    playStudioTick
+} from './MotionPrimitives';
 
 interface WorkGalleryProps {
     theme: StudioTheme;
@@ -17,9 +22,14 @@ interface WorkGalleryProps {
     hoveredProjectSlug: string | null;
     setHoveredProjectSlug: (slug: string | null) => void;
     openCaseStudy: (slug: string) => void;
+    openShowreelTheaterModal?: () => void;
     soundEnabled?: boolean;
 }
 
+/**
+ * Combines the interactive 3D WorkOrbit stage with CodeofSagar's staggered
+ * 2-column full-bleed showcase gallery.
+ */
 export function WorkGallery({
     theme,
     projects,
@@ -29,6 +39,7 @@ export function WorkGallery({
     hoveredProjectSlug,
     setHoveredProjectSlug,
     openCaseStudy,
+    openShowreelTheaterModal,
     soundEnabled = false
 }: WorkGalleryProps) {
     const filteredProjects =
@@ -36,14 +47,13 @@ export function WorkGallery({
             ? projects
             : projects.filter((p) => p.category === selectedCategory);
 
-    const totalCuratedVideos = projects.reduce(
-        (s, p) => s + (p.galleryVideos?.length || 0),
-        0
-    );
+    // Split into Column 1 (even index) & staggered Column 2 (odd index) matching WorkSection
+    const leftColumnProjects = filteredProjects.filter((_, idx) => idx % 2 === 0);
+    const rightColumnProjects = filteredProjects.filter((_, idx) => idx % 2 === 1);
 
     return (
         <section id="work" className="relative overflow-x-clip">
-            {/* 1. Interactive 3D Selected Work Orbit Stage (Matching CodeofSagar WorkOrbit) */}
+            {/* 1. Interactive 3D Selected Work Orbit Stage */}
             <WorkOrbitStage
                 theme={theme}
                 projects={projects}
@@ -52,66 +62,126 @@ export function WorkGallery({
                 soundEnabled={soundEnabled}
             />
 
-            {/* 2. Complete Filterable Archive Grid */}
+            {/* 2. Staggered 2-Column Editorial Case Study Showcase */}
             <div
-                className="relative py-14 sm:py-20 md:py-24 lg:py-28 border-b"
-                style={{ borderColor: theme.border }}
+                className="relative py-20 sm:py-28 lg:py-36 border-b"
+                style={{
+                    backgroundColor: theme.bg,
+                    borderColor: theme.border
+                }}
             >
                 <ArchitecturalGuides borderColor={theme.border} columns={5} />
 
                 <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <KineticReveal>
-                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-3 sm:gap-6">
-                            <div>
-                                <span
-                                    className="font-mono text-xs uppercase tracking-[0.22em] block mb-2"
-                                    style={{ color: theme.accent }}
-                                >
-                                    Archive Index • 2026
-                                </span>
-                                <h3 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight">
-                                    All Collections by{' '}
-                                    <span className="font-serif-italic font-normal">Discipline.</span>
-                                </h3>
-                            </div>
-                            <p
-                                className="text-sm sm:text-base max-w-md md:text-right"
-                                style={{ color: theme.textMuted }}
+                    {/* Minimal Filter Bar + Archive Header */}
+                    <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 sm:mb-20">
+                        <div>
+                            <span
+                                className="font-mono text-xs uppercase tracking-[0.22em] block mb-2"
+                                style={{ color: theme.accent }}
                             >
-                                {totalCuratedVideos}+ curated video works across commercials, fashion films,
-                                motion systems, and 3D VFX. Filter by discipline or open any case study.
-                            </p>
+                                Case Studies • Archive
+                            </span>
+                            <SkewMaskReveal>
+                                <h3 className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-[-0.04em]">
+                                    Every Project, Start to{' '}
+                                    <span className="font-serif-italic font-normal">Master.</span>
+                                </h3>
+                            </SkewMaskReveal>
                         </div>
-                    </KineticReveal>
 
-                    {/* Extracted Category Filter Bar */}
-                    <CategoryFilter
-                        theme={theme}
-                        selectedCategory={selectedCategory}
-                        setSelectedCategory={setSelectedCategory}
-                        projects={projects}
-                    />
+                        {/* Minimalist Text Discipline Filters */}
+                        <div className="flex flex-wrap gap-x-5 gap-y-2.5 font-mono text-xs uppercase tracking-wider">
+                            {PROJECT_CATEGORIES.map((cat) => {
+                                const isActive = selectedCategory === cat;
+                                return (
+                                    <button
+                                        key={cat}
+                                        type="button"
+                                        onClick={() => {
+                                            playStudioTick(soundEnabled, 640);
+                                            setSelectedCategory(cat);
+                                        }}
+                                        className="pb-1 border-b transition-colors cursor-pointer"
+                                        style={{
+                                            borderColor: isActive ? theme.accent : 'transparent',
+                                            color: isActive ? theme.text : theme.textMuted
+                                        }}
+                                    >
+                                        {cat === 'All'
+                                            ? 'All (8)'
+                                            : cat.replace('Commercial Advertisements', 'Commercial')
+                                                  .replace('Animation & Visual Effects', '3D & 2D')
+                                                  .replace('Social Media Reels', 'Reels')}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
 
-                    {/* Asymmetrical Bento/Editorial Project Grid */}
+                    {/* Staggered Two-Column Layout (Matching CodeofSagar WorkSection col-2 offset) */}
                     <motion.div
                         layout
-                        className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-7 lg:gap-8"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-14 sm:gap-16 lg:gap-20 xl:gap-28 items-start"
                     >
-                        <AnimatePresence mode="popLayout">
-                            {filteredProjects.map((project) => (
-                                <ProjectCard
-                                    key={project.slug}
-                                    project={project}
-                                    theme={theme}
-                                    selectedCategory={selectedCategory}
-                                    isHovered={hoveredProjectSlug === project.slug}
-                                    onMouseEnter={() => setHoveredProjectSlug(project.slug)}
-                                    onMouseLeave={() => setHoveredProjectSlug(null)}
-                                    openCaseStudy={openCaseStudy}
-                                />
-                            ))}
-                        </AnimatePresence>
+                        <div className="flex flex-col gap-16 sm:gap-24 lg:gap-32">
+                            <AnimatePresence mode="popLayout">
+                                {leftColumnProjects.map((project) => (
+                                    <ProjectCard
+                                        key={project.slug}
+                                        project={project}
+                                        theme={theme}
+                                        alignRight={false}
+                                        isHovered={hoveredProjectSlug === project.slug}
+                                        onMouseEnter={() => setHoveredProjectSlug(project.slug)}
+                                        onMouseLeave={() => setHoveredProjectSlug(null)}
+                                        openCaseStudy={openCaseStudy}
+                                    />
+                                ))}
+                            </AnimatePresence>
+                        </div>
+
+                        <div className="flex flex-col gap-16 sm:gap-24 lg:gap-32 md:mt-28 lg:mt-40">
+                            <AnimatePresence mode="popLayout">
+                                {rightColumnProjects.map((project) => (
+                                    <ProjectCard
+                                        key={project.slug}
+                                        project={project}
+                                        theme={theme}
+                                        alignRight={true}
+                                        isHovered={hoveredProjectSlug === project.slug}
+                                        onMouseEnter={() => setHoveredProjectSlug(project.slug)}
+                                        onMouseLeave={() => setHoveredProjectSlug(null)}
+                                        openCaseStudy={openCaseStudy}
+                                    />
+                                ))}
+                            </AnimatePresence>
+                        </div>
                     </motion.div>
+
+                    {/* Oversized Centered Interactive Sweep Link matching WorkSection__moreLink */}
+                    {openShowreelTheaterModal && (
+                        <div className="mt-20 sm:mt-28 lg:mt-36 text-center">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    playStudioTick(soundEnabled, 820);
+                                    openShowreelTheaterModal();
+                                }}
+                                className="group inline-flex items-baseline gap-3 sm:gap-5 font-display text-3xl sm:text-5xl lg:text-7xl font-medium tracking-[-0.045em] pb-2 border-b-2 transition-all cursor-pointer"
+                                style={{
+                                    borderColor: theme.accent,
+                                    color: theme.text
+                                }}
+                            >
+                                <span>Watch Master Showreel</span>
+                                <ArrowUpRight
+                                    className="w-7 h-7 sm:w-10 sm:h-10 transition-transform duration-300 group-hover:translate-x-1.5 group-hover:-translate-y-1.5"
+                                    style={{ color: theme.accent }}
+                                />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

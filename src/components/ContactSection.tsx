@@ -163,7 +163,7 @@ export function ContactSection({
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
                             >
-                                06 / Still scrolling? Good sign.
+                                Still scrolling? Good sign.
                             </span>
                             <SkewMaskReveal>
                                 <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.04] tracking-[-0.04em]">
