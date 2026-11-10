@@ -22,6 +22,7 @@ interface WorkOrbitStageProps {
     projects: Project[];
     siteConfig: SiteConfig;
     openCaseStudy: (slug: string) => void;
+    focusedCategory?: string | null;
     soundEnabled?: boolean;
 }
 
@@ -35,6 +36,7 @@ export function WorkOrbitStage({
     projects,
     siteConfig,
     openCaseStudy,
+    focusedCategory,
     soundEnabled = false
 }: WorkOrbitStageProps) {
     const shouldReduce = useReducedMotion();
@@ -67,6 +69,15 @@ export function WorkOrbitStage({
             scrollOffsetRef.current = v * 110;
         });
     }, [scrollYProgress]);
+
+    useEffect(() => {
+        if (!focusedCategory || focusedCategory === 'All') return;
+        const targetIdx = projects.findIndex((p) => p.category === focusedCategory);
+        if (targetIdx < 0) return;
+        const desiredBase = -((targetIdx / Math.max(projects.length, 1)) * 360);
+        targetAngleRef.current = desiredBase - scrollOffsetRef.current;
+        velocityRef.current = 0;
+    }, [focusedCategory, projects]);
 
     useEffect(() => {
         const updateSize = () => {

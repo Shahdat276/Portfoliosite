@@ -66,9 +66,8 @@ export default function Home() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-    // 5. Work Gallery Filter State
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
-    const [hoveredProjectSlug, setHoveredProjectSlug] = useState<string | null>(null);
+    // 5. Work Orbit Highlight State
+    const [focusedCategory, setFocusedCategory] = useState<string | null>(null);
 
     // Active Chapter
     const activeChapter = siteConfig.showreel.chapters[0];
@@ -332,11 +331,8 @@ export default function Home() {
                             theme={theme}
                             projects={projects}
                             siteConfig={siteConfig}
-                            selectedCategory={selectedCategory}
-                            setSelectedCategory={setSelectedCategory}
-                            hoveredProjectSlug={hoveredProjectSlug}
-                            setHoveredProjectSlug={setHoveredProjectSlug}
                             openCaseStudy={openCaseStudy}
+                            focusedCategory={focusedCategory}
                             soundEnabled={soundEnabled}
                         />
 
@@ -357,7 +353,7 @@ export default function Home() {
                         <Capabilities
                             theme={theme}
                             onSelectWorkCategory={(cat) => {
-                                setSelectedCategory(cat);
+                                setFocusedCategory(cat);
                                 navigateToSection('work');
                             }}
                         />

@@ -51,7 +51,6 @@ export function BrandOrbitSection({
     });
 
     const row1X = useTransform(smoothScroll, [0, 1], ['2%', '-10%']);
-    const row2X = useTransform(smoothScroll, [0, 1], ['-8%', '4%']);
     const orbitRotate = useTransform(smoothScroll, [0, 1], [-18, 28]);
 
     return (
@@ -86,8 +85,8 @@ export function BrandOrbitSection({
                     </p>
                 </div>
 
-                {/* Opposite-Direction Scroll-Driven Brand & Software Strips */}
-                <div className="space-y-4 sm:space-y-6 mb-16 sm:mb-24 overflow-hidden">
+                {/* Scroll-Driven Trusted Organizations Row */}
+                <div className="mb-14 sm:mb-20 overflow-hidden">
                     <motion.div
                         style={shouldReduce ? undefined : { x: row1X }}
                         className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 will-change-transform"
@@ -132,39 +131,6 @@ export function BrandOrbitSection({
                             </div>
                         ))}
                     </motion.div>
-
-                    <motion.div
-                        style={shouldReduce ? undefined : { x: row2X }}
-                        className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-5 pl-0 sm:pl-16 will-change-transform"
-                    >
-                        {SOFTWARE_TOOLS.map((tool, idx) => (
-                            <button
-                                key={tool.code}
-                                type="button"
-                                onClick={() => {
-                                    playStudioTick(soundEnabled, 620 + idx * 35);
-                                    setActiveToolIdx(idx);
-                                }}
-                                className="flex items-center gap-2.5 px-4 py-2 rounded-full border shrink-0 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
-                                style={{
-                                    backgroundColor:
-                                        idx === activeToolIdx ? theme.accentSoft : theme.surfaceAlt,
-                                    borderColor:
-                                        idx === activeToolIdx ? theme.accent : theme.border,
-                                    color: theme.text
-                                }}
-                            >
-                                <SoftwareIcon code={tool.code} className="w-5 h-5 shrink-0" />
-                                <span className="font-mono text-xs whitespace-nowrap">{tool.name}</span>
-                                <span
-                                    className="font-mono text-[10px] font-semibold"
-                                    style={{ color: theme.accent }}
-                                >
-                                    {tool.proficiency}%
-                                </span>
-                            </button>
-                        ))}
-                    </motion.div>
                 </div>
 
                 {/* Interactive Orbital Tool Stage */}
@@ -182,7 +148,7 @@ export function BrandOrbitSection({
                                 className="font-mono text-[11px] uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
                             >
-                                Production Orbit • Interactive Stack
+                                Tools Behind the Vision • Interactive Orbit
                             </span>
                             <h3 className="font-display text-2xl sm:text-4xl font-semibold tracking-tight">
                                 <RollText text={activeTool.name} />
@@ -218,29 +184,9 @@ export function BrandOrbitSection({
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 pt-2">
-                            {SOFTWARE_TOOLS.map((tool, idx) => (
-                                <button
-                                    key={tool.code}
-                                    type="button"
-                                    onClick={() => {
-                                        playStudioTick(soundEnabled, 660 + idx * 25);
-                                        setActiveToolIdx(idx);
-                                    }}
-                                    className="px-3 py-1.5 rounded-full font-mono text-xs border transition-all active:scale-95 cursor-pointer"
-                                    style={{
-                                        backgroundColor:
-                                            idx === activeToolIdx ? theme.accent : theme.surfaceAlt,
-                                        borderColor:
-                                            idx === activeToolIdx ? theme.accent : theme.border,
-                                        color:
-                                            idx === activeToolIdx ? theme.accentText : theme.textMuted
-                                    }}
-                                >
-                                    {tool.code}
-                                </button>
-                            ))}
-                        </div>
+                        <p className="text-xs font-mono" style={{ color: theme.textMuted }}>
+                            Click any orbiting software icon to inspect workflow role and proficiency.
+                        </p>
                     </div>
 
                     {/* Right 7 Cols: Interactive Concentric Orbital Diagram */}

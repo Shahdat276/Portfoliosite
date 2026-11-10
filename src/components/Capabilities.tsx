@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { StudioTheme } from '@/types';
 import { CORE_CAPABILITIES } from '@/data/skills';
-import { SoftwareTools } from './SoftwareTools';
 import { KineticReveal } from './MotionPrimitives';
 
 interface CapabilitiesProps {
@@ -59,7 +58,7 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 {/* 12 Core Capabilities */}
-                <div className="mb-12 sm:mb-18 lg:mb-24">
+                <div>
                     <KineticReveal>
                     <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 sm:mb-10 gap-4 sm:gap-6">
                         <div className="max-w-2xl">
@@ -189,11 +188,6 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
                         })}
                     </div>
                 </div>
-
-                {/* Extracted 9 Software & Tools Component */}
-                <KineticReveal>
-                    <SoftwareTools theme={theme} />
-                </KineticReveal>
             </div>
         </section>
     );
