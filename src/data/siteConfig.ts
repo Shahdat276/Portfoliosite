@@ -51,7 +51,7 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
         vimeo: '',
         youtube: 'https://www.youtube.com/@samtutsofficial',
         cvUrl: '/cv/Shahdat_Hossain_CV.pdf',
-        formEndpoint: ''
+        formEndpoint: 'https://formsubmit.co/ajax/shahdathossain0779@gmail.com'
     }
 };
 

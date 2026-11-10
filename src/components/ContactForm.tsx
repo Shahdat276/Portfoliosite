@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, AlertCircle, MessageCircle, Mail } from 'lucide-react';
 import { StudioTheme, ContactFormData } from '@/types';
 
 interface ContactFormProps {
@@ -12,6 +12,9 @@ interface ContactFormProps {
     setFormErrors: (errors: Record<string, string>) => void;
     formStatus: 'idle' | 'submitting' | 'success' | 'error';
     handleFormSubmit: (e: React.FormEvent) => Promise<void>;
+    handleWhatsAppSubmit?: () => void;
+    fallbackMailtoUrl?: string;
+    hasDirectEndpoint?: boolean;
 }
 
 export function ContactForm({
@@ -21,7 +24,10 @@ export function ContactForm({
     formErrors,
     setFormErrors,
     formStatus,
-    handleFormSubmit
+    handleFormSubmit,
+    handleWhatsAppSubmit,
+    fallbackMailtoUrl,
+    hasDirectEndpoint = false
 }: ContactFormProps) {
     return (
         <form
@@ -145,25 +151,80 @@ export function ContactForm({
                 )}
             </div>
 
-            <button
-                type="submit"
-                disabled={formStatus === 'submitting'}
-                className="w-full py-4 rounded-full text-sm font-medium transition-transform active:scale-98 flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-                style={{
-                    backgroundColor: theme.accent,
-                    color: theme.accentText
-                }}
-            >
-                <span>
-                    {formStatus === 'submitting' ? 'Preparing Message...' : 'Send Message'}
-                </span>
-                <ArrowUpRight className="w-4 h-4" />
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <button
+                    type="submit"
+                    disabled={formStatus === 'submitting'}
+                    className="w-full py-4 px-5 rounded-full text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-60"
+                    style={{
+                        backgroundColor: theme.accent,
+                        color: theme.accentText
+                    }}
+                >
+                    <Mail className="w-4 h-4" />
+                    <span>
+                        {formStatus === 'submitting' ? 'Sending to Inbox...' : 'Send Message'}
+                    </span>
+                    <ArrowUpRight className="w-4 h-4" />
+                </button>
+
+                {handleWhatsAppSubmit && (
+                    <button
+                        type="button"
+                        onClick={handleWhatsAppSubmit}
+                        className="w-full py-4 px-5 rounded-full text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                        style={{
+                            backgroundColor: theme.surfaceAlt,
+                            borderColor: theme.borderStrong,
+                            color: theme.text
+                        }}
+                    >
+                        <MessageCircle className="w-4 h-4 text-emerald-500" />
+                        <span>Send via WhatsApp</span>
+                        <ArrowUpRight className="w-4 h-4" style={{ color: theme.accent }} />
+                    </button>
+                )}
+            </div>
 
             {formStatus === 'success' && (
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-sm flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 shrink-0" />
-                    <span>Inquiry prepared! Your default mail client has opened with your message details.</span>
+                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
+                    <span>
+                        {hasDirectEndpoint
+                            ? 'Message sent directly to Shahdat’s Gmail inbox! Thank you for reaching out.'
+                            : 'Inquiry prepared! Your default email client has opened with your message details.'}
+                    </span>
+                </div>
+            )}
+
+            {formStatus === 'error' && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 dark:text-red-400 text-sm space-y-2.5">
+                    <div className="flex items-start gap-2.5">
+                        <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                        <span>
+                            Could not reach automated mail relay right now. You can send directly using your
+                            email app or WhatsApp below:
+                        </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2 pl-7">
+                        {fallbackMailtoUrl && (
+                            <a
+                                href={fallbackMailtoUrl}
+                                className="px-3.5 py-1.5 rounded-full text-xs font-mono border bg-black/5 hover:bg-black/10 inline-flex items-center gap-1.5"
+                            >
+                                Open Email App ↗
+                            </a>
+                        )}
+                        {handleWhatsAppSubmit && (
+                            <button
+                                type="button"
+                                onClick={handleWhatsAppSubmit}
+                                className="px-3.5 py-1.5 rounded-full text-xs font-mono border bg-emerald-500/15 hover:bg-emerald-500/25 inline-flex items-center gap-1.5 cursor-pointer"
+                            >
+                                Send via WhatsApp ↗
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
         </form>

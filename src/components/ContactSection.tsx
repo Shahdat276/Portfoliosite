@@ -35,6 +35,13 @@ export function ContactSection({
         setTimeout(() => setCopiedLabel(''), 2500);
     };
 
+    const buildMailtoUrl = () =>
+        `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
+            `[Portfolio Inquiry] ${formData.subject || 'Project Inquiry'} - from ${formData.name || 'Visitor'}`
+        )}&body=${encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.subject}\n\nProject Details:\n${formData.message}`
+        )}`;
+
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const errs: Record<string, string> = {};
@@ -51,18 +58,68 @@ export function ContactSection({
 
         setFormStatus('submitting');
 
-        const mailtoUrl = `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
-            `[Portfolio Inquiry] ${formData.subject} - from ${formData.name}`
-        )}&body=${encodeURIComponent(
-            `Name: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.subject}\n\nProject Details:\n${formData.message}`
-        )}`;
+        if (siteConfig.contact.formEndpoint) {
+            try {
+                const res = await fetch(siteConfig.contact.formEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        subject: formData.subject,
+                        _subject: `[Portfolio Inquiry] ${formData.subject} — ${formData.name}`,
+                        _replyto: formData.email,
+                        _template: 'table',
+                        message: formData.message
+                    })
+                });
 
+                if (!res.ok) {
+                    throw new Error('Submission failed');
+                }
+
+                const result = await res.json();
+                if (result.success === false || result.success === 'false') {
+                    throw new Error(result.message || 'Endpoint rejected request');
+                }
+
+                setFormStatus('success');
+                setFormData({ name: '', email: '', subject: '', message: '' });
+                setTimeout(() => setFormStatus('idle'), 7000);
+                return;
+            } catch {
+                setFormStatus('error');
+                return;
+            }
+        }
+
+        // Fallback to local mail client if no endpoint is configured
+        const mailtoUrl = buildMailtoUrl();
         setTimeout(() => {
             window.location.href = mailtoUrl;
             setFormStatus('success');
             setFormData({ name: '', email: '', subject: '', message: '' });
             setTimeout(() => setFormStatus('idle'), 5000);
-        }, 600);
+        }, 500);
+    };
+
+    const handleWhatsAppSubmit = () => {
+        const waDigits = siteConfig.contact.whatsapp.replace(/[^0-9]/g, '');
+        const lines = [
+            '*New Portfolio Project Inquiry*',
+            formData.name.trim() ? `*Name:* ${formData.name.trim()}` : '',
+            formData.email.trim() ? `*Email:* ${formData.email.trim()}` : '',
+            formData.subject.trim() ? `*Subject:* ${formData.subject.trim()}` : '',
+            formData.message.trim()
+                ? `\n*Project Details:*\n${formData.message.trim()}`
+                : '\nHi Shahdat, I reviewed your portfolio and would like to discuss a project.'
+        ].filter(Boolean);
+
+        const waUrl = `https://wa.me/${waDigits}?text=${encodeURIComponent(lines.join('\n'))}`;
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
     };
 
     const socialLinks = [
@@ -249,6 +306,9 @@ export function ContactSection({
                                 setFormErrors={setFormErrors}
                                 formStatus={formStatus}
                                 handleFormSubmit={handleFormSubmit}
+                                handleWhatsAppSubmit={handleWhatsAppSubmit}
+                                fallbackMailtoUrl={buildMailtoUrl()}
+                                hasDirectEndpoint={Boolean(siteConfig.contact.formEndpoint)}
                             />
                         </div>
                     </div>
