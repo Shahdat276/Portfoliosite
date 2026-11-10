@@ -128,7 +128,7 @@ export function About({
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
                             >
-                                03 / About Me
+                                02 / About Me
                             </span>
                             <h2 className="font-display text-3xl sm:text-5xl font-semibold leading-[1.08] mb-5 sm:mb-8">
                                 Creativity Meets{' '}

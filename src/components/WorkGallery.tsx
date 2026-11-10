@@ -45,7 +45,7 @@ export function WorkGallery({
                                     className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                     style={{ color: theme.accent }}
                                 >
-                                    02 / Selected Works
+                                    01 / Selected Works
                                 </span>
                                 <h2 className="font-display text-3xl sm:text-5xl font-semibold">
                                     Curated Visual{' '}

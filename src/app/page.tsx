@@ -7,8 +7,7 @@ import {
     SiteConfig,
     Project,
     ExperienceItem,
-    ActiveRoute,
-    ModalVideoTarget
+    ActiveRoute
 } from '@/types';
 import { STUDIO_THEMES } from '@/data/themes';
 import { INITIAL_SITE_CONFIG } from '@/data/siteConfig';
@@ -17,7 +16,6 @@ import { INITIAL_EXPERIENCE } from '@/data/experience';
 
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
-import { Showreel } from '@/components/Showreel';
 import { WorkGallery } from '@/components/WorkGallery';
 import { CaseStudyView } from '@/components/CaseStudyView';
 import { About } from '@/components/About';
@@ -51,7 +49,6 @@ export default function Home() {
     const [isShowreelMuted, setIsShowreelMuted] = useState<boolean>(true);
     const [showreelProgress, setShowreelProgress] = useState<number>(8);
     const [showreelModalOpen, setShowreelModalOpen] = useState<boolean>(false);
-    const [modalTargetVideo, setModalTargetVideo] = useState<ModalVideoTarget | null>(null);
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
@@ -116,7 +113,7 @@ export default function Home() {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 30);
             if (activeRoute.page === 'home') {
-                const sections = ['home', 'showreel', 'work', 'about', 'capabilities', 'experience', 'contact'];
+                const sections = ['home', 'work', 'about', 'capabilities', 'experience', 'contact'];
                 const scrollPos = window.scrollY + 200;
                 for (const id of sections) {
                     const el = document.getElementById(id);
@@ -203,14 +200,35 @@ export default function Home() {
     };
 
     // Modal Video Handlers
-    const openVideoModal = (target: ModalVideoTarget) => {
-        setModalTargetVideo(target);
+    const openShowreelTheaterModal = () => {
+        if (isShowreelPlaying) {
+            const isYT =
+                siteConfig.showreel.videoUrl?.includes('youtube') ||
+                siteConfig.showreel.videoUrl?.includes('youtu.be');
+            if (isYT) {
+                sendYouTubeCommand('pauseVideo');
+            } else if (videoRef.current) {
+                videoRef.current.pause();
+            }
+            setIsShowreelPlaying(false);
+        }
         setShowreelModalOpen(true);
     };
 
-    const openShowreelTheaterModal = () => {
-        setModalTargetVideo(null);
-        setShowreelModalOpen(true);
+    const closeShowreelModal = () => {
+        setShowreelModalOpen(false);
+        const isYT =
+            siteConfig.showreel.videoUrl?.includes('youtube') ||
+            siteConfig.showreel.videoUrl?.includes('youtu.be');
+        if (isYT) {
+            sendYouTubeCommand('mute');
+            sendYouTubeCommand('playVideo');
+        } else if (videoRef.current) {
+            videoRef.current.muted = true;
+            videoRef.current.play().catch(() => {});
+        }
+        setIsShowreelMuted(true);
+        setIsShowreelPlaying(true);
     };
 
     // Navigation Handlers
@@ -280,15 +298,6 @@ export default function Home() {
                             siteConfig={siteConfig}
                             projects={projects}
                             navigateToSection={navigateToSection}
-                            openCaseStudy={openCaseStudy}
-                            openVideoModal={openVideoModal}
-                        />
-
-                        <MotionVelocityTicker theme={theme} />
-
-                        <Showreel
-                            theme={theme}
-                            siteConfig={siteConfig}
                             activeChapter={activeChapter}
                             activeChapterIndex={activeChapterIndex}
                             setActiveChapterIndex={setActiveChapterIndex}
@@ -298,10 +307,12 @@ export default function Home() {
                             toggleShowreelPlay={toggleShowreelPlay}
                             toggleShowreelMute={toggleShowreelMute}
                             seekShowreel={seekShowreel}
-                            setShowreelModalOpen={openShowreelTheaterModal}
+                            openShowreelTheaterModal={openShowreelTheaterModal}
                             iframeRef={iframeRef}
                             videoRef={videoRef}
                         />
+
+                        <MotionVelocityTicker theme={theme} />
 
                         <WorkGallery
                             theme={theme}
@@ -340,10 +351,9 @@ export default function Home() {
             {/* Modals & Drawers */}
             <ShowreelModal
                 isOpen={showreelModalOpen}
-                onClose={() => setShowreelModalOpen(false)}
+                onClose={closeShowreelModal}
                 siteConfig={siteConfig}
                 activeChapter={activeChapter}
-                targetVideo={modalTargetVideo}
             />
 
             <CmsDrawer

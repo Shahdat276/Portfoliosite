@@ -30,7 +30,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
                             >
-                                06 / Career Timeline
+                                05 / Career Timeline
                             </span>
                             <h2 className="font-display text-3xl sm:text-5xl font-semibold leading-[1.08] mb-4">
                                 Experience That Shapes{' '}

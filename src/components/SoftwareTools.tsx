@@ -28,7 +28,7 @@ export function SoftwareTools({ theme }: SoftwareToolsProps) {
                         className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                         style={{ color: theme.accent }}
                     >
-                        05 / Software &amp; Tools
+                        04 / Software &amp; Tools
                     </span>
                     <h2 className="font-display text-3xl sm:text-5xl font-semibold">
                         Tools Behind the{' '}

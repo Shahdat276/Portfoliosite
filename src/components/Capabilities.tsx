@@ -67,7 +67,7 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
                             >
-                                04 / Capabilities &amp; Craft
+                                03 / Capabilities &amp; Craft
                             </span>
                             <h2 className="font-display text-3xl sm:text-5xl font-semibold">
                                 What I Bring to the{' '}

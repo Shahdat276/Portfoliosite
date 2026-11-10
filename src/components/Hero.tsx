@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import Image from 'next/image';
+import React, { useRef, RefObject } from 'react';
 import {
     motion,
     useScroll,
@@ -9,78 +8,62 @@ import {
     useSpring,
     useReducedMotion
 } from 'framer-motion';
-import { ArrowUpRight, Play, Sparkles, Download, Film } from 'lucide-react';
-import { StudioTheme, SiteConfig, Project, ModalVideoTarget } from '@/types';
-import { EditorialVisualFrame } from './EditorialVisualFrame';
 import {
-    TiltSpotlightCard,
-    ParallaxImageWindow,
-    MOTION_EASE
-} from './MotionPrimitives';
+    ArrowUpRight,
+    Play,
+    Pause,
+    Volume2,
+    VolumeX,
+    Maximize2,
+    Download
+} from 'lucide-react';
+import { StudioTheme, SiteConfig, Project, ShowreelChapter } from '@/types';
+import { EditorialVisualFrame } from './EditorialVisualFrame';
+import { MOTION_EASE } from './MotionPrimitives';
+import { formatUniversalVideoEmbed } from '@/utils/video';
 
 interface HeroProps {
     theme: StudioTheme;
     siteConfig: SiteConfig;
     projects: Project[];
     navigateToSection: (id: string) => void;
-    openCaseStudy: (slug: string) => void;
-    openVideoModal: (target: ModalVideoTarget) => void;
+    activeChapter: ShowreelChapter;
+    activeChapterIndex: number;
+    setActiveChapterIndex: (index: number) => void;
+    isShowreelPlaying: boolean;
+    isShowreelMuted: boolean;
+    showreelProgress: number;
+    toggleShowreelPlay: () => void;
+    toggleShowreelMute: () => void;
+    seekShowreel: (pct: number, exactSeconds?: number) => void;
+    openShowreelTheaterModal: () => void;
+    iframeRef: RefObject<HTMLIFrameElement | null>;
+    videoRef: RefObject<HTMLVideoElement | null>;
 }
-
-const FEATURED_HERO_SLUGS = [
-    'commercial-video-editing',
-    'fashion-campaign-video',
-    'motion-graphics-systems',
-    'logo-animation-reveals'
-];
-
-const HERO_TAB_LABELS: Record<string, string> = {
-    'commercial-video-editing': '01 Commercial',
-    'fashion-campaign-video': '02 Fashion Film',
-    'motion-graphics-systems': '03 Motion VFX',
-    'logo-animation-reveals': '04 Logo Ident'
-};
 
 export function Hero({
     theme,
     siteConfig,
     projects,
     navigateToSection,
-    openCaseStudy,
-    openVideoModal
+    activeChapter,
+    activeChapterIndex,
+    setActiveChapterIndex,
+    isShowreelPlaying,
+    isShowreelMuted,
+    showreelProgress,
+    toggleShowreelPlay,
+    toggleShowreelMute,
+    seekShowreel,
+    openShowreelTheaterModal,
+    iframeRef,
+    videoRef
 }: HeroProps) {
-    const spotlightProjects = FEATURED_HERO_SLUGS.map((slug) =>
-        projects.find((p) => p.slug === slug)
-    ).filter((p): p is Project => Boolean(p));
-
-    const [activeIdx, setActiveIdx] = useState(0);
-    const activeProject = spotlightProjects[activeIdx] || projects[0];
     const totalVideos = projects.reduce(
         (acc, p) => acc + (p.galleryVideos ? p.galleryVideos.length : 0),
         0
     );
-
-    const handlePlaySpotlight = () => {
-        if (activeProject?.videoUrl) {
-            openVideoModal({
-                url: activeProject.videoUrl,
-                title: `${activeProject.title} — Featured Cut`,
-                subtitle: `${activeProject.category} • ${activeProject.client}`
-            });
-        } else if (activeProject?.galleryVideos && activeProject.galleryVideos[0]) {
-            openVideoModal({
-                url: activeProject.galleryVideos[0].url,
-                title: activeProject.galleryVideos[0].title,
-                subtitle: `${activeProject.category} • ${activeProject.client}`
-            });
-        } else {
-            openVideoModal({
-                url: siteConfig.showreel.videoUrl,
-                title: `${siteConfig.name} — Official Showreel`,
-                subtitle: siteConfig.title
-            });
-        }
-    };
+    const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl, { chromeless: true });
 
     const heroRef = useRef<HTMLElement>(null);
     const shouldReduce = useReducedMotion();
@@ -249,7 +232,7 @@ export function Hero({
                             </button>
 
                             <button
-                                onClick={() => navigateToSection('showreel')}
+                                onClick={openShowreelTheaterModal}
                                 className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surface,
@@ -281,7 +264,7 @@ export function Hero({
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Column (5 Cols): Discipline Spotlight Showcase (Counter-Depth Parallax + 3D Tilt) */}
+                    {/* Right Column (5 Cols): Continuous Official Master Showreel Theater */}
                     <motion.div
                         style={shouldReduce ? undefined : { y: rightColY }}
                         className="lg:col-span-6 xl:col-span-5 will-change-transform"
@@ -291,153 +274,267 @@ export function Hero({
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.65, delay: 0.12, ease: MOTION_EASE }}
                         >
-                            <TiltSpotlightCard
-                                accentColor={theme.accent}
+                            <div
                                 className="rounded-3xl border p-3.5 sm:p-5 shadow-sm transition-colors"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.border
                                 }}
                             >
-                            {/* Top Card Bar */}
-                            <div className="flex items-center justify-between px-1 pb-3.5">
-                                <div className="flex items-center gap-2">
-                                    <Sparkles className="w-4 h-4" style={{ color: theme.accent }} />
-                                    <span className="font-display text-xs font-semibold uppercase tracking-wider">
-                                        Discipline Spotlight
+                                {/* Top Card Bar */}
+                                <div className="flex items-center justify-between px-1 pb-3">
+                                    <div className="flex items-center gap-2">
+                                        <span
+                                            className="w-2 h-2 rounded-full animate-pulse shrink-0"
+                                            style={{ backgroundColor: theme.accent }}
+                                        />
+                                        <span className="font-display text-xs font-semibold uppercase tracking-wider">
+                                            Official Master Showreel
+                                        </span>
+                                    </div>
+                                    <span
+                                        className="font-mono text-[11px]"
+                                        style={{ color: theme.accent }}
+                                    >
+                                        CH. {activeChapter.id} • {activeChapter.time}
                                     </span>
                                 </div>
-                                <span
-                                    className="font-mono text-xs"
-                                    style={{ color: theme.textMuted }}
-                                >
-                                    {activeProject?.galleryVideos?.length || 1} Videos in Category
-                                </span>
-                            </div>
 
-                            {/* Interactive Preview Frame (16:10 Clean Framing - Zero Letterbox Bars) */}
-                            <div
-                                onClick={handlePlaySpotlight}
-                                className="rounded-2xl overflow-hidden relative cursor-pointer group aspect-[16/10] bg-black"
-                            >
-                                {activeProject?.coverUrl ? (
-                                    <>
-                                        <ParallaxImageWindow travel={10} baseScale={1.08}>
-                                            <Image
-                                                key={activeProject.slug}
-                                                src={activeProject.coverUrl}
-                                                alt={activeProject.title}
-                                                fill
-                                                unoptimized
-                                                className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                {/* Continuous 16:9 Live Showreel Stage */}
+                                <div className="rounded-2xl overflow-hidden relative aspect-video bg-black border border-white/10">
+                                    {videoData.type === 'youtube' && (
+                                        <div
+                                            className="relative w-full h-full bg-black overflow-hidden select-none cursor-pointer group"
+                                            onClick={toggleShowreelPlay}
+                                        >
+                                            <iframe
+                                                ref={iframeRef}
+                                                src={videoData.embedUrl}
+                                                title={`${siteConfig.name} Official Showreel`}
+                                                className="w-full h-full border-0 pointer-events-none"
+                                                allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowFullScreen
                                             />
-                                        </ParallaxImageWindow>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
 
-                                        {/* Top Badges */}
-                                        <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
-                                                {activeProject.category}
-                                            </span>
-                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
-                                                Play Feature Cut
-                                            </span>
-                                        </div>
+                                            {/* Paused Center Indicator */}
+                                            {!isShowreelPlaying && (
+                                                <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/35 backdrop-blur-[1px]">
+                                                    <div
+                                                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110"
+                                                        style={{
+                                                            backgroundColor: theme.accent,
+                                                            color: theme.accentText
+                                                        }}
+                                                    >
+                                                        <Play className="w-6 h-6 fill-current ml-0.5" />
+                                                    </div>
+                                                </div>
+                                            )}
 
-                                        {/* Bottom Info Strip on Preview */}
-                                        <div className="absolute bottom-3.5 left-4 right-4 z-10 flex items-end justify-between gap-2 text-white">
-                                            <div className="min-w-0">
-                                                <p className="font-display text-sm sm:text-base font-semibold truncate">
-                                                    {activeProject.title}
-                                                </p>
-                                                <p className="text-[11px] text-white/75 truncate">
-                                                    {activeProject.client}
-                                                </p>
+                                            {/* Bottom-Right Quick Audio & Theater Controls */}
+                                            <div
+                                                className="absolute bottom-3 right-3 z-20 flex items-center gap-1.5"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <button
+                                                    type="button"
+                                                    onClick={toggleShowreelMute}
+                                                    className="px-2.5 py-1.5 rounded-full text-[11px] font-mono bg-black/75 hover:bg-black text-white backdrop-blur-md border border-white/20 inline-flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer"
+                                                >
+                                                    {isShowreelMuted ? (
+                                                        <>
+                                                            <VolumeX className="w-3 h-3" style={{ color: theme.accent }} />
+                                                            <span>Unmute</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Volume2 className="w-3 h-3" style={{ color: theme.accent }} />
+                                                            <span>Audio On</span>
+                                                        </>
+                                                    )}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={openShowreelTheaterModal}
+                                                    aria-label="Open Theater Mode"
+                                                    className="p-1.5 rounded-full bg-black/75 hover:bg-black text-white backdrop-blur-md border border-white/20 inline-flex items-center justify-center transition-transform active:scale-95 cursor-pointer"
+                                                >
+                                                    <Maximize2 className="w-3.5 h-3.5" />
+                                                </button>
                                             </div>
                                         </div>
-                                    </>
-                                ) : (
-                                    <EditorialVisualFrame
-                                        theme={theme}
-                                        index={activeProject?.index || '01'}
-                                        category={activeProject?.category || 'Commercial'}
-                                        aspectClass="aspect-[16/10]"
-                                        pattern={activeIdx % 2 === 0 ? 'editorial-arch' : 'orbital-rings'}
-                                        isHovered={true}
-                                        badgeText="Play Feature Cut"
-                                    />
-                                )}
+                                    )}
 
-                                {/* Centered Glowing Play Button */}
-                                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                                    <div
-                                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-110"
-                                        style={{
-                                            backgroundColor: theme.accent,
-                                            color: theme.accentText
-                                        }}
-                                    >
-                                        <Play className="w-6 h-6 fill-current ml-0.5" />
-                                    </div>
+                                    {videoData.type === 'drive' && (
+                                        <iframe
+                                            src={videoData.embedUrl}
+                                            title="Showreel Google Drive"
+                                            className="w-full h-full border-0"
+                                            allow="autoplay"
+                                            allowFullScreen
+                                        />
+                                    )}
+
+                                    {videoData.type === 'vimeo' && (
+                                        <iframe
+                                            src={videoData.embedUrl}
+                                            title="Showreel Vimeo"
+                                            className="w-full h-full border-0"
+                                            allow="autoplay; fullscreen; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    )}
+
+                                    {videoData.type === 'video' && videoData.embedUrl && (
+                                        <div
+                                            className="relative w-full h-full bg-black cursor-pointer"
+                                            onClick={toggleShowreelPlay}
+                                        >
+                                            <video
+                                                ref={videoRef}
+                                                src={videoData.embedUrl}
+                                                autoPlay
+                                                loop
+                                                muted={isShowreelMuted}
+                                                playsInline
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    )}
+
+                                    {videoData.type === 'unknown' && (
+                                        <div
+                                            className="w-full h-full relative group cursor-pointer"
+                                            onClick={openShowreelTheaterModal}
+                                        >
+                                            <EditorialVisualFrame
+                                                theme={theme}
+                                                index="REEL"
+                                                category="Motion Direction"
+                                                aspectClass="aspect-video"
+                                                pattern="waveform"
+                                                isHovered={false}
+                                                badgeText="Interactive Showreel"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
 
-                            {/* Active Discipline Action Row */}
-                            {activeProject && (
-                                <div className="mt-3.5 px-1 flex items-center justify-between gap-2 text-xs">
-                                    <span className="truncate font-mono" style={{ color: theme.textMuted }}>
-                                        Role: {activeProject.role}
-                                    </span>
+                                {/* Compact Scrubber Bar */}
+                                <div
+                                    onClick={(e) => {
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const pct = Math.max(
+                                            0,
+                                            Math.min(100, Math.round(((e.clientX - rect.left) / rect.width) * 100))
+                                        );
+                                        seekShowreel(pct);
+                                    }}
+                                    className="mt-3 w-full h-1.5 rounded-full cursor-pointer overflow-hidden relative"
+                                    style={{ backgroundColor: theme.surfaceAlt }}
+                                    title="Click to scrub showreel timeline"
+                                >
+                                    <div
+                                        className="h-full transition-all duration-300"
+                                        style={{
+                                            width: `${showreelProgress}%`,
+                                            backgroundColor: theme.accent
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Compact Playback Controls & Active Chapter Info */}
+                                <div className="mt-2.5 px-0.5 flex items-center justify-between gap-2 text-xs">
+                                    <div className="flex items-center gap-1.5 min-w-0">
+                                        <button
+                                            type="button"
+                                            onClick={toggleShowreelPlay}
+                                            className="px-2.5 py-1 rounded-full border font-mono text-[11px] font-medium shrink-0 inline-flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                                            style={{
+                                                backgroundColor: isShowreelPlaying ? theme.accent : theme.surfaceAlt,
+                                                borderColor: isShowreelPlaying ? theme.accent : theme.border,
+                                                color: isShowreelPlaying ? theme.accentText : theme.text
+                                            }}
+                                        >
+                                            {isShowreelPlaying ? (
+                                                <>
+                                                    <Pause className="w-3 h-3" />
+                                                    <span>Pause</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Play className="w-3 h-3 fill-current" />
+                                                    <span>Play</span>
+                                                </>
+                                            )}
+                                        </button>
+                                        <span
+                                            className="truncate font-mono text-[11px]"
+                                            style={{ color: theme.textMuted }}
+                                        >
+                                            {activeChapter.note}
+                                        </span>
+                                    </div>
+
                                     <button
-                                        onClick={() => openCaseStudy(activeProject.slug)}
-                                        className="px-3 py-1.5 rounded-full border font-mono text-[11px] font-semibold shrink-0 inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                                        type="button"
+                                        onClick={openShowreelTheaterModal}
+                                        className="px-3 py-1 rounded-full border font-mono text-[11px] font-semibold shrink-0 inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                                         style={{
                                             backgroundColor: theme.accentSoft,
                                             borderColor: theme.border,
                                             color: theme.accent
                                         }}
                                     >
-                                        <Film className="w-3 h-3" />
-                                        <span>Open {activeProject.galleryVideos?.length || 1} Videos</span>
-                                        <ArrowUpRight className="w-3 h-3" />
+                                        <Maximize2 className="w-3 h-3" />
+                                        <span>Theater</span>
                                     </button>
                                 </div>
-                            )}
 
-                            {/* 4 Interactive Discipline Pills */}
-                            <div className="mt-3.5 pt-3 border-t" style={{ borderColor: theme.border }}>
-                                <span
-                                    className="font-mono text-[10px] uppercase tracking-wider block mb-2.5"
-                                    style={{ color: theme.textMuted }}
-                                >
-                                    Switch Creative Discipline Preview:
-                                </span>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {spotlightProjects.map((proj, idx) => {
-                                        const isCurrent = idx === activeIdx;
-                                        return (
-                                            <button
-                                                key={proj.slug}
-                                                onClick={() => setActiveIdx(idx)}
-                                                className="px-3 py-2.5 rounded-xl text-left text-xs font-medium border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center justify-between cursor-pointer"
-                                                style={{
-                                                    backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
-                                                    borderColor: isCurrent ? theme.accent : theme.border,
-                                                    color: isCurrent ? theme.accent : theme.text
-                                                }}
-                                            >
-                                                <span className="truncate">
-                                                    {HERO_TAB_LABELS[proj.slug] || proj.title}
-                                                </span>
-                                                <span className="font-mono text-[10px] opacity-75 shrink-0 ml-1">
-                                                    {proj.galleryVideos?.length || 1}v
-                                                </span>
-                                            </button>
-                                        );
-                                    })}
+                                {/* 4 Interactive Showreel Chapters (Option 1) */}
+                                <div className="mt-3 pt-3 border-t" style={{ borderColor: theme.border }}>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span
+                                            className="font-mono text-[10px] uppercase tracking-wider"
+                                            style={{ color: theme.textMuted }}
+                                        >
+                                            Showreel Chapters — Click to Jump:
+                                        </span>
+                                        <span
+                                            className="font-mono text-[10px]"
+                                            style={{ color: theme.textMuted }}
+                                        >
+                                            1080p HD • {siteConfig.showreel.duration}
+                                        </span>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {siteConfig.showreel.chapters.map((chap, idx) => {
+                                            const isCurrent = idx === activeChapterIndex;
+                                            return (
+                                                <button
+                                                    key={chap.id}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setActiveChapterIndex(idx);
+                                                        seekShowreel(chap.progress, chap.seconds);
+                                                    }}
+                                                    className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center justify-between cursor-pointer"
+                                                    style={{
+                                                        backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
+                                                        borderColor: isCurrent ? theme.accent : theme.border,
+                                                        color: isCurrent ? theme.accent : theme.text
+                                                    }}
+                                                >
+                                                    <span className="truncate">{chap.label}</span>
+                                                    <span className="font-mono text-[10px] opacity-75 shrink-0 ml-1">
+                                                        {chap.time}
+                                                    </span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
-                            </TiltSpotlightCard>
                         </motion.div>
                     </motion.div>
                 </div>

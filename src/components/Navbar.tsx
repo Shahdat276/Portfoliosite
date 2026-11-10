@@ -37,7 +37,6 @@ export function Navbar({
 }: NavbarProps) {
     const navItems = [
         { id: 'home', label: 'Home' },
-        { id: 'showreel', label: 'Showreel' },
         { id: 'work', label: 'Work' },
         { id: 'about', label: 'About' },
         { id: 'capabilities', label: 'Capabilities' },
