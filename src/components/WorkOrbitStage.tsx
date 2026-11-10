@@ -248,7 +248,7 @@ export function WorkOrbitStage({
                     {/* Transparent 3D Stylized Character Centerpiece Standing Tall from Bottom (z-[15]) */}
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[15] pointer-events-none select-none h-[78svh] sm:h-[86svh] lg:h-[90svh] w-[min(94vw,760px)] flex items-end justify-center">
                         <Image
-                            src="/images/shahdat-cartoon.png"
+                            src="/images/shahdat-avatar.png"
                             alt={siteConfig.name}
                             fill
                             unoptimized
