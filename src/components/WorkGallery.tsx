@@ -2,84 +2,87 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { StudioTheme, Project } from '@/types';
+import { StudioTheme, Project, SiteConfig } from '@/types';
 import { CategoryFilter } from './CategoryFilter';
 import { ProjectCard } from './ProjectCard';
-import {
-    ArchitecturalGuides,
-    KineticReveal,
-    SkewMaskReveal
-} from './MotionPrimitives';
+import { WorkOrbitStage } from './WorkOrbitStage';
+import { ArchitecturalGuides, KineticReveal } from './MotionPrimitives';
 
 interface WorkGalleryProps {
     theme: StudioTheme;
     projects: Project[];
+    siteConfig: SiteConfig;
     selectedCategory: string;
     setSelectedCategory: (cat: string) => void;
     hoveredProjectSlug: string | null;
     setHoveredProjectSlug: (slug: string | null) => void;
     openCaseStudy: (slug: string) => void;
+    soundEnabled?: boolean;
 }
 
 export function WorkGallery({
     theme,
     projects,
+    siteConfig,
     selectedCategory,
     setSelectedCategory,
     hoveredProjectSlug,
     setHoveredProjectSlug,
-    openCaseStudy
+    openCaseStudy,
+    soundEnabled = false
 }: WorkGalleryProps) {
     const filteredProjects =
         selectedCategory === 'All'
             ? projects
             : projects.filter((p) => p.category === selectedCategory);
 
-    return (
-        <section
-            id="work"
-            className="relative py-14 sm:py-20 md:py-24 lg:py-28 border-b overflow-x-clip"
-            style={{ borderColor: theme.border }}
-        >
-            <ArchitecturalGuides borderColor={theme.border} columns={5} />
+    const totalCuratedVideos = projects.reduce(
+        (s, p) => s + (p.galleryVideos?.length || 0),
+        0
+    );
 
-            <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <KineticReveal>
-                    <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-5 sm:gap-8">
-                        <div>
-                            <span
-                                className="font-mono text-xs uppercase tracking-[0.22em] block mb-3"
-                                style={{ color: theme.accent }}
-                            >
-                                01 / Selected Works
-                            </span>
-                            <div className="relative inline-block">
-                                <SkewMaskReveal>
-                                    <h2 className="font-display text-5xl sm:text-7xl lg:text-8xl xl:text-[104px] font-semibold uppercase leading-[0.86] tracking-[-0.045em]">
-                                        Selected{' '}
-                                        <span className="font-serif-italic font-normal lowercase">
-                                            Work
-                                        </span>
-                                    </h2>
-                                </SkewMaskReveal>
+    return (
+        <section id="work" className="relative overflow-x-clip">
+            {/* 1. Interactive 3D Selected Work Orbit Stage (Matching CodeofSagar WorkOrbit) */}
+            <WorkOrbitStage
+                theme={theme}
+                projects={projects}
+                siteConfig={siteConfig}
+                openCaseStudy={openCaseStudy}
+                soundEnabled={soundEnabled}
+            />
+
+            {/* 2. Complete Filterable Archive Grid */}
+            <div
+                className="relative py-14 sm:py-20 md:py-24 lg:py-28 border-b"
+                style={{ borderColor: theme.border }}
+            >
+                <ArchitecturalGuides borderColor={theme.border} columns={5} />
+
+                <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
+                    <KineticReveal>
+                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-3 sm:gap-6">
+                            <div>
                                 <span
-                                    className="font-mono text-xs sm:text-sm font-semibold ml-2 sm:ml-4 align-top"
+                                    className="font-mono text-xs uppercase tracking-[0.22em] block mb-2"
                                     style={{ color: theme.accent }}
                                 >
-                                    2026
+                                    Archive Index • 2026
                                 </span>
+                                <h3 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight">
+                                    All Collections by{' '}
+                                    <span className="font-serif-italic font-normal">Discipline.</span>
+                                </h3>
                             </div>
+                            <p
+                                className="text-sm sm:text-base max-w-md md:text-right"
+                                style={{ color: theme.textMuted }}
+                            >
+                                {totalCuratedVideos}+ curated video works across commercials, fashion films,
+                                motion systems, and 3D VFX. Filter by discipline or open any case study.
+                            </p>
                         </div>
-                        <p
-                            className="text-sm sm:text-base max-w-md lg:text-right"
-                            style={{ color: theme.textMuted }}
-                        >
-                            {projects.reduce((s, p) => s + (p.galleryVideos?.length || 0), 0)}+ curated video
-                            works organized by discipline. Select any collection below to watch every cut, film, and
-                            reel inside.
-                        </p>
-                    </div>
-                </KineticReveal>
+                    </KineticReveal>
 
                     {/* Extracted Category Filter Bar */}
                     <CategoryFilter
@@ -110,6 +113,7 @@ export function WorkGallery({
                         </AnimatePresence>
                     </motion.div>
                 </div>
+            </div>
         </section>
     );
 }

@@ -331,11 +331,13 @@ export default function Home() {
                         <WorkGallery
                             theme={theme}
                             projects={projects}
+                            siteConfig={siteConfig}
                             selectedCategory={selectedCategory}
                             setSelectedCategory={setSelectedCategory}
                             hoveredProjectSlug={hoveredProjectSlug}
                             setHoveredProjectSlug={setHoveredProjectSlug}
                             openCaseStudy={openCaseStudy}
+                            soundEnabled={soundEnabled}
                         />
 
                         <BrandOrbitSection

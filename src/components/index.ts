@@ -8,6 +8,7 @@ export * from './BrandOrbitSection';
 export * from './CraftShowcase';
 export * from './ProcessWorkflowSection';
 export * from './WorkGallery';
+export * from './WorkOrbitStage';
 export * from './ProjectCard';
 export * from './CategoryFilter';
 export * from './CaseStudyView';

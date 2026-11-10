@@ -141,3 +141,4 @@ export function CraftShowcase({ theme }: CraftShowcaseProps) {
         </section>
     );
 }
+
