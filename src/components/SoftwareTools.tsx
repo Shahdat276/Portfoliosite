@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { StudioTheme } from '@/types';
 import { SOFTWARE_TOOLS } from '@/data/skills';
+import { SoftwareIcon } from './SoftwareIcon';
 
 interface SoftwareToolsProps {
     theme: StudioTheme;
@@ -60,38 +61,36 @@ export function SoftwareTools({ theme }: SoftwareToolsProps) {
                 {filteredSoftware.map((tool) => (
                     <div
                         key={tool.name}
-                        className="p-6 rounded-2xl border transition-all hover:shadow-sm flex flex-col justify-between gap-4"
+                        className="group p-6 sm:p-7 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col justify-between gap-5 cursor-default"
                         style={{
                             backgroundColor: theme.surface,
                             borderColor: theme.border
                         }}
                     >
-                        <div className="flex items-start justify-between">
+                        <div className="flex items-start justify-between gap-4">
                             <div>
-                                <h4 className="font-display font-semibold text-base sm:text-lg">
+                                <h4 className="font-display font-semibold text-base sm:text-lg group-hover:underline transition-all">
                                     {tool.name}
                                 </h4>
                                 <span
-                                    className="font-mono text-xs uppercase tracking-wider block mt-0.5"
+                                    className="font-mono text-xs uppercase tracking-wider block mt-1"
                                     style={{ color: theme.accent }}
                                 >
                                     {tool.category}
                                 </span>
                             </div>
-                            <span
-                                className="px-2.5 py-1 rounded-full text-[11px] font-mono border"
-                                style={{
-                                    backgroundColor: theme.surfaceAlt,
-                                    borderColor: theme.border,
-                                    color: theme.textMuted
-                                }}
-                            >
-                                {tool.code}
-                            </span>
+
+                            {/* Official Software App Icon */}
+                            <div className="shrink-0 transition-transform duration-300 group-hover:scale-110 drop-shadow-sm">
+                                <SoftwareIcon code={tool.code} name={tool.name} className="w-12 h-12 rounded-xl" />
+                            </div>
                         </div>
-                        <p className="text-xs sm:text-sm leading-relaxed" style={{ color: theme.textMuted }}>
-                            {tool.role}
-                        </p>
+
+                        <div className="pt-3 border-t" style={{ borderColor: theme.border }}>
+                            <p className="text-xs sm:text-sm leading-relaxed" style={{ color: theme.textMuted }}>
+                                {tool.role}
+                            </p>
+                        </div>
                     </div>
                 ))}
             </div>
