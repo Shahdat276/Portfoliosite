@@ -11,13 +11,12 @@ import {
 import {
     ArrowUpRight,
     Play,
-    Pause,
     Volume2,
     VolumeX,
     Maximize2,
     Download
 } from 'lucide-react';
-import { StudioTheme, SiteConfig, Project, ShowreelChapter } from '@/types';
+import { StudioTheme, SiteConfig, Project } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { MOTION_EASE } from './MotionPrimitives';
 import { formatUniversalVideoEmbed } from '@/utils/video';
@@ -27,9 +26,6 @@ interface HeroProps {
     siteConfig: SiteConfig;
     projects: Project[];
     navigateToSection: (id: string) => void;
-    activeChapter: ShowreelChapter;
-    activeChapterIndex: number;
-    setActiveChapterIndex: (index: number) => void;
     isShowreelPlaying: boolean;
     isShowreelMuted: boolean;
     showreelProgress: number;
@@ -46,9 +42,6 @@ export function Hero({
     siteConfig,
     projects,
     navigateToSection,
-    activeChapter,
-    activeChapterIndex,
-    setActiveChapterIndex,
     isShowreelPlaying,
     isShowreelMuted,
     showreelProgress,
@@ -294,9 +287,9 @@ export function Hero({
                                     </div>
                                     <span
                                         className="font-mono text-[11px]"
-                                        style={{ color: theme.accent }}
+                                        style={{ color: theme.textMuted }}
                                     >
-                                        CH. {activeChapter.id} • {activeChapter.time}
+                                        1080p HD • {siteConfig.showreel.duration}
                                     </span>
                                 </div>
 
@@ -441,98 +434,6 @@ export function Hero({
                                             backgroundColor: theme.accent
                                         }}
                                     />
-                                </div>
-
-                                {/* Compact Playback Controls & Active Chapter Info */}
-                                <div className="mt-2.5 px-0.5 flex items-center justify-between gap-2 text-xs">
-                                    <div className="flex items-center gap-1.5 min-w-0">
-                                        <button
-                                            type="button"
-                                            onClick={toggleShowreelPlay}
-                                            className="px-2.5 py-1 rounded-full border font-mono text-[11px] font-medium shrink-0 inline-flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
-                                            style={{
-                                                backgroundColor: isShowreelPlaying ? theme.accent : theme.surfaceAlt,
-                                                borderColor: isShowreelPlaying ? theme.accent : theme.border,
-                                                color: isShowreelPlaying ? theme.accentText : theme.text
-                                            }}
-                                        >
-                                            {isShowreelPlaying ? (
-                                                <>
-                                                    <Pause className="w-3 h-3" />
-                                                    <span>Pause</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Play className="w-3 h-3 fill-current" />
-                                                    <span>Play</span>
-                                                </>
-                                            )}
-                                        </button>
-                                        <span
-                                            className="truncate font-mono text-[11px]"
-                                            style={{ color: theme.textMuted }}
-                                        >
-                                            {activeChapter.note}
-                                        </span>
-                                    </div>
-
-                                    <button
-                                        type="button"
-                                        onClick={openShowreelTheaterModal}
-                                        className="px-3 py-1 rounded-full border font-mono text-[11px] font-semibold shrink-0 inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
-                                        style={{
-                                            backgroundColor: theme.accentSoft,
-                                            borderColor: theme.border,
-                                            color: theme.accent
-                                        }}
-                                    >
-                                        <Maximize2 className="w-3 h-3" />
-                                        <span>Theater</span>
-                                    </button>
-                                </div>
-
-                                {/* 4 Interactive Showreel Chapters (Option 1) */}
-                                <div className="mt-3 pt-3 border-t" style={{ borderColor: theme.border }}>
-                                    <div className="flex items-center justify-between mb-2">
-                                        <span
-                                            className="font-mono text-[10px] uppercase tracking-wider"
-                                            style={{ color: theme.textMuted }}
-                                        >
-                                            Showreel Chapters — Click to Jump:
-                                        </span>
-                                        <span
-                                            className="font-mono text-[10px]"
-                                            style={{ color: theme.textMuted }}
-                                        >
-                                            1080p HD • {siteConfig.showreel.duration}
-                                        </span>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {siteConfig.showreel.chapters.map((chap, idx) => {
-                                            const isCurrent = idx === activeChapterIndex;
-                                            return (
-                                                <button
-                                                    key={chap.id}
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setActiveChapterIndex(idx);
-                                                        seekShowreel(chap.progress, chap.seconds);
-                                                    }}
-                                                    className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center justify-between cursor-pointer"
-                                                    style={{
-                                                        backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
-                                                        borderColor: isCurrent ? theme.accent : theme.border,
-                                                        color: isCurrent ? theme.accent : theme.text
-                                                    }}
-                                                >
-                                                    <span className="truncate">{chap.label}</span>
-                                                    <span className="font-mono text-[10px] opacity-75 shrink-0 ml-1">
-                                                        {chap.time}
-                                                    </span>
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
                                 </div>
                             </div>
                         </motion.div>

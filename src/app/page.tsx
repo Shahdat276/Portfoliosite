@@ -44,7 +44,6 @@ export default function Home() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
     // 4. Showreel & Modal Player State
-    const [activeChapterIndex, setActiveChapterIndex] = useState<number>(0);
     const [isShowreelPlaying, setIsShowreelPlaying] = useState<boolean>(true);
     const [isShowreelMuted, setIsShowreelMuted] = useState<boolean>(true);
     const [showreelProgress, setShowreelProgress] = useState<number>(8);
@@ -60,7 +59,7 @@ export default function Home() {
     const [cmsOpen, setCmsOpen] = useState<boolean>(false);
 
     // Active Chapter
-    const activeChapter = siteConfig.showreel.chapters[activeChapterIndex] || siteConfig.showreel.chapters[0];
+    const activeChapter = siteConfig.showreel.chapters[0];
 
     // Case Study Project
     const currentCaseStudy = useMemo(() => {
@@ -298,9 +297,6 @@ export default function Home() {
                             siteConfig={siteConfig}
                             projects={projects}
                             navigateToSection={navigateToSection}
-                            activeChapter={activeChapter}
-                            activeChapterIndex={activeChapterIndex}
-                            setActiveChapterIndex={setActiveChapterIndex}
                             isShowreelPlaying={isShowreelPlaying}
                             isShowreelMuted={isShowreelMuted}
                             showreelProgress={showreelProgress}
