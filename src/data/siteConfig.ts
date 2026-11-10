@@ -8,6 +8,8 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
     experienceFull: '9+ Years of Professional Experience',
     location: 'Dhaka, Bangladesh',
     currentOrganization: 'Amanat Shah Group (ASG)',
+    education: 'B.Sc. in Multimedia & Creative Technology (MCT) — DIU',
+    languages: 'Bengali (Native), English (Fluent)',
     availabilityText: 'Available for Select Projects & Senior Roles',
     heroPrimaryHeadline: 'Crafting Stories Through Motion.',
     heroSecondaryHeadline: 'VISUALS THAT MOVE PEOPLE.',
@@ -31,10 +33,10 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
         duration: '01:48',
         placeholderNote: 'Interactive Showreel Stage — Replace with Official Showreel MP4',
         chapters: [
-            { id: '01', label: '01 Commercial', time: '00:00', progress: 18, note: 'TV & Digital Brand Spots' },
-            { id: '02', label: '02 Fashion Film', time: '00:28', progress: 44, note: 'Editorial Couture & Rhythm' },
-            { id: '03', label: '03 3D Motion', time: '00:56', progress: 72, note: 'Cinema 4D, Blender & After Effects' },
-            { id: '04', label: '04 Brand Campaign', time: '01:22', progress: 92, note: 'Integrated Visual Storytelling' }
+            { id: '01', label: '01 Commercial', time: '00:00', seconds: 0, progress: 5, note: 'TV & Digital Brand Spots' },
+            { id: '02', label: '02 Fashion Film', time: '00:28', seconds: 28, progress: 26, note: 'Editorial Couture & Rhythm' },
+            { id: '03', label: '03 3D Motion', time: '00:56', seconds: 56, progress: 52, note: 'Cinema 4D, Blender & After Effects' },
+            { id: '04', label: '04 Brand Campaign', time: '01:22', seconds: 82, progress: 76, note: 'Integrated Visual Storytelling' }
         ]
     },
     portrait: {
@@ -46,7 +48,7 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
         whatsapp: '+880 1850-993126',
         linkedin: 'https://www.linkedin.com/in/shahdatofficial/',
         behance: 'https://www.behance.net/shahdathossain6',
-        vimeo: 'https://vimeo.com',
+        vimeo: '',
         youtube: 'https://www.youtube.com/@samtutsofficial',
         cvUrl: '/cv/Shahdat_Hossain_CV.pdf',
         formEndpoint: ''

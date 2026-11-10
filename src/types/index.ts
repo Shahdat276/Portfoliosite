@@ -21,8 +21,15 @@ export interface ShowreelChapter {
     id: string;
     label: string;
     time: string;
+    seconds?: number;
     progress: number;
     note: string;
+}
+
+export interface ModalVideoTarget {
+    url: string;
+    title: string;
+    subtitle?: string;
 }
 
 export interface SiteConfig {
@@ -33,6 +40,8 @@ export interface SiteConfig {
     experienceFull: string;
     location: string;
     currentOrganization: string;
+    education?: string;
+    languages?: string;
     availabilityText: string;
     heroPrimaryHeadline: string;
     heroSecondaryHeadline: string;

@@ -70,7 +70,7 @@ export function ContactSection({
         { label: 'Behance', url: siteConfig.contact.behance },
         { label: 'Vimeo', url: siteConfig.contact.vimeo },
         { label: 'YouTube', url: siteConfig.contact.youtube }
-    ];
+    ].filter((l) => Boolean(l.url && l.url.trim()));
 
     return (
         <section
@@ -87,7 +87,7 @@ export function ContactSection({
                                     className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                     style={{ color: theme.accent }}
                                 >
-                                    06 / Direct Connect
+                                    07 / Direct Connect
                                 </span>
                                 <h2 className="font-display text-4xl sm:text-6xl font-semibold leading-tight">
                                     Let&apos;s Create Visuals That{' '}

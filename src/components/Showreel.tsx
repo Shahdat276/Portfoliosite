@@ -1,7 +1,7 @@
 "use client";
 
 import React, { RefObject } from 'react';
-import { Play } from 'lucide-react';
+import { Play, VolumeX } from 'lucide-react';
 import { StudioTheme, SiteConfig, ShowreelChapter } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { ShowreelControls } from './ShowreelControls';
@@ -18,9 +18,8 @@ interface ShowreelProps {
     showreelProgress: number;
     toggleShowreelPlay: () => void;
     toggleShowreelMute: () => void;
-    seekShowreel: (pct: number) => void;
+    seekShowreel: (pct: number, exactSeconds?: number) => void;
     setShowreelModalOpen: (open: boolean) => void;
-    setCmsOpen: (open: boolean) => void;
     iframeRef: RefObject<HTMLIFrameElement | null>;
     videoRef: RefObject<HTMLVideoElement | null>;
 }
@@ -28,6 +27,7 @@ interface ShowreelProps {
 export function Showreel({
     theme,
     siteConfig,
+    activeChapter,
     activeChapterIndex,
     setActiveChapterIndex,
     isShowreelPlaying,
@@ -37,7 +37,6 @@ export function Showreel({
     toggleShowreelMute,
     seekShowreel,
     setShowreelModalOpen,
-    setCmsOpen,
     iframeRef,
     videoRef
 }: ShowreelProps) {
@@ -46,53 +45,89 @@ export function Showreel({
     return (
         <section
             id="showreel"
-            className="py-24 md:py-32 border-b"
+            className="py-20 md:py-28 border-b"
             style={{ borderColor: theme.border }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 max-w-[980px] xl:max-w-[1040px] mx-auto">
                     <div>
                         <span
                             className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                             style={{ color: theme.accent }}
                         >
-                            01 / Featured Showreel
+                            01 / Official Master Showreel
                         </span>
                         <h2 className="font-display text-3xl sm:text-5xl font-semibold">
                             Selected Moments.{' '}
                             <span className="font-serif-italic font-normal">Endless Creativity.</span>
                         </h2>
                     </div>
-                    <p
-                        className="text-sm sm:text-base max-w-md"
-                        style={{ color: theme.textMuted }}
-                    >
-                        {siteConfig.showreel.supportingText}
-                    </p>
+                    <div className="md:text-right">
+                        <span
+                            className="font-mono text-[11px] uppercase tracking-wider block mb-1"
+                            style={{ color: theme.accent }}
+                        >
+                            Now Playing Chapter {activeChapter.id} • {activeChapter.time}
+                        </span>
+                        <p
+                            className="text-sm sm:text-base max-w-md"
+                            style={{ color: theme.textMuted }}
+                        >
+                            {siteConfig.showreel.supportingText}
+                        </p>
+                    </div>
                 </div>
 
-                {/* Widescreen Architectural Player Frame */}
+                {/* Constrained Cinema Widescreen Stage (Fits Player + Timeline Cleanly in One Screen) */}
                 <div
-                    className="rounded-3xl border p-3 sm:p-5 shadow-sm"
+                    className="max-w-[980px] xl:max-w-[1040px] mx-auto rounded-3xl border p-3 sm:p-4 shadow-sm"
                     style={{
                         backgroundColor: theme.surface,
                         borderColor: theme.border
                     }}
                 >
-                    <div className="rounded-2xl overflow-hidden relative">
+                    <div className="rounded-2xl overflow-hidden relative bg-black">
                         {videoData.type === 'youtube' && (
-                            <div 
-                                className="relative w-full aspect-video bg-black overflow-hidden select-none cursor-pointer"
+                            <div
+                                className="relative w-full aspect-video bg-black overflow-hidden select-none cursor-pointer group"
                                 onClick={toggleShowreelPlay}
                             >
                                 <iframe
                                     ref={iframeRef}
                                     src={videoData.embedUrl}
                                     title="Showreel YouTube"
-                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] pointer-events-none"
+                                    className="w-full h-full border-0 pointer-events-none"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
                                 />
-                                <div className="absolute inset-0 z-10" />
+                                {/* Subtle Interactive Overlay Badges */}
+                                <div className="absolute inset-0 z-10 flex items-center justify-center">
+                                    {!isShowreelPlaying && (
+                                        <div
+                                            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110"
+                                            style={{
+                                                backgroundColor: theme.accent,
+                                                color: theme.accentText
+                                            }}
+                                        >
+                                            <Play className="w-7 h-7 fill-current ml-1" />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {isShowreelMuted && isShowreelPlaying && (
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            toggleShowreelMute();
+                                        }}
+                                        className="absolute bottom-4 right-4 z-20 px-3.5 py-1.5 rounded-full text-xs font-mono bg-black/75 hover:bg-black text-white backdrop-blur-md border border-white/20 inline-flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer"
+                                    >
+                                        <VolumeX className="w-3.5 h-3.5" style={{ color: theme.accent }} />
+                                        <span>Click for Audio</span>
+                                    </button>
+                                )}
                             </div>
                         )}
 
@@ -103,6 +138,7 @@ export function Showreel({
                                     title="Showreel Google Drive"
                                     className="w-full h-full border-0"
                                     allow="autoplay"
+                                    allowFullScreen
                                 />
                             </div>
                         )}
@@ -114,6 +150,7 @@ export function Showreel({
                                     title="Showreel Vimeo"
                                     className="w-full h-full border-0"
                                     allow="autoplay; fullscreen; picture-in-picture"
+                                    allowFullScreen
                                 />
                             </div>
                         )}
@@ -181,7 +218,6 @@ export function Showreel({
                         toggleShowreelMute={toggleShowreelMute}
                         seekShowreel={seekShowreel}
                         setShowreelModalOpen={setShowreelModalOpen}
-                        setCmsOpen={setCmsOpen}
                     />
                 </div>
             </div>

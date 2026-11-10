@@ -54,8 +54,9 @@ export function WorkGallery({
                             className="text-sm sm:text-base max-w-md"
                             style={{ color: theme.textMuted }}
                         >
-                            Exploring visual storytelling through editing, motion, and creative execution.
-                            Click any work to inspect the full case study.
+                            {projects.reduce((s, p) => s + (p.galleryVideos?.length || 0), 0)}+ curated video
+                            works organized by discipline. Select any collection below to watch every cut, film, and
+                            reel inside.
                         </p>
                     </div>
 

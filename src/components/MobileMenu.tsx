@@ -31,8 +31,8 @@ export function MobileMenu({
 }: MobileMenuProps) {
     const navItems = [
         { id: 'home', label: 'Home' },
-        { id: 'work', label: 'Work' },
         { id: 'showreel', label: 'Showreel' },
+        { id: 'work', label: 'Work' },
         { id: 'about', label: 'About' },
         { id: 'capabilities', label: 'Capabilities' },
         { id: 'experience', label: 'Experience' },
@@ -110,19 +110,33 @@ export function MobileMenu({
                             variant="mobile"
                         />
 
-                        <a
-                            href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, '')}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-6 w-full py-3.5 rounded-full font-mono text-xs uppercase tracking-wider flex items-center justify-center gap-2"
-                            style={{
-                                backgroundColor: theme.accent,
-                                color: theme.accentText
-                            }}
-                        >
-                            <span>Let&apos;s Talk</span>
-                            <ArrowUpRight className="w-4 h-4" />
-                        </a>
+                        <div className="mt-6 grid grid-cols-2 gap-3">
+                            <a
+                                href={siteConfig.contact.cvUrl}
+                                download
+                                className="py-3.5 rounded-full font-mono text-xs uppercase tracking-wider flex items-center justify-center gap-2 border"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                    borderColor: theme.borderStrong,
+                                    color: theme.text
+                                }}
+                            >
+                                <span>Download CV</span>
+                            </a>
+                            <a
+                                href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="py-3.5 rounded-full font-mono text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                                style={{
+                                    backgroundColor: theme.accent,
+                                    color: theme.accentText
+                                }}
+                            >
+                                <span>Let&apos;s Talk</span>
+                                <ArrowUpRight className="w-4 h-4" />
+                            </a>
+                        </div>
                     </div>
                 </motion.div>
             )}

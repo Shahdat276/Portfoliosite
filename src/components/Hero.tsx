@@ -1,44 +1,76 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Play, Film } from 'lucide-react';
-import { StudioTheme, SiteConfig, ShowreelChapter } from '@/types';
+import { ArrowUpRight, Play, Sparkles, Download, Film } from 'lucide-react';
+import { StudioTheme, SiteConfig, Project, ModalVideoTarget } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 
 interface HeroProps {
     theme: StudioTheme;
     siteConfig: SiteConfig;
+    projects: Project[];
     navigateToSection: (id: string) => void;
-    activeChapter: ShowreelChapter;
-    activeChapterIndex: number;
-    setActiveChapterIndex: (index: number) => void;
-    setShowreelProgress: (progress: number) => void;
-    setShowreelModalOpen: (open: boolean) => void;
+    openCaseStudy: (slug: string) => void;
+    openVideoModal: (target: ModalVideoTarget) => void;
 }
+
+const FEATURED_HERO_SLUGS = [
+    'commercial-video-editing',
+    'fashion-campaign-video',
+    'motion-graphics-systems',
+    'logo-animation-reveals'
+];
+
+const HERO_TAB_LABELS: Record<string, string> = {
+    'commercial-video-editing': '01 Commercial',
+    'fashion-campaign-video': '02 Fashion Film',
+    'motion-graphics-systems': '03 Motion VFX',
+    'logo-animation-reveals': '04 Logo Ident'
+};
 
 export function Hero({
     theme,
     siteConfig,
+    projects,
     navigateToSection,
-    activeChapter,
-    activeChapterIndex,
-    setActiveChapterIndex,
-    setShowreelProgress,
-    setShowreelModalOpen
+    openCaseStudy,
+    openVideoModal
 }: HeroProps) {
-    let youtubeThumbnail = '';
-    if (siteConfig.showreel.videoUrl) {
-        let videoId = '';
-        const url = siteConfig.showreel.videoUrl;
-        if (url.includes('embed/')) videoId = url.split('embed/')[1].split('?')[0];
-        else if (url.includes('watch?v=')) videoId = url.split('watch?v=')[1].split('&')[0];
-        else if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0];
-        if (videoId) {
-            youtubeThumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    const spotlightProjects = FEATURED_HERO_SLUGS.map((slug) =>
+        projects.find((p) => p.slug === slug)
+    ).filter((p): p is Project => Boolean(p));
+
+    const [activeIdx, setActiveIdx] = useState(0);
+    const activeProject = spotlightProjects[activeIdx] || projects[0];
+    const totalVideos = projects.reduce(
+        (acc, p) => acc + (p.galleryVideos ? p.galleryVideos.length : 0),
+        0
+    );
+
+    const handlePlaySpotlight = () => {
+        if (activeProject?.videoUrl) {
+            openVideoModal({
+                url: activeProject.videoUrl,
+                title: `${activeProject.title} — Featured Cut`,
+                subtitle: `${activeProject.category} • ${activeProject.client}`
+            });
+        } else if (activeProject?.galleryVideos && activeProject.galleryVideos[0]) {
+            openVideoModal({
+                url: activeProject.galleryVideos[0].url,
+                title: activeProject.galleryVideos[0].title,
+                subtitle: `${activeProject.category} • ${activeProject.client}`
+            });
+        } else {
+            openVideoModal({
+                url: siteConfig.showreel.videoUrl,
+                title: `${siteConfig.name} — Official Showreel`,
+                subtitle: siteConfig.title
+            });
         }
-    }
+    };
+
     return (
         <section
             id="home"
@@ -49,13 +81,13 @@ export function Hero({
             }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
                     {/* Left Column (7 Cols): Editorial Typography Hero */}
                     <motion.div
                         initial={{ opacity: 0, y: 18 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.55 }}
-                        className="lg:col-span-7"
+                        className="lg:col-span-6 xl:col-span-7"
                     >
                         {/* Availability Pill */}
                         <div
@@ -82,7 +114,7 @@ export function Hero({
                             {siteConfig.heroSecondaryHeadline}
                         </p>
 
-                        <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-[76px] 2xl:text-[88px] font-semibold leading-[1.02] tracking-tight mb-6">
+                        <h1 className="font-display text-4xl sm:text-6xl lg:text-6xl xl:text-[74px] 2xl:text-[86px] font-semibold leading-[1.02] tracking-tight mb-6">
                             Crafting{' '}
                             <span
                                 className="font-serif-italic font-normal px-1"
@@ -96,7 +128,7 @@ export function Hero({
 
                         {/* Supporting Introduction */}
                         <p
-                            className="text-base sm:text-lg lg:text-xl leading-relaxed max-w-3xl mb-8"
+                            className="text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mb-8"
                             style={{ color: theme.textMuted }}
                         >
                             {siteConfig.heroIntro}
@@ -104,7 +136,7 @@ export function Hero({
 
                         {/* Key Credentials Row */}
                         <div
-                            className="grid grid-cols-3 gap-4 py-5 px-5 rounded-2xl border mb-8 max-w-3xl"
+                            className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 px-5 rounded-2xl border mb-8 max-w-3xl"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border
@@ -121,18 +153,29 @@ export function Hero({
                                     9+ Years Exp
                                 </span>
                             </div>
-                            <div className="border-l pl-4" style={{ borderColor: theme.border }}>
+                            <div className="sm:border-l sm:pl-4" style={{ borderColor: theme.border }}>
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
                                 >
-                                    Current Studio
+                                    Portfolio
+                                </span>
+                                <span className="font-display text-sm sm:text-base font-semibold mt-0.5 block">
+                                    {totalVideos}+ Works
+                                </span>
+                            </div>
+                            <div className="sm:border-l sm:pl-4" style={{ borderColor: theme.border }}>
+                                <span
+                                    className="font-mono text-[10px] uppercase tracking-wider block"
+                                    style={{ color: theme.textMuted }}
+                                >
+                                    Current Role
                                 </span>
                                 <span className="font-display text-sm sm:text-base font-semibold mt-0.5 block truncate">
                                     Amanat Shah Group
                                 </span>
                             </div>
-                            <div className="border-l pl-4" style={{ borderColor: theme.border }}>
+                            <div className="sm:border-l sm:pl-4" style={{ borderColor: theme.border }}>
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
@@ -146,22 +189,22 @@ export function Hero({
                         </div>
 
                         {/* Primary & Secondary CTAs */}
-                        <div className="flex flex-wrap items-center gap-4">
+                        <div className="flex flex-wrap items-center gap-3.5">
                             <button
                                 onClick={() => navigateToSection('work')}
-                                className="px-7 py-4 rounded-full text-sm font-medium transition-transform active:scale-95 flex items-center gap-2.5 shadow-sm"
+                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium transition-transform active:scale-95 flex items-center gap-2.5 shadow-sm cursor-pointer"
                                 style={{
                                     backgroundColor: theme.text,
                                     color: theme.bg
                                 }}
                             >
-                                <span>Explore My Work</span>
+                                <span>Explore All Works</span>
                                 <ArrowUpRight className="w-4 h-4" />
                             </button>
 
                             <button
                                 onClick={() => navigateToSection('showreel')}
-                                className="px-7 py-4 rounded-full text-sm font-medium border transition-colors flex items-center gap-2.5"
+                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium border transition-colors flex items-center gap-2.5 cursor-pointer hover:opacity-85"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.borderStrong,
@@ -172,17 +215,31 @@ export function Hero({
                                     className="w-3.5 h-3.5"
                                     style={{ color: theme.accent, fill: theme.accent }}
                                 />
-                                <span>Watch Showreel</span>
+                                <span>Master Showreel</span>
                             </button>
+
+                            <a
+                                href={siteConfig.contact.cvUrl}
+                                download
+                                className="px-5 py-3.5 sm:py-4 rounded-full text-sm font-medium border transition-colors inline-flex items-center gap-2 hover:opacity-85"
+                                style={{
+                                    backgroundColor: theme.surfaceAlt,
+                                    borderColor: theme.border,
+                                    color: theme.text
+                                }}
+                            >
+                                <Download className="w-3.5 h-3.5" style={{ color: theme.accent }} />
+                                <span>CV / Resume</span>
+                            </a>
                         </div>
                     </motion.div>
 
-                    {/* Right Column (5 Cols): Elevated Showreel Preview Card */}
+                    {/* Right Column (5 Cols): Discipline Spotlight Showcase (Distinct from Main Showreel) */}
                     <motion.div
                         initial={{ opacity: 0, y: 22 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="lg:col-span-5"
+                        className="lg:col-span-6 xl:col-span-5"
                     >
                         <div
                             className="rounded-3xl border p-3.5 sm:p-5 shadow-sm transition-colors"
@@ -194,112 +251,138 @@ export function Hero({
                             {/* Top Card Bar */}
                             <div className="flex items-center justify-between px-1 pb-3.5">
                                 <div className="flex items-center gap-2">
-                                    <Film className="w-4 h-4" style={{ color: theme.accent }} />
+                                    <Sparkles className="w-4 h-4" style={{ color: theme.accent }} />
                                     <span className="font-display text-xs font-semibold uppercase tracking-wider">
-                                        Director&apos;s Reel Preview
+                                        Discipline Spotlight
                                     </span>
                                 </div>
                                 <span
                                     className="font-mono text-xs"
                                     style={{ color: theme.textMuted }}
                                 >
-                                    {activeChapter.time} / {siteConfig.showreel.duration}
+                                    {activeProject?.galleryVideos?.length || 1} Videos in Category
                                 </span>
                             </div>
 
-                            {/* Interactive Preview Frame */}
+                            {/* Interactive Preview Frame (16:10 Clean Framing - Zero Letterbox Bars) */}
                             <div
-                                onClick={() => setShowreelModalOpen(true)}
-                                className="rounded-2xl overflow-hidden relative cursor-pointer group aspect-[4/3] bg-black"
+                                onClick={handlePlaySpotlight}
+                                className="rounded-2xl overflow-hidden relative cursor-pointer group aspect-[16/10] bg-black"
                             >
-                                {youtubeThumbnail ? (
+                                {activeProject?.coverUrl ? (
                                     <>
                                         <Image
-                                            src={youtubeThumbnail}
-                                            alt="Showreel Preview Thumbnail"
+                                            key={activeProject.slug}
+                                            src={activeProject.coverUrl}
+                                            alt={activeProject.title}
                                             fill
                                             unoptimized
-                                            className="object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                            className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
 
-                                            {/* Chapter Badge */}
-                                            <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                                                <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
-                                                    No. {activeChapter.id} — {activeChapter.note}
-                                                </span>
-                                                <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
-                                                    Theater Mode
-                                                </span>
-                                            </div>
-                                        </>
-                                        ) : (
-                                        <EditorialVisualFrame
-                                            theme={theme}
-                                            index={activeChapter.id}
-                                            category={activeChapter.note}
-                                            aspectClass="aspect-[4/3]"
-                                            pattern={
-                                                activeChapterIndex % 2 === 0 ? 'editorial-arch' : 'orbital-rings'
-                                            }
-                                            isHovered={true}
-                                            badgeText="Click for Theater Mode"
-                                        />
-                                )}
+                                        {/* Top Badges */}
+                                        <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
+                                                {activeProject.category}
+                                            </span>
+                                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
+                                                Play Feature Cut
+                                            </span>
+                                        </div>
 
-                                        {/* Centered Glowing Play Button */}
-                                        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                                            <div
-                                                className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-115"
-                                                style={{
-                                                    backgroundColor: theme.accent,
-                                                    color: theme.accentText
-                                                }}
-                                            >
-                                                <Play className="w-6 h-6 fill-current ml-0.5" />
+                                        {/* Bottom Info Strip on Preview */}
+                                        <div className="absolute bottom-3.5 left-4 right-4 z-10 flex items-end justify-between gap-2 text-white">
+                                            <div className="min-w-0">
+                                                <p className="font-display text-sm sm:text-base font-semibold truncate">
+                                                    {activeProject.title}
+                                                </p>
+                                                <p className="text-[11px] text-white/75 truncate">
+                                                    {activeProject.client}
+                                                </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </>
+                                ) : (
+                                    <EditorialVisualFrame
+                                        theme={theme}
+                                        index={activeProject?.index || '01'}
+                                        category={activeProject?.category || 'Commercial'}
+                                        aspectClass="aspect-[16/10]"
+                                        pattern={activeIdx % 2 === 0 ? 'editorial-arch' : 'orbital-rings'}
+                                        isHovered={true}
+                                        badgeText="Play Feature Cut"
+                                    />
+                                )}
 
-                                {/* 4 Interactive Chapter Pills */}
-                                <div className="mt-4 pt-3 border-t" style={{ borderColor: theme.border }}>
-                                    <span
-                                        className="font-mono text-[10px] uppercase tracking-wider block mb-2.5"
-                                        style={{ color: theme.textMuted }}
+                                {/* Centered Glowing Play Button */}
+                                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                    <div
+                                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-110"
+                                        style={{
+                                            backgroundColor: theme.accent,
+                                            color: theme.accentText
+                                        }}
                                     >
-                                        Interactive Showreel Chapters:
-                                    </span>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {siteConfig.showreel.chapters.map((chap, idx) => {
-                                            const isCurrent = idx === activeChapterIndex;
-                                            return (
-                                                <button
-                                                    key={chap.id}
-                                                    onClick={() => {
-                                                        setActiveChapterIndex(idx);
-                                                        setShowreelProgress(chap.progress);
-                                                    }}
-                                                    className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all flex items-center justify-between"
-                                                    style={{
-                                                        backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
-                                                        borderColor: isCurrent ? theme.accent : 'transparent',
-                                                        color: isCurrent ? theme.accent : theme.text
-                                                    }}
-                                                >
-                                                    <span className="truncate">{chap.label}</span>
-                                                    <span className="font-mono text-[10px] opacity-75">
-                                                        {chap.time}
-                                                    </span>
-                                                </button>
-                                            );
-                                        })}
+                                        <Play className="w-6 h-6 fill-current ml-0.5" />
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Active Discipline Action Row */}
+                            {activeProject && (
+                                <div className="mt-3 px-1 flex items-center justify-between gap-2 text-xs">
+                                    <span className="truncate font-mono" style={{ color: theme.textMuted }}>
+                                        Role: {activeProject.role}
+                                    </span>
+                                    <button
+                                        onClick={() => openCaseStudy(activeProject.slug)}
+                                        className="font-mono font-semibold shrink-0 inline-flex items-center gap-1 hover:underline cursor-pointer"
+                                        style={{ color: theme.accent }}
+                                    >
+                                        <Film className="w-3.5 h-3.5" />
+                                        <span>Open All {activeProject.galleryVideos?.length || 1} Videos</span>
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* 4 Interactive Discipline Pills */}
+                            <div className="mt-3.5 pt-3 border-t" style={{ borderColor: theme.border }}>
+                                <span
+                                    className="font-mono text-[10px] uppercase tracking-wider block mb-2.5"
+                                    style={{ color: theme.textMuted }}
+                                >
+                                    Switch Creative Discipline Preview:
+                                </span>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {spotlightProjects.map((proj, idx) => {
+                                        const isCurrent = idx === activeIdx;
+                                        return (
+                                            <button
+                                                key={proj.slug}
+                                                onClick={() => setActiveIdx(idx)}
+                                                className="px-3 py-2 rounded-xl text-left text-xs font-medium border transition-all flex items-center justify-between cursor-pointer"
+                                                style={{
+                                                    backgroundColor: isCurrent ? theme.accentSoft : theme.surfaceAlt,
+                                                    borderColor: isCurrent ? theme.accent : 'transparent',
+                                                    color: isCurrent ? theme.accent : theme.text
+                                                }}
+                                            >
+                                                <span className="truncate">
+                                                    {HERO_TAB_LABELS[proj.slug] || proj.title}
+                                                </span>
+                                                <span className="font-mono text-[10px] opacity-75 shrink-0 ml-1">
+                                                    {proj.galleryVideos?.length || 1}v
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </div>
         </section>
     );
 }
-

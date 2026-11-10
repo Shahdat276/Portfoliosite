@@ -36,8 +36,8 @@ export function Navbar({
 }: NavbarProps) {
     const navItems = [
         { id: 'home', label: 'Home' },
-        { id: 'work', label: 'Work' },
         { id: 'showreel', label: 'Showreel' },
+        { id: 'work', label: 'Work' },
         { id: 'about', label: 'About' },
         { id: 'capabilities', label: 'Capabilities' },
         { id: 'experience', label: 'Experience' },
@@ -123,16 +123,16 @@ export function Navbar({
                         {/* Studio CMS Drawer Trigger */}
                         <button
                             onClick={() => setCmsOpen(true)}
-                            className="px-3 py-1.5 rounded-full border text-xs font-mono transition-colors flex items-center gap-1.5"
+                            className="p-2 rounded-full border text-xs font-mono transition-colors flex items-center justify-center cursor-pointer"
                             style={{
                                 backgroundColor: theme.surfaceAlt,
                                 borderColor: theme.border,
-                                color: theme.text
+                                color: theme.textMuted
                             }}
-                            title="Open Live Portfolio CMS / Studio Docs"
+                            title="Studio Theme & Configuration"
+                            aria-label="Studio Theme & Configuration"
                         >
                             <SlidersHorizontal className="w-3.5 h-3.5" />
-                            <span className="hidden lg:inline">CMS</span>
                         </button>
 
                         {/* Primary Contact CTA Button */}

@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { StudioTheme, SiteConfig, Project, ExperienceItem, ActiveRoute } from '@/types';
+import {
+    StudioTheme,
+    SiteConfig,
+    Project,
+    ExperienceItem,
+    ActiveRoute,
+    ModalVideoTarget
+} from '@/types';
 import { STUDIO_THEMES } from '@/data/themes';
 import { INITIAL_SITE_CONFIG } from '@/data/siteConfig';
 import { INITIAL_PROJECTS } from '@/data/projects';
@@ -37,12 +44,13 @@ export default function Home() {
     const [isScrolled, setIsScrolled] = useState<boolean>(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-    // 4. Showreel Player State
+    // 4. Showreel & Modal Player State
     const [activeChapterIndex, setActiveChapterIndex] = useState<number>(0);
     const [isShowreelPlaying, setIsShowreelPlaying] = useState<boolean>(true);
     const [isShowreelMuted, setIsShowreelMuted] = useState<boolean>(true);
-    const [showreelProgress, setShowreelProgress] = useState<number>(28);
+    const [showreelProgress, setShowreelProgress] = useState<number>(8);
     const [showreelModalOpen, setShowreelModalOpen] = useState<boolean>(false);
+    const [modalTargetVideo, setModalTargetVideo] = useState<ModalVideoTarget | null>(null);
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
@@ -70,6 +78,26 @@ export default function Home() {
         const next = projects[(idx + 1) % projects.length];
         return { prev, next };
     }, [currentCaseStudy, projects]);
+
+    // URL Query Sync & Browser Back/Forward Navigation (?project=slug)
+    useEffect(() => {
+        const syncFromLocation = () => {
+            const params = new URLSearchParams(window.location.search);
+            const projectSlug = params.get('project');
+            if (projectSlug && projects.some((p) => p.slug === projectSlug)) {
+                setActiveRoute({ page: 'case-study', slug: projectSlug });
+            } else {
+                setActiveRoute({ page: 'home', slug: null });
+            }
+        };
+
+        const timer = setTimeout(syncFromLocation, 0);
+        window.addEventListener('popstate', syncFromLocation);
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('popstate', syncFromLocation);
+        };
+    }, [projects]);
 
     // Scroll & Active Section Spy
     useEffect(() => {
@@ -143,16 +171,34 @@ export default function Home() {
         }
     };
 
-    const seekShowreel = (progressPercent: number) => {
+    const seekShowreel = (progressPercent: number, exactSeconds?: number) => {
         setShowreelProgress(progressPercent);
-        const targetSeconds = (progressPercent / 100) * 108;
+        const targetSeconds = typeof exactSeconds === 'number' ? exactSeconds : (progressPercent / 100) * 108;
 
         const isYT = siteConfig.showreel.videoUrl?.includes('youtube') || siteConfig.showreel.videoUrl?.includes('youtu.be');
         if (isYT) {
             sendYouTubeCommand('seekTo', [targetSeconds, true]);
+            if (!isShowreelPlaying) {
+                sendYouTubeCommand('playVideo');
+                setIsShowreelPlaying(true);
+            }
         } else if (videoRef.current && videoRef.current.duration) {
-            videoRef.current.currentTime = (progressPercent / 100) * videoRef.current.duration;
+            videoRef.current.currentTime =
+                typeof exactSeconds === 'number'
+                    ? exactSeconds
+                    : (progressPercent / 100) * videoRef.current.duration;
         }
+    };
+
+    // Modal Video Handlers
+    const openVideoModal = (target: ModalVideoTarget) => {
+        setModalTargetVideo(target);
+        setShowreelModalOpen(true);
+    };
+
+    const openShowreelTheaterModal = () => {
+        setModalTargetVideo(null);
+        setShowreelModalOpen(true);
     };
 
     // Navigation Handlers
@@ -160,10 +206,13 @@ export default function Home() {
         setMobileMenuOpen(false);
         if (activeRoute.page !== 'home') {
             setActiveRoute({ page: 'home', slug: null });
+            if (typeof window !== 'undefined' && window.location.search.includes('project=')) {
+                window.history.pushState({}, '', window.location.pathname);
+            }
             setTimeout(() => {
                 const el = document.getElementById(sectionId);
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 80);
+            }, 90);
         } else {
             const el = document.getElementById(sectionId);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -172,6 +221,9 @@ export default function Home() {
 
     const openCaseStudy = (slug: string) => {
         setActiveRoute({ page: 'case-study', slug });
+        if (typeof window !== 'undefined') {
+            window.history.pushState({ project: slug }, '', `?project=${encodeURIComponent(slug)}`);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -214,12 +266,10 @@ export default function Home() {
                         <Hero
                             theme={theme}
                             siteConfig={siteConfig}
+                            projects={projects}
                             navigateToSection={navigateToSection}
-                            activeChapter={activeChapter}
-                            activeChapterIndex={activeChapterIndex}
-                            setActiveChapterIndex={setActiveChapterIndex}
-                            setShowreelProgress={setShowreelProgress}
-                            setShowreelModalOpen={setShowreelModalOpen}
+                            openCaseStudy={openCaseStudy}
+                            openVideoModal={openVideoModal}
                         />
 
                         <Showreel
@@ -234,8 +284,7 @@ export default function Home() {
                             toggleShowreelPlay={toggleShowreelPlay}
                             toggleShowreelMute={toggleShowreelMute}
                             seekShowreel={seekShowreel}
-                            setShowreelModalOpen={setShowreelModalOpen}
-                            setCmsOpen={setCmsOpen}
+                            setShowreelModalOpen={openShowreelTheaterModal}
                             iframeRef={iframeRef}
                             videoRef={videoRef}
                         />
@@ -274,6 +323,7 @@ export default function Home() {
                 onClose={() => setShowreelModalOpen(false)}
                 siteConfig={siteConfig}
                 activeChapter={activeChapter}
+                targetVideo={modalTargetVideo}
             />
 
             <CmsDrawer

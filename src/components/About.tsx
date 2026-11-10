@@ -41,13 +41,35 @@ export function About({
                                     }}
                                 >
                                     {siteConfig.portrait.imageUrl ? (
-                                        <Image
-                                            src={siteConfig.portrait.imageUrl}
-                                            alt={siteConfig.name}
-                                            fill
-                                            unoptimized
-                                            className="object-cover"
-                                        />
+                                        <>
+                                            <Image
+                                                src={siteConfig.portrait.imageUrl}
+                                                alt={siteConfig.name}
+                                                fill
+                                                unoptimized
+                                                className="object-cover object-top"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                            <div className="relative z-10 mt-auto flex items-end justify-between text-white pt-4">
+                                                <div>
+                                                    <span className="font-mono text-[10px] uppercase tracking-widest text-white/75 block">
+                                                        {siteConfig.currentOrganization}
+                                                    </span>
+                                                    <span className="font-display text-lg font-semibold block">
+                                                        {siteConfig.name}
+                                                    </span>
+                                                </div>
+                                                <span
+                                                    className="px-2.5 py-1 rounded-full font-mono text-[10px] font-semibold uppercase tracking-wider"
+                                                    style={{
+                                                        backgroundColor: theme.accent,
+                                                        color: theme.accentText
+                                                    }}
+                                                >
+                                                    9+ YRS
+                                                </span>
+                                            </div>
+                                        </>
                                     ) : (
                                         <>
                                             <div className="flex items-center justify-between font-mono text-xs" style={{ color: theme.textMuted }}>
@@ -159,6 +181,46 @@ export function About({
                                         {siteConfig.creativeApproach}
                                     </p>
                                 </div>
+
+                                {siteConfig.education && (
+                                    <div
+                                        className="p-5 rounded-2xl border"
+                                        style={{
+                                            backgroundColor: theme.surfaceAlt,
+                                            borderColor: theme.border
+                                        }}
+                                    >
+                                        <span
+                                            className="font-mono text-[10px] uppercase tracking-wider block mb-1"
+                                            style={{ color: theme.accent }}
+                                        >
+                                            Academic Background
+                                        </span>
+                                        <p className="text-sm font-medium" style={{ color: theme.text }}>
+                                            {siteConfig.education}
+                                        </p>
+                                    </div>
+                                )}
+
+                                {siteConfig.languages && (
+                                    <div
+                                        className="p-5 rounded-2xl border"
+                                        style={{
+                                            backgroundColor: theme.surfaceAlt,
+                                            borderColor: theme.border
+                                        }}
+                                    >
+                                        <span
+                                            className="font-mono text-[10px] uppercase tracking-wider block mb-1"
+                                            style={{ color: theme.accent }}
+                                        >
+                                            Languages & Communication
+                                        </span>
+                                        <p className="text-sm font-medium" style={{ color: theme.text }}>
+                                            {siteConfig.languages}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Download CV & Contact Buttons */}

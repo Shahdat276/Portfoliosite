@@ -14,9 +14,8 @@ interface ShowreelControlsProps {
     showreelProgress: number;
     toggleShowreelPlay: () => void;
     toggleShowreelMute: () => void;
-    seekShowreel: (pct: number) => void;
+    seekShowreel: (pct: number, exactSeconds?: number) => void;
     setShowreelModalOpen: (open: boolean) => void;
-    setCmsOpen: (open: boolean) => void;
 }
 
 export function ShowreelControls({
@@ -30,8 +29,7 @@ export function ShowreelControls({
     toggleShowreelPlay,
     toggleShowreelMute,
     seekShowreel,
-    setShowreelModalOpen,
-    setCmsOpen
+    setShowreelModalOpen
 }: ShowreelControlsProps) {
     return (
         <div className="pt-4 px-2 flex flex-col gap-4">
@@ -113,9 +111,9 @@ export function ShowreelControls({
                             key={chap.id}
                             onClick={() => {
                                 setActiveChapterIndex(idx);
-                                seekShowreel(chap.progress);
+                                seekShowreel(chap.progress, chap.seconds);
                             }}
-                            className="px-3 py-1.5 rounded-full text-xs font-mono transition-colors"
+                            className="px-3 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer"
                             style={{
                                 backgroundColor:
                                     idx === activeChapterIndex ? theme.accent : theme.surfaceAlt,
@@ -129,16 +127,12 @@ export function ShowreelControls({
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => setCmsOpen(true)}
-                        className="text-xs underline transition-colors"
-                        style={{ color: theme.textMuted }}
-                    >
-                        Set Video URL
-                    </button>
+                    <span className="font-mono text-xs hidden sm:inline" style={{ color: theme.textMuted }}>
+                        1080p HD • {siteConfig.showreel.duration}
+                    </span>
                     <button
                         onClick={() => setShowreelModalOpen(true)}
-                        className="px-3.5 py-1.5 rounded-full text-xs font-medium border flex items-center gap-1.5 transition-colors"
+                        className="px-3.5 py-1.5 rounded-full text-xs font-medium border flex items-center gap-1.5 transition-colors cursor-pointer"
                         style={{
                             backgroundColor: theme.surfaceAlt,
                             borderColor: theme.border,

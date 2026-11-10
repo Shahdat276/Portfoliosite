@@ -21,6 +21,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ||
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : "http://localhost:3000")
+  ),
   title: "Shahdat Hossain | Senior Video Editor & Motion Graphics Designer",
   description:
     "Explore the portfolio of Shahdat Hossain, a Senior Video Editor and Motion Graphics Designer with 9+ years of experience in commercial video production, fashion films, motion graphics, and visual storytelling.",
@@ -43,6 +49,21 @@ export const metadata: Metadata = {
       "Transforming ideas into compelling visual experiences with 9+ years of professional video editing and motion graphics expertise.",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/images/shahdat.jpg",
+        width: 1200,
+        height: 1200,
+        alt: "Shahdat Hossain — Senior Video Editor & Motion Graphics Designer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shahdat Hossain | Senior Video Editor & Motion Graphics Designer",
+    description:
+      "Senior Video Editor & Motion Graphics Designer with 9+ years of experience.",
+    images: ["/images/shahdat.jpg"],
   },
 };
 
