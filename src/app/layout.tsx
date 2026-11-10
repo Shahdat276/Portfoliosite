@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { INITIAL_SITE_CONFIG } from "@/data/siteConfig";
 import "./globals.css";
+
+const portraitUrl = INITIAL_SITE_CONFIG.portrait.imageUrl || "/images/shahdat.jpg";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -42,7 +45,12 @@ export const metadata: Metadata = {
     "Cinema 4D",
     "Dhaka Bangladesh",
   ],
-  authors: [{ name: "Shahdat Hossain" }],
+  authors: [{ name: INITIAL_SITE_CONFIG.name }],
+  icons: {
+    icon: portraitUrl,
+    shortcut: portraitUrl,
+    apple: portraitUrl,
+  },
   openGraph: {
     title: "Shahdat Hossain | Senior Video Editor & Motion Graphics Designer",
     description:
@@ -51,7 +59,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/images/shahdat.jpg",
+        url: portraitUrl,
         width: 1200,
         height: 1200,
         alt: "Shahdat Hossain — Senior Video Editor & Motion Graphics Designer",
@@ -63,7 +71,7 @@ export const metadata: Metadata = {
     title: "Shahdat Hossain | Senior Video Editor & Motion Graphics Designer",
     description:
       "Senior Video Editor & Motion Graphics Designer with 9+ years of experience.",
-    images: ["/images/shahdat.jpg"],
+    images: [portraitUrl],
   },
 };
 

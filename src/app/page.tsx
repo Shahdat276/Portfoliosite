@@ -99,6 +99,17 @@ export default function Home() {
         };
     }, [projects]);
 
+    // Keep browser tab favicon synced dynamically with About portrait image
+    useEffect(() => {
+        if (!siteConfig.portrait.imageUrl) return;
+        const iconLinks = document.querySelectorAll<HTMLLinkElement>(
+            'link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]'
+        );
+        iconLinks.forEach((link) => {
+            link.href = siteConfig.portrait.imageUrl;
+        });
+    }, [siteConfig.portrait.imageUrl]);
+
     // Scroll & Active Section Spy
     useEffect(() => {
         const handleScroll = () => {
