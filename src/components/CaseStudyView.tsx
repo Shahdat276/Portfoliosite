@@ -1,8 +1,9 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { StudioTheme, Project } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { formatUniversalVideoEmbed } from '@/utils/video';
@@ -62,6 +63,22 @@ export function CaseStudyView({
                             <span className="font-mono text-xs" style={{ color: theme.textMuted }}>
                                 Case Study No. {currentCaseStudy.index}
                             </span>
+                            {currentCaseStudy.behanceUrl && (
+                                <a
+                                    href={currentCaseStudy.behanceUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 rounded-full text-xs font-mono transition-colors border inline-flex items-center gap-1.5"
+                                    style={{
+                                        backgroundColor: theme.surface,
+                                        borderColor: theme.border,
+                                        color: theme.text
+                                    }}
+                                >
+                                    <span>Behance Project</span>
+                                    <ExternalLink className="w-3 h-3" style={{ color: theme.accent }} />
+                                </a>
+                            )}
                         </div>
 
                         <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.06] mb-5">
@@ -187,6 +204,33 @@ export function CaseStudyView({
                                                 controls
                                                 className="w-full h-full object-cover"
                                             />
+                                        </div>
+                                    );
+                                }
+                                if (currentCaseStudy.coverUrl) {
+                                    return (
+                                        <div className="relative w-full aspect-video bg-black overflow-hidden">
+                                            <Image
+                                                src={currentCaseStudy.coverUrl}
+                                                alt={currentCaseStudy.title}
+                                                fill
+                                                unoptimized
+                                                className="object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                            {currentCaseStudy.behanceUrl && (
+                                                <div className="absolute bottom-5 right-5 z-10">
+                                                    <a
+                                                        href={currentCaseStudy.behanceUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="px-4 py-2 rounded-full text-xs font-mono bg-black/75 hover:bg-black text-white backdrop-blur-sm border border-white/20 inline-flex items-center gap-2 transition-transform active:scale-95"
+                                                    >
+                                                        <span>View Original on Behance</span>
+                                                        <ExternalLink className="w-3.5 h-3.5" />
+                                                    </a>
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 }

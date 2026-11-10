@@ -2,275 +2,293 @@ import { Project } from '@/types';
 
 export const INITIAL_PROJECTS: Project[] = [
     {
-        slug: 'atelier-silence-fashion-film',
+        slug: 'commercial-video-editing',
         index: '01',
-        title: 'Atelier in Motion — Seasonal Fashion Film',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Fashion Films',
-        year: '[Year]',
-        role: 'Senior Video Editor & Colorist',
+        title: 'Commercial Video Editing',
+        client: 'Amanat Shah Group / Commercial Clients',
+        category: 'Commercial Advertisements',
+        year: '2024',
+        role: 'Lead Video Editor & Colorist',
         gridSpan: 'lg:col-span-7',
         aspectClass: 'aspect-[16/10]',
-        palette: ['#D9381E', '#E8D8C8', '#1F1D1A'],
-        pattern: 'editorial-arch',
-        shortDescription:
-            'An editorial fashion film built on tactile fabric movement, rhythmic J-cuts, and warm film-print color grading.',
-        overview:
-            '[Editable Case Study Overview] Commissioned to present a seasonal collection through atmospheric pacing, architectural framing, and expressive sound design.',
-        challenge:
-            '[Editable Creative Challenge] Maintaining visual intimacy and fabric texture detail while transitioning seamlessly between studio portraits and kinetic exterior sequences.',
-        conceptAndDirection:
-            '[Editable Concept & Direction] Inspired by print fashion magazines—combining poised negative space with sudden bursts of rhythmic motion.',
-        editingWorkflow:
-            'Multi-camera assembly, music stem rearrangement, and frame-accurate pacing in Adobe Premiere Pro.',
-        motionGraphicsProcess:
-            'Minimalist editorial title cards, credits typography, and subtle split-screen compositions in Adobe After Effects.',
-        colorGradingAndFinishing:
-            'Custom film-emulation LUT development, skin-tone balancing, and halation finishing in DaVinci Resolve.',
-        software: ['Adobe Premiere Pro', 'DaVinci Resolve', 'Adobe After Effects', 'Adobe Photoshop'],
-        supportingVisuals: [
-            { title: '01 / Opening Title Card', caption: 'Minimalist serif kinetic typography over warm studio grain.' },
-            { title: '02 / Rhythmic Cut Sequence', caption: 'Multi-frame editorial layout matching garment movement.' },
-            { title: '03 / Color Grading Node Tree', caption: 'Warm highlight roll-off and deep shadow preservation in DaVinci Resolve.' },
-            { title: '04 / Final Master Frame', caption: '2.39:1 widescreen theatrical delivery frame.' }
-        ]
-    },
-    {
-        slug: 'urban-pulse-commercial-spot',
-        index: '02',
-        title: 'Urban Pulse — Flagship Commercial Production',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Commercial Advertisements',
-        year: '[Year]',
-        role: 'Lead Video Editor & Motion Designer',
-        gridSpan: 'lg:col-span-5',
-        aspectClass: 'aspect-[4/3]',
         palette: ['#1D4ED8', '#DBEAFE', '#0F172A'],
         pattern: 'kinetic-grid',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/cbaea8244620689.Y3JvcCwxMzA5LDEwMjQsMCww.png',
+        behanceUrl: 'https://www.behance.net/gallery/244620689/Commercial-Video-Editing',
+        videoUrl: 'https://www.youtube.com/watch?v=ZVPus_WBp3Q',
         shortDescription:
-            'High-impact television and digital commercial structured around match-cuts, dynamic sound design, and clear brand recall.',
+            'High-impact commercial video editing structured around rhythmic match-cuts, broadcast sound design, and brand recall.',
         overview:
-            '[Editable Case Study Overview] A flagship commercial campaign designed for broadcast TV and digital platforms, uniting fast-paced lifestyle storytelling with crisp motion callouts.',
+            'A premier commercial video production developed for television and digital broadcast. Structured to deliver immediate audience hook, fluid visual momentum, and memorable product messaging.',
         challenge:
-            '[Editable Creative Challenge] Delivering a complete emotional arc and clear product value proposition within a strict 45-second master and 15-second cutdowns.',
+            'Delivering high-energy narrative momentum while maintaining crystal-clear brand hierarchy within strict broadcast cutdown durations.',
         conceptAndDirection:
-            '[Editable Concept & Direction] Seamless visual momentum—using geometric match-cuts to connect diverse locations into one continuous camera movement.',
+            'Seamless camera momentum paired with dynamic speed-ramps and rhythmic cutting synced to bespoke musical stems.',
         editingWorkflow:
-            'Three-act commercial story structure, speed-ramping, and broadcast audio mixing in Adobe Premiere Pro.',
+            'Multi-cam timeline assembly, audio stem mixing, and frame-accurate pacing in Adobe Premiere Pro.',
         motionGraphicsProcess:
-            '3D-tracked callout graphics, lower thirds, and animated end-slate lockups in Adobe After Effects.',
+            'Bespoke lower thirds, callout graphics, and animated end-cards in Adobe After Effects.',
         colorGradingAndFinishing:
-            'Broadcast-safe Rec.709 color calibration and high-contrast polish in DaVinci Resolve.',
-        software: ['Adobe Premiere Pro', 'Adobe After Effects', 'DaVinci Resolve', 'Adobe Illustrator'],
-        supportingVisuals: [
-            { title: '01 / Storyboard to Edit Match', caption: 'Side-by-side comparison of animatic timing and final cut.' },
-            { title: '02 / Motion Callout System', caption: 'Tracked HUD typography integrated into live-action footage.' },
-            { title: '03 / Sound & Beat Map', caption: 'Percussive audio stems locked to transition frames.' },
-            { title: '04 / Broadcast End-Slate', caption: 'Brand identity lockup animated at 60fps.' }
-        ]
-    },
-    {
-        slug: 'kinetic-form-3d-motion-system',
-        index: '03',
-        title: 'Kinetic Form — 2D/3D Motion Design System',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Motion Graphics',
-        year: '[Year]',
-        role: 'Motion Graphics Designer & 3D Generalist',
-        gridSpan: 'lg:col-span-5',
-        aspectClass: 'aspect-[4/3]',
-        palette: ['#B45309', '#FDE68A', '#1C1917'],
-        pattern: 'orbital-rings',
-        shortDescription:
-            'Modular motion identity combining tactile 3D geometry, procedural lighting, and Swiss kinetic typography.',
-        overview:
-            '[Editable Case Study Overview] A comprehensive motion design system engineered for brand launches, event screens, and digital broadcast packaging.',
-        challenge:
-            '[Editable Creative Challenge] Creating a flexible set of 2D and 3D motion templates that maintain sculptural elegance across 16:9, 1:1, and 9:16 ratios.',
-        conceptAndDirection:
-            '[Editable Concept & Direction] Architectural minimalism meets kinetic physics—warm brushed metals, glass refraction, and crisp typographic grids.',
-        editingWorkflow:
-            'Animatic timing, sequence assembly, and multi-format mastering in Adobe Premiere Pro.',
-        motionGraphicsProcess:
-            '3D modeling and cloner dynamics in Cinema 4D and Blender, composited with optical glow and typography in Adobe After Effects.',
-        colorGradingAndFinishing:
-            'ACES color space management and tonal unification in DaVinci Resolve.',
-        software: ['Cinema 4D', 'Blender', 'Adobe After Effects', 'Adobe Illustrator'],
-        supportingVisuals: [
-            { title: '01 / 3D Clay & Wireframe Pass', caption: 'Procedural geometry setup in Cinema 4D and Blender.' },
-            { title: '02 / Shader & Lighting Study', caption: 'Physically based glass and warm metallic surface shaders.' },
-            { title: '03 / Kinetic Type Choreography', caption: 'Custom bezier velocity curves in After Effects.' },
-            { title: '04 / Multi-Format System', caption: 'Unified visual language across widescreen and vertical formats.' }
-        ]
-    },
-    {
-        slug: 'monolith-macro-product-film',
-        index: '04',
-        title: 'Monolith — Macro Product Advertisement',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Product Videos',
-        year: '[Year]',
-        role: 'Senior Video Editor & CGI Artist',
-        gridSpan: 'lg:col-span-7',
-        aspectClass: 'aspect-[16/10]',
-        palette: ['#0F766E', '#CCFBF1', '#134E4A'],
-        pattern: 'macro-prism',
-        shortDescription:
-            'Luxury product film blending high-speed tabletop cinematography with photorealistic 3D exploded views.',
-        overview:
-            '[Editable Case Study Overview] Designed to showcase engineering craftsmanship and material finishes through dramatic rim lighting and macro motion control.',
-        challenge:
-            '[Editable Creative Challenge] Blending live-action macro lens footage seamlessly with full-CG product renders and internal component animations.',
-        conceptAndDirection:
-            '[Editable Concept & Direction] Sculpting with light—revealing product contours gradually from clean architectural shadows.',
-        editingWorkflow:
-            'Optical-flow speed ramping and precision micro-cutting in Adobe Premiere Pro.',
-        motionGraphicsProcess:
-            '3D CAD preparation and rendering in Autodesk 3ds Max and Cinema 4D; multi-pass compositing in After Effects.',
-        colorGradingAndFinishing:
-            'Specular highlight control and micro-contrast enhancement in DaVinci Resolve.',
-        software: ['Adobe Premiere Pro', 'Adobe After Effects', 'Autodesk 3ds Max', 'Cinema 4D'],
-        supportingVisuals: [
-            { title: '01 / Macro Rim-Light Frame', caption: 'High-contrast studio lighting accentuating surface texture.' },
-            { title: '02 / 3D Exploded Assembly', caption: 'Internal product architecture animated in 3ds Max & C4D.' },
-            { title: '03 / Speed-Ramp Transition', caption: 'Time-remapped whip pan linking two macro angles.' },
-            { title: '04 / Hero Packshot', caption: 'Final retouched and graded hero product presentation.' }
-        ]
-    },
-    {
-        slug: 'heritage-horizon-brand-campaign',
-        index: '05',
-        title: 'Heritage & Horizon — Integrated Brand Campaign',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Brand Campaigns',
-        year: '[Year]',
-        role: 'Senior Video Editor & Visual Storyteller',
-        gridSpan: 'lg:col-span-12',
-        aspectClass: 'aspect-[21/9]',
-        palette: ['#D9381E', '#FDE8E4', '#141413'],
-        pattern: 'widescreen-cinema',
-        shortDescription:
-            'Widescreen brand anthem uniting documentary authenticity, executive storytelling, and refined editorial graphics.',
-        overview:
-            '[Editable Case Study Overview] An flagship brand campaign film communicating industrial scale, human dedication, and forward-looking vision.',
-        challenge:
-            '[Editable Creative Challenge] Weaving together multi-day location footage, interviews, and archival material into an inspiring 2-minute narrative.',
-        conceptAndDirection:
-            '[Editable Concept & Direction] Editorial documentary warmth supported by structured chapter titles and a cinematic orchestral build.',
-        editingWorkflow:
-            'Narrative story arc construction, dialogue editing, and sound mixing in Adobe Premiere Pro.',
-        motionGraphicsProcess:
-            'Minimalist chapter supers, infographic callouts, and brand signature animations in After Effects.',
-        colorGradingAndFinishing:
-            'Shot-to-shot color continuity and widescreen mastering in DaVinci Resolve.',
+            'Shot-to-shot matching, skin-tone balancing, and high-contrast commercial finishing in DaVinci Resolve.',
         software: ['Adobe Premiere Pro', 'DaVinci Resolve', 'Adobe After Effects', 'Adobe Photoshop'],
         supportingVisuals: [
-            { title: '01 / Widescreen Chapter Title', caption: 'Editorial typography framing location cinematography.' },
-            { title: '02 / Documentary Portrait Grade', caption: 'Natural skin-tone preservation under industrial lighting.' },
-            { title: '03 / Data & Scale Graphic', caption: 'Clean architectural motion graphics integrated into aerial footage.' },
-            { title: '04 / Campaign Finale Frame', caption: 'Unified brand anthem closing sequence.' }
+            { title: '01 / Three-Act Narrative Assembly', caption: 'Paced commercial cut matching music dynamics in Premiere Pro.' },
+            { title: '02 / Motion Graphic Callouts', caption: 'Clean kinetic title cards and lower thirds in After Effects.' },
+            { title: '03 / Color Grading Node Tree', caption: 'High-contrast commercial look balancing in DaVinci Resolve.' },
+            { title: '04 / Master Broadcast Delivery', caption: '16:9 broadcast and 9:16 digital master deliverables.' }
         ]
     },
     {
-        slug: 'vertical-rhythm-social-reels',
-        index: '06',
-        title: 'Vertical Rhythm — Social Media Video Series',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Social Media Reels',
-        year: '[Year]',
-        role: 'Video Editor & Motion Designer',
-        gridSpan: 'lg:col-span-4',
+        slug: 'fashion-campaign-video',
+        index: '02',
+        title: 'Fashion Campaign Video',
+        client: 'Amanat Shah Group / Lifestyle Brand',
+        category: 'Fashion Films',
+        year: '2024',
+        role: 'Senior Video Editor & Colorist',
+        gridSpan: 'lg:col-span-5',
         aspectClass: 'aspect-[4/3]',
-        palette: ['#7C3AED', '#EDE9FE', '#1E1B4B'],
-        pattern: 'vertical-frames',
+        palette: ['#D9381E', '#E8D8C8', '#1F1D1A'],
+        pattern: 'editorial-arch',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/fa8e95249555473.Y3JvcCwxMzA3LDEwMjMsMCww.png',
+        behanceUrl: 'https://www.behance.net/gallery/249555473/Fashion-Campaign-Video',
         shortDescription:
-            'High-retention 9:16 vertical video series crafted with rotoscoped transitions, kinetic captions, and studio polish.',
+            'Editorial fashion film celebrating luxury fabric movement, sensory cuts, and warm cinema color grading.',
         overview:
-            '[Editable Case Study Overview] A series of short-form vertical productions designed for Instagram Reels, YouTube Shorts, and TikTok without sacrificing luxury brand standards.',
+            'An atmospheric editorial fashion campaign presenting a seasonal collection through rhythmic visual storytelling and tactile garment closeups.',
         challenge:
-            '[Editable Creative Challenge] Stopping the scroll within 1.5 seconds while maintaining a clean, uncluttered editorial aesthetic.',
+            'Preserving fine fabric textures and studio lighting nuances while alternating between slow poetic pacing and kinetic camera movements.',
         conceptAndDirection:
-            '[Editable Concept & Direction] Fast visual hooks, custom masked transitions, and bold typography designed specifically for vertical ergonomics.',
+            'Magazine-inspired editorial composition—juxtaposing poised negative space with sudden bursts of rhythmic choreography.',
         editingWorkflow:
-            'Beat-synced micro-cuts and punchy sound design in Adobe Premiere Pro.',
+            'Sensory J-cuts, music-driven pacing, and speed adjustments in Adobe Premiere Pro.',
         motionGraphicsProcess:
-            'Rotoscoped object masks and kinetic typography in Adobe After Effects.',
+            'Minimalist serif typography titles and delicate split-screen framing in Adobe After Effects.',
         colorGradingAndFinishing:
-            'Vibrant sRGB mobile screen optimization.',
-        software: ['Adobe Premiere Pro', 'Adobe After Effects', 'Adobe Photoshop'],
+            'Custom warm film-emulation LUTs, highlight roll-off, and subtle halation in DaVinci Resolve.',
+        software: ['Adobe Premiere Pro', 'DaVinci Resolve', 'Adobe After Effects', 'Adobe Photoshop'],
         supportingVisuals: [
-            { title: '01 / 9:16 Safe-Zone Grid', caption: 'Ergonomic vertical layout for maximum mobile legibility.' },
-            { title: '02 / Rotoscoped Mask Transition', caption: 'Seamless subject foreground wipe.' },
-            { title: '03 / Kinetic Caption System', caption: 'Custom animated typography following voiceover cadence.' },
-            { title: '04 / Loop Mechanics', caption: 'Frame-accurate end-to-start loop transition.' }
+            { title: '01 / Opening Editorial Title', caption: 'Minimalist kinetic typography over warm studio grain.' },
+            { title: '02 / Texture & Silhouette Cut', caption: 'Slow-motion macro framing showcasing fine textile weaving.' },
+            { title: '03 / Film Color Grade', caption: 'Warm cinematic tones and rich skin tones balanced in DaVinci Resolve.' },
+            { title: '04 / Theatrical Master Frame', caption: '2.39:1 widescreen theatrical presentation.' }
         ]
     },
     {
-        slug: 'signature-monogram-logo-animation',
-        index: '07',
-        title: 'Signature Mark — Bespoke Logo Animation',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Logo Animation',
-        year: '[Year]',
+        slug: 'motion-graphics-systems',
+        index: '03',
+        title: 'Bespoke Motion Graphics Design',
+        client: 'Agency & Broadcast Clients',
+        category: 'Motion Graphics',
+        year: '2024',
         role: 'Motion Graphics Designer',
         gridSpan: 'lg:col-span-4',
-        aspectClass: 'aspect-[4/3]',
-        palette: ['#D97706', '#FEF3C7', '#1C1917'],
-        pattern: 'vector-emblem',
+        aspectClass: 'aspect-[16/10]',
+        palette: ['#7C3AED', '#EDE9FE', '#1E1B4B'],
+        pattern: 'prism-bars',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/5567d1244620071.Y3JvcCwxMzA5LDEwMjQsMCww.png',
+        behanceUrl: 'https://www.behance.net/gallery/244620071/Motion-Graphics',
         shortDescription:
-            'Timeless animated brand ident engineered with custom velocity curves, vector precision, and 3D light sweeps.',
+            'Broadcast motion packages, procedural geometric typography, and kinetic infographic visual systems.',
         overview:
-            '[Editable Case Study Overview] A signature 5-second animated brand mark created for video intros, broadcast stingers, and digital presentations.',
+            'A comprehensive motion design package encompassing kinetic title sequences, broadcast graphics packages, and procedural typography systems.',
         challenge:
-            '[Editable Creative Challenge] Distilling a brand’s personality into a concise, memorable motion signature.',
+            'Engineering modular motion templates that maintain graphic consistency across multiple aspect ratios and localized digital channels.',
         conceptAndDirection:
-            '[Editable Concept & Direction] Geometric vector lines unfolding with effortless physics into a dimensional emblem.',
+            'Clean geometric choreography inspired by modern Swiss graphic design and kinetic typography principles.',
         editingWorkflow:
-            'Vector path preparation and layering in Adobe Illustrator.',
+            'Seamless integration between vector asset preparation and timeline choreography.',
         motionGraphicsProcess:
-            'Graph-editor velocity choreography in After Effects paired with 3D lighting in Blender.',
+            'Complex expression-driven keyframe animation, graph editor curve tuning, and procedural layout rigs in After Effects.',
         colorGradingAndFinishing:
-            'ProRes 4444 alpha channel and multi-aspect ratio delivery.',
-        software: ['Adobe After Effects', 'Adobe Illustrator', 'Blender', 'Cinema 4D'],
+            'Vibrant broadcast-safe color grading and asset mastering.',
+        software: ['Adobe After Effects', 'Adobe Illustrator', 'Adobe Photoshop', 'Cinema 4D'],
         supportingVisuals: [
-            { title: '01 / Vector Construction Grid', caption: 'Geometric spline preparation in Adobe Illustrator.' },
-            { title: '02 / Velocity Graph Curves', caption: 'Custom ease-in/ease-out speed curves in After Effects.' },
-            { title: '03 / 3D Specular Light Sweep', caption: 'Subtle dimensional highlight pass.' },
-            { title: '04 / Final Lockup Master', caption: 'Delivered in dark, light, and transparent alpha versions.' }
+            { title: '01 / Kinetic Typography Rigs', caption: 'Procedural expression-driven text animations in After Effects.' },
+            { title: '02 / Vector Asset Preparation', caption: 'Precision vector iconography prepared in Adobe Illustrator.' },
+            { title: '03 / Multi-Layer Compositing', caption: 'Depth passes and subtle optical glows layered for broadcast.' },
+            { title: '04 / Modular Template Delivery', caption: 'Multi-aspect ratio outputs for social and broadcast TV.' }
         ]
     },
     {
-        slug: 'invisible-world-vfx-compositing',
-        index: '08',
-        title: 'Invisible Craft — Animation & Visual Effects',
-        client: '[Client / Brand Name Placeholder]',
-        category: 'Animation & Visual Effects',
-        year: '[Year]',
-        role: 'VFX Compositor & 3D Artist',
-        gridSpan: 'lg:col-span-4',
-        aspectClass: 'aspect-[4/3]',
-        palette: ['#2563EB', '#DBEAFE', '#0F172A'],
-        pattern: 'vfx-wireframe',
+        slug: 'logo-animation-reveals',
+        index: '04',
+        title: 'Bespoke Brand Logo Animation',
+        client: 'Brand Identity Clients',
+        category: 'Logo Animation',
+        year: '2024',
+        role: 'Motion Designer & 3D Animator',
+        gridSpan: 'lg:col-span-8',
+        aspectClass: 'aspect-[16/9]',
+        palette: ['#0D9488', '#CCFBF1', '#134E4A'],
+        pattern: 'orbital-rings',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/bcdf7c249566333.Y3JvcCwxMzA3LDEwMjMsMCww.png',
+        behanceUrl: 'https://www.behance.net/gallery/249566333/Logo-Animation',
         shortDescription:
-            '3D camera tracking, set extension, clean-plate reconstruction, and photorealistic CGI compositing.',
+            'Kinetic brand mark reveals, 3D volumetric extrusion, and sonic ident synchronization for modern brands.',
         overview:
-            '[Editable Case Study Overview] Visual effects production showcasing seamless integration of 3D elements and environmental extensions into live-action plates.',
+            'A collection of animated brand idents and logo stings crafted to elevate brand presence across video intros, digital ads, and corporate presentations.',
         challenge:
-            '[Editable Creative Challenge] Matching real-world camera lens distortion, directional sunlight, and natural sensor grain.',
+            'Communicating the core values and personality of each brand mark within a concise 3-to-5 second animated reveal.',
         conceptAndDirection:
-            '[Editable Concept & Direction] Invisible effects that expand production value while keeping the viewer immersed in the story.',
+            'Shape morphing, lighting dynamics, and kinetic easing tailored to each organization guidelines.',
         editingWorkflow:
-            'VFX plate pulls, handle management, and conform in Premiere Pro and DaVinci Resolve.',
+            'Tight audio-visual hit-point synchronization and frame-accurate easing in Premiere Pro.',
         motionGraphicsProcess:
-            '3D asset creation in Autodesk Maya and 3ds Max; planar and 3D camera tracking in After Effects.',
+            'Vector deconstruction in Illustrator, path animation, and lighting passes in After Effects and Cinema 4D.',
         colorGradingAndFinishing:
-            'Multi-pass EXR compositing, grain matching, and final color grade in DaVinci Resolve.',
-        software: ['Adobe After Effects', 'Autodesk Maya', 'Autodesk 3ds Max', 'DaVinci Resolve'],
+            'Alpha-channel transparency rendering and ProRes 4444 delivery for seamless overlaying.',
+        software: ['Adobe After Effects', 'Adobe Illustrator', 'Cinema 4D', 'Adobe Premiere Pro'],
         supportingVisuals: [
-            { title: '01 / Raw Live-Action Plate', caption: 'Original camera footage with tracking markers.' },
-            { title: '02 / 3D Matchmove & Wireframe', caption: 'Solved 3D camera track and proxy geometry.' },
-            { title: '03 / Multi-Pass CG Integration', caption: 'Shadow, reflection, and ambient occlusion passes.' },
-            { title: '04 / Final Graded Composite', caption: 'Seamless photorealistic master shot.' }
+            { title: '01 / Vector Deconstruction', caption: 'Layered brand mark breakdown in Adobe Illustrator.' },
+            { title: '02 / Kinetic Path Animation', caption: 'Fluid bezier speed-graph choreography in After Effects.' },
+            { title: '03 / 3D Extrusion & Lighting', caption: 'Subtle bevel and ambient occlusion passes in Cinema 4D.' },
+            { title: '04 / Transparent Alpha Master', caption: 'ProRes 4444 lossless delivery for versatile production usage.' }
+        ]
+    },
+    {
+        slug: '3d-2d-animation-showcase',
+        index: '05',
+        title: '3D & 2D Animation Production',
+        client: 'Creative Studio Collaborations',
+        category: 'Animation & Visual Effects',
+        year: '2024',
+        role: '3D Generalist & Animator',
+        gridSpan: 'lg:col-span-6',
+        aspectClass: 'aspect-[16/10]',
+        palette: ['#EA580C', '#FFEDD5', '#431407'],
+        pattern: 'waveform',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/2a3e19249561039.Y3JvcCwxMjAzLDk0MSwwLDA.png',
+        behanceUrl: 'https://www.behance.net/gallery/249561039/3D-2D-Aniamtion',
+        shortDescription:
+            'Hybrid 3D CGI and 2D character animation exploring stylized modeling, physics simulations, and compositing.',
+        overview:
+            'Exploration of 3D modeling, lighting, camera tracking, and procedural simulations blended seamlessly with 2D character animation.',
+        challenge:
+            'Bridging realistic 3D volumetric depth with stylized 2D graphic aesthetics into one harmonious visual style.',
+        conceptAndDirection:
+            'Kinetic movement inspired by contemporary CGI design and stylized character dynamics.',
+        editingWorkflow:
+            'Scene pre-visualization, multi-pass EXR assembly, and editorial cut assembly.',
+        motionGraphicsProcess:
+            '3D asset modeling and lighting in Blender & Cinema 4D; compositing and particle effects in After Effects.',
+        colorGradingAndFinishing:
+            'ACES color management and filmic highlight tonemapping.',
+        software: ['Blender', 'Cinema 4D', 'Adobe After Effects', 'Adobe Photoshop'],
+        supportingVisuals: [
+            { title: '01 / 3D Asset Wireframe', caption: 'Topology and subdivision modeling in Blender.' },
+            { title: '02 / Studio Lighting Setup', caption: 'Three-point lighting and physical shader development in Cinema 4D.' },
+            { title: '03 / Multi-Pass Compositing', caption: 'Depth of field, ambient occlusion, and motion blur integration in After Effects.' },
+            { title: '04 / Final Stylized Master', caption: 'Complete stylized 3D/2D composite frame.' }
+        ]
+    },
+    {
+        slug: 'high-retention-social-reels',
+        index: '06',
+        title: 'High-Retention Social Media Reels',
+        client: 'E-commerce & Digital Creators',
+        category: 'Social Media Reels',
+        year: '2024',
+        role: 'Lead Short-Form Video Editor',
+        gridSpan: 'lg:col-span-6',
+        aspectClass: 'aspect-[16/10]',
+        palette: ['#059669', '#D1FAE5', '#064E3B'],
+        pattern: 'iso-cube',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/88006f249563967.Y3JvcCwxMzA3LDEwMjMsMCww.png',
+        behanceUrl: 'https://www.behance.net/gallery/249563967/Reels',
+        shortDescription:
+            'Fast-paced 9:16 vertical edits engineered for the first 3-second hook, trending audio sync, and viral audience retention.',
+        overview:
+            'High-performance short-form content optimized for Instagram Reels, YouTube Shorts, and TikTok platforms.',
+        challenge:
+            'Maximizing viewer retention rates beyond 80% while preserving studio-grade visual polish and brand storytelling.',
+        conceptAndDirection:
+            'Fast kinetic cuts, sound effect layering, dynamic captions, and zoom punches that maintain continuous visual stimulation.',
+        editingWorkflow:
+            'Rapid vertical workflow assembly and frame-precise sound design in Adobe Premiere Pro.',
+        motionGraphicsProcess:
+            'Animated kinetic subtitles, sound-reactive stickers, and pop-in graphic callouts in After Effects.',
+        colorGradingAndFinishing:
+            'High-contrast mobile-display color grading and HDR-ready export.',
+        software: ['Adobe Premiere Pro', 'Adobe After Effects', 'Adobe Photoshop'],
+        supportingVisuals: [
+            { title: '01 / The 3-Second Hook Frame', caption: 'High-energy visual and auditory trigger designed for thumb-stopping retention.' },
+            { title: '02 / Dynamic Kinetic Captions', caption: 'Word-by-word highlighted subtitles synced to speech rhythm.' },
+            { title: '03 / Sound FX Layering', caption: 'Whooshes, riser hits, and pop sound effects mapped in Premiere Pro.' },
+            { title: '04 / Mobile Platform Optimization', caption: '9:16 vertical safe-zone layout ensuring UI elements do not block content.' }
+        ]
+    },
+    {
+        slug: 'ai-generated-video-visuals',
+        index: '07',
+        title: 'AI Content & Generative Video Production',
+        client: 'Creative R&D Lab',
+        category: 'AI Content',
+        year: '2024',
+        role: 'AI Video Specialist & Post-Production Editor',
+        gridSpan: 'lg:col-span-7',
+        aspectClass: 'aspect-[16/10]',
+        palette: ['#9333EA', '#F3E8FF', '#3B0764'],
+        pattern: 'minimalist-cross',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/af82bf249565157.Y3JvcCwxMzA5LDEwMjQsMCww.png',
+        behanceUrl: 'https://www.behance.net/gallery/249565157/AI-Content',
+        shortDescription:
+            'Generative video synthesis, AI-assisted visual enhancement, and creative post-production workflows.',
+        overview:
+            'Pioneering the intersection of generative artificial intelligence and traditional video post-production pipelines.',
+        challenge:
+            'Taming temporal flickering and inconsistent AI motion artifacts into coherent, cinematic narrative sequences.',
+        conceptAndDirection:
+            'Surreal cinematic visuals generated with advanced diffusion models, upscaled and composited into unified stories.',
+        editingWorkflow:
+            'Temporal stabilization, frame interpolation, and narrative assembly in Premiere Pro.',
+        motionGraphicsProcess:
+            'Matte painting integration, generative fill extensions, and compositing in Photoshop and After Effects.',
+        colorGradingAndFinishing:
+            'Color harmony normalization and unified grain simulation in DaVinci Resolve.',
+        software: ['Adobe Premiere Pro', 'Adobe After Effects', 'Adobe Photoshop', 'DaVinci Resolve'],
+        supportingVisuals: [
+            { title: '01 / Generative AI Concept Frame', caption: 'High-detail visual synthesis crafted with custom prompt engineering.' },
+            { title: '02 / Temporal Deflicker & Stabilization', caption: 'Frame-to-frame coherence tuning in After Effects.' },
+            { title: '03 / Film Grain & Halation Harmony', caption: 'Organic film texture simulation applied in DaVinci Resolve.' },
+            { title: '04 / Final Cinematic Render', caption: '4K widescreen master delivery blending AI visuals with cinematic editing.' }
+        ]
+    },
+    {
+        slug: 'directors-official-showreel',
+        index: '08',
+        title: 'Director\'s Official Showreel Presentation',
+        client: 'Shahdat Hossain Studio',
+        category: 'Commercial Advertisements',
+        year: '2024',
+        role: 'Senior Video Editor & Motion Designer',
+        gridSpan: 'lg:col-span-5',
+        aspectClass: 'aspect-[4/3]',
+        palette: ['#D9381E', '#E8D8C8', '#1F1D1A'],
+        pattern: 'orbital-rings',
+        coverUrl: 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/599f50249566677.Y3JvcCwxMzA5LDEwMjQsMTEzLDA.png',
+        behanceUrl: 'https://www.behance.net/gallery/249566677/Showreel',
+        videoUrl: 'https://www.youtube.com/watch?v=ZVPus_WBp3Q',
+        shortDescription:
+            'Curated compilation of selected commercial moments, fashion films, motion graphics, and visual effects experiments.',
+        overview:
+            'The definitive master presentation of Shahdat Hossain\'s 9+ years in high-end video editing and motion design.',
+        challenge:
+            'Condensing over 9 years of diverse commercial work into a fast, electrifying 108-second emotional journey.',
+        conceptAndDirection:
+            'A dynamic progression from commercial impact to luxury fashion rhythm, concluding in bespoke 3D motion design.',
+        editingWorkflow:
+            'Precision timeline assembly, custom stem arrangement, and beat-matched cutting in Premiere Pro.',
+        motionGraphicsProcess:
+            'Bespoke title cards, procedural transitional wipe elements, and end-tag branding in After Effects.',
+        colorGradingAndFinishing:
+            'Unifying footage from ARRI, RED, Sony, and Blackmagic cameras into a cohesive theatrical color palette in DaVinci Resolve.',
+        software: ['Adobe Premiere Pro', 'DaVinci Resolve', 'Adobe After Effects', 'Cinema 4D'],
+        supportingVisuals: [
+            { title: '01 / Rhythmic Commercial Montage', caption: 'High-octane montage cutting on musical transients.' },
+            { title: '02 / Fashion Film Section', caption: 'Editorial couture cutting focused on movement and silhouetting.' },
+            { title: '03 / 3D & VFX Highlight Reel', caption: 'Cinema 4D and Blender simulations integrated seamlessly.' },
+            { title: '04 / Theatrical End Frame', caption: 'Brand sign-off and artist contact credential card.' }
         ]
     }
 ];

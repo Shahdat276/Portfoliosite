@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { StudioTheme, Project } from '@/types';
@@ -25,6 +26,11 @@ export function ProjectCard({
     onMouseLeave,
     openCaseStudy
 }: ProjectCardProps) {
+    const aspectClass =
+        selectedCategory === 'All'
+            ? project.aspectClass
+            : 'aspect-[16/10]';
+
     return (
         <motion.article
             layout
@@ -44,20 +50,39 @@ export function ProjectCard({
             }}
         >
             {/* Crisp Framed Thumbnail */}
-            <div className="rounded-2xl overflow-hidden mb-5">
-                <EditorialVisualFrame
-                    theme={theme}
-                    index={project.index}
-                    category={project.category}
-                    aspectClass={
-                        selectedCategory === 'All'
-                            ? project.aspectClass
-                            : 'aspect-[16/10]'
-                    }
-                    pattern={project.pattern}
-                    isHovered={isHovered}
-                    badgeText="Open Case Study"
-                />
+            <div className={`rounded-2xl overflow-hidden mb-5 relative bg-black ${aspectClass}`}>
+                {project.coverUrl ? (
+                    <>
+                        <Image
+                            src={project.coverUrl}
+                            alt={project.title}
+                            fill
+                            unoptimized
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+
+                        {/* Top Badges */}
+                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
+                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10">
+                                No. {project.index} — {project.category}
+                            </span>
+                            <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/60 text-white backdrop-blur-sm border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                Case Study
+                            </span>
+                        </div>
+                    </>
+                ) : (
+                    <EditorialVisualFrame
+                        theme={theme}
+                        index={project.index}
+                        category={project.category}
+                        aspectClass={aspectClass}
+                        pattern={project.pattern}
+                        isHovered={isHovered}
+                        badgeText="Open Case Study"
+                    />
+                )}
             </div>
 
             {/* Clean Typography Below Visual */}
@@ -103,4 +128,3 @@ export function ProjectCard({
         </motion.article>
     );
 }
-

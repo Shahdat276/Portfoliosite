@@ -92,6 +92,8 @@ export interface Project {
     software: string[];
     supportingVisuals: SupportingVisual[];
     videoUrl?: string;
+    coverUrl?: string;
+    behanceUrl?: string;
 }
 
 export interface Capability {

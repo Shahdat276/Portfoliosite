@@ -55,12 +55,11 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
 
 export const PROJECT_CATEGORIES = [
     'All',
-    'Fashion Films',
     'Commercial Advertisements',
+    'Fashion Films',
     'Motion Graphics',
-    'Product Videos',
-    'Brand Campaigns',
-    'Social Media Reels',
     'Logo Animation',
-    'Animation & Visual Effects'
+    'Animation & Visual Effects',
+    'Social Media Reels',
+    'AI Content'
 ] as const;
