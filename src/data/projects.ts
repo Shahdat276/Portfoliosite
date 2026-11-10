@@ -168,6 +168,14 @@ export const INITIAL_PROJECTS: Project[] = [
                 "aspect": "video",
                 "width": 560,
                 "height": 315
+            },
+            {
+                "id": "vid-249555473-6",
+                "title": "Fashion Campaign Video — ASL OVC R2",
+                "url": "https://drive.google.com/file/d/1cILZD5lnbyXEPBbbl3qgMcemu7iErMau/view?usp=drive_link",
+                "aspect": "video",
+                "width": 560,
+                "height": 315
             }
         ]
     },
