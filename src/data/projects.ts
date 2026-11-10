@@ -418,6 +418,30 @@ export const INITIAL_PROJECTS: Project[] = [
                 "aspect": "video",
                 "width": 560,
                 "height": 315
+            },
+            {
+                "id": "vid-249566333-4",
+                "title": "ASG Dynamic Brand Logo Animation",
+                "url": "https://drive.google.com/file/d/1TiQ9igpWAyGA_r4YWdlmg3bfxzRzEBsH/view?usp=sharing",
+                "aspect": "video",
+                "width": 560,
+                "height": 315
+            },
+            {
+                "id": "vid-249566333-5",
+                "title": "Miah 3D Logo Animation",
+                "url": "https://drive.google.com/file/d/1wXhm0AG_RgEcmnZ-y7D7f6JVg1qrH8kC/view?usp=drive_link",
+                "aspect": "video",
+                "width": 560,
+                "height": 315
+            },
+            {
+                "id": "vid-249566333-6",
+                "title": "Miah Brand Logo Animation (HD Master)",
+                "url": "https://drive.google.com/file/d/1XTRRYyvWz7IbKRxPaw91zVCO-TPuYPbf/view?usp=drive_link",
+                "aspect": "video",
+                "width": 560,
+                "height": 315
             }
         ]
     },
