@@ -1,12 +1,15 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Menu } from 'lucide-react';
 import { StudioTheme, SiteConfig, ActiveRoute } from '@/types';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { MobileMenu } from './MobileMenu';
 import {
     TimelineScrollBar,
     MonogramMark,
+    RollText,
     playStudioTick
 } from './MotionPrimitives';
 
@@ -25,10 +28,6 @@ interface NavbarProps {
     onToggleSound?: () => void;
 }
 
-/**
- * Minimal 3-Zone CodeofSagar-inspired header bar with boxed Monogram,
- * centered wordmark, live Sound equalizer, Theme Switcher, and MENU/CLOSE roll pill.
- */
 export function Navbar({
     theme,
     activeThemeKey,
@@ -43,87 +42,105 @@ export function Navbar({
     soundEnabled = false,
     onToggleSound
 }: NavbarProps) {
+    const navItems = [
+        { id: 'home', label: 'Home' },
+        { id: 'work', label: 'Work' },
+        { id: 'about', label: 'About' },
+        { id: 'capabilities', label: 'Capabilities' },
+        { id: 'experience', label: 'Experience' },
+        { id: 'contact', label: 'Contact' }
+    ];
+
     return (
-        <>
-            <header
-                className="fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b backdrop-blur-xl"
-                style={{
-                    backgroundColor: isScrolled || mobileMenuOpen
-                        ? theme.isDark
-                            ? 'rgba(15, 15, 15, 0.90)'
-                            : 'rgba(236, 233, 227, 0.90)'
-                        : 'transparent',
-                    borderColor: isScrolled || mobileMenuOpen ? theme.border : 'transparent'
-                }}
-            >
-                <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] h-[74px] sm:h-20 flex items-center justify-between gap-3">
-                    {/* Left Boxed Monogram */}
+        <header
+            className="fixed top-0 inset-x-0 z-40 transition-all duration-300 border-b backdrop-blur-xl"
+            style={{
+                backgroundColor: isScrolled
+                    ? theme.isDark
+                        ? 'rgba(15, 15, 15, 0.88)'
+                        : 'rgba(236, 233, 227, 0.88)'
+                    : theme.bg,
+                borderColor: theme.border
+            }}
+        >
+                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] h-20 flex items-center justify-between gap-4">
+                    {/* Custom SH Monogram + Brand Wordmark */}
                     <button
-                        type="button"
                         onClick={() => {
                             playStudioTick(soundEnabled, 720);
-                            setMobileMenuOpen(false);
                             navigateToSection('home');
                         }}
-                        aria-label={`${siteConfig.name} — Home`}
-                        className="h-10 px-2.5 sm:px-3 rounded-xl border flex items-center justify-center gap-2 group transition-transform duration-300 hover:scale-[1.03] active:scale-95 cursor-pointer"
-                        style={{
-                            backgroundColor: theme.surface,
-                            borderColor: theme.borderStrong
-                        }}
+                        className="flex items-center gap-3 text-left group focus:outline-none shrink-0 cursor-pointer"
                     >
-                        <MonogramMark accentColor={theme.accent} className="w-6 h-6" />
-                    </button>
-
-                    {/* Center Boxed Brand Wordmark */}
-                    <button
-                        type="button"
-                        onClick={() => {
-                            playStudioTick(soundEnabled, 680);
-                            setMobileMenuOpen(false);
-                            navigateToSection('home');
-                        }}
-                        className="h-10 px-4 sm:px-5 rounded-xl border flex items-center justify-center cursor-pointer transition-all hover:opacity-90 active:scale-95"
-                        style={{
-                            backgroundColor: theme.surface,
-                            borderColor: theme.borderStrong
-                        }}
-                    >
-                        <span className="font-display font-bold tracking-tight text-sm sm:text-base whitespace-nowrap">
-                            {siteConfig.wordmark}
-                        </span>
-                    </button>
-
-                    {/* Right Boxed Controls: Theme + Sound Equalizer + MENU / CLOSE */}
-                    <div className="flex items-center gap-2">
-                        <div className="hidden md:block">
-                            <ThemeSwitcher
-                                theme={theme}
-                                activeThemeKey={activeThemeKey}
-                                setActiveThemeKey={(key) => {
-                                    playStudioTick(soundEnabled, 780);
-                                    setActiveThemeKey(key);
-                                }}
-                                variant="pill"
-                            />
+                        <MonogramMark
+                            accentColor={theme.accent}
+                            className="w-8 h-8 transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="inline-flex flex-col w-max">
+                            <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none whitespace-nowrap">
+                                {siteConfig.wordmark}
+                            </span>
+                            <span
+                                className="w-full flex items-center justify-between font-mono text-[8.5px] sm:text-[9.5px] uppercase tracking-[0.08em] sm:tracking-[0.1em] mt-1.5 leading-none whitespace-nowrap"
+                                style={{ color: theme.textMuted }}
+                            >
+                                <span>Senior</span>
+                                <span>Editor</span>
+                                <span>&amp;</span>
+                                <span>Motion</span>
+                            </span>
                         </div>
+                    </button>
 
+                    {/* Center Navigation Links with CodeofSagar Character Roll */}
+                    <nav className="hidden xl:flex items-center gap-7" aria-label="Main Navigation">
+                        {navItems.map((item) => {
+                            const isActive =
+                                activeRoute.page === 'case-study'
+                                    ? item.id === 'work'
+                                    : activeSection === item.id;
+                            return (
+                                <button
+                                    key={item.id}
+                                    onClick={() => {
+                                        playStudioTick(soundEnabled, 640);
+                                        navigateToSection(item.id);
+                                    }}
+                                    className="group text-sm font-medium transition-colors relative py-1 cursor-pointer"
+                                    style={{
+                                        color: isActive ? theme.text : theme.textMuted
+                                    }}
+                                >
+                                    <RollText text={item.label} />
+                                    {isActive && (
+                                        <motion.span
+                                            layoutId="editorialNavUnderline"
+                                            className="absolute -bottom-1 left-0 right-0 h-[2px]"
+                                            style={{ backgroundColor: theme.accent }}
+                                        />
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </nav>
+
+                    {/* Right Controls: Sound Equalizer + 2-Theme Switcher + Let's Talk */}
+                    <div className="hidden md:flex items-center gap-2.5 lg:gap-3">
                         {onToggleSound && (
                             <button
                                 type="button"
                                 onClick={onToggleSound}
-                                aria-label={soundEnabled ? 'Mute studio sound' : 'Enable studio sound'}
-                                className="h-10 px-3 sm:px-3.5 rounded-xl border font-mono text-[11px] uppercase tracking-wider flex items-center gap-2 transition-all hover:opacity-90 active:scale-95 cursor-pointer"
+                                aria-label={soundEnabled ? 'Mute studio sound cues' : 'Enable studio sound cues'}
+                                className="px-3 py-1.5 rounded-full border text-xs font-mono flex items-center gap-2 transition-all hover:opacity-90 active:scale-95 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surface,
-                                    borderColor: soundEnabled ? theme.accent : theme.borderStrong,
+                                    borderColor: soundEnabled ? theme.accent : theme.border,
                                     color: soundEnabled ? theme.text : theme.textMuted
                                 }}
-                                title={soundEnabled ? 'Sound: On' : 'Sound: Off'}
+                                title={soundEnabled ? 'Studio SFX: On' : 'Studio SFX: Off'}
                             >
-                                <span className="hidden sm:inline">Sound</span>
                                 <span className="flex items-end gap-[2px] h-3" aria-hidden="true">
-                                    {[0, 0.16, 0.32, 0.1].map((delay, idx) => (
+                                    {[0, 0.15, 0.3, 0.1].map((delay, idx) => (
                                         <span
                                             key={idx}
                                             className={`w-[2px] rounded-full transition-all ${
@@ -138,53 +155,101 @@ export function Navbar({
                                         />
                                     ))}
                                 </span>
+                                <span className="hidden lg:inline text-[11px] uppercase tracking-wider">
+                                    Sound
+                                </span>
                             </button>
                         )}
 
-                        <button
-                            type="button"
-                            onClick={() => {
-                                playStudioTick(soundEnabled, mobileMenuOpen ? 520 : 740);
-                                setMobileMenuOpen(!mobileMenuOpen);
+                        <ThemeSwitcher
+                            theme={theme}
+                            activeThemeKey={activeThemeKey}
+                            setActiveThemeKey={(key) => {
+                                playStudioTick(soundEnabled, 780);
+                                setActiveThemeKey(key);
                             }}
-                            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-                            aria-expanded={mobileMenuOpen}
-                            className="h-10 px-4 sm:px-5 rounded-xl border font-mono text-xs font-semibold uppercase tracking-widest overflow-hidden relative cursor-pointer transition-colors active:scale-95"
+                            variant="pill"
+                        />
+
+                        {/* Primary Contact CTA Button */}
+                        <button
+                            onClick={() => {
+                                playStudioTick(soundEnabled, 700);
+                                navigateToSection('contact');
+                            }}
+                            className="group px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center gap-1.5 shadow-sm cursor-pointer"
                             style={{
-                                backgroundColor: mobileMenuOpen ? theme.accent : theme.surface,
-                                borderColor: mobileMenuOpen ? theme.accent : theme.borderStrong,
-                                color: mobileMenuOpen ? theme.accentText : theme.text
+                                backgroundColor: theme.accent,
+                                color: theme.accentText
                             }}
                         >
-                            <span
-                                className="flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.65,0,0.2,1)] leading-[40px]"
+                            <RollText text="Let's Talk" />
+                            <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </button>
+                    </div>
+
+                    {/* Mobile Menu Trigger */}
+                    <div className="flex md:hidden items-center gap-2">
+                        {onToggleSound && (
+                            <button
+                                type="button"
+                                onClick={onToggleSound}
+                                aria-label="Toggle studio sound"
+                                className="p-2 rounded-full border cursor-pointer"
                                 style={{
-                                    transform: mobileMenuOpen ? 'translateY(-40px)' : 'translateY(0px)'
+                                    backgroundColor: theme.surface,
+                                    borderColor: soundEnabled ? theme.accent : theme.border
                                 }}
                             >
-                                <span className="h-[40px] flex items-center justify-center">MENU</span>
-                                <span className="h-[40px] flex items-center justify-center">CLOSE</span>
-                            </span>
+                                <span className="flex items-end gap-[2px] h-3.5 w-3.5 justify-center">
+                                    {[0, 0.2, 0.1].map((d, i) => (
+                                        <span
+                                            key={i}
+                                            className={`w-[2px] rounded-full ${
+                                                soundEnabled ? 'h-full cos-eq-bar' : 'h-1.5'
+                                            }`}
+                                            style={{
+                                                backgroundColor: soundEnabled ? theme.accent : theme.textMuted,
+                                                animationDelay: soundEnabled ? `${d}s` : undefined
+                                            }}
+                                        />
+                                    ))}
+                                </span>
+                            </button>
+                        )}
+                        <button
+                            onClick={() => {
+                                playStudioTick(soundEnabled, 640);
+                                setMobileMenuOpen(!mobileMenuOpen);
+                            }}
+                            className="p-2 rounded-full border transition-colors cursor-pointer"
+                            style={{
+                                backgroundColor: theme.surface,
+                                borderColor: theme.border,
+                                color: theme.text
+                            }}
+                            aria-label="Toggle navigation drawer"
+                        >
+                            <Menu className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
+                {/* Mobile Navigation Drawer */}
+                <MobileMenu
+                    isOpen={mobileMenuOpen}
+                    onClose={() => setMobileMenuOpen(false)}
+                    theme={theme}
+                    siteConfig={siteConfig}
+                    activeRoute={activeRoute}
+                    activeSection={activeSection}
+                    navigateToSection={navigateToSection}
+                    activeThemeKey={activeThemeKey}
+                    setActiveThemeKey={setActiveThemeKey}
+                />
+
                 {/* Timeline Scrubbing Scroll Progress Indicator */}
                 <TimelineScrollBar theme={theme} />
-            </header>
-
-            {/* Fullscreen Editorial Overlay Curtain Menu (Desktop & Mobile) */}
-            <MobileMenu
-                isOpen={mobileMenuOpen}
-                onClose={() => setMobileMenuOpen(false)}
-                theme={theme}
-                siteConfig={siteConfig}
-                activeRoute={activeRoute}
-                activeSection={activeSection}
-                navigateToSection={navigateToSection}
-                activeThemeKey={activeThemeKey}
-                setActiveThemeKey={setActiveThemeKey}
-            />
-        </>
+        </header>
     );
 }

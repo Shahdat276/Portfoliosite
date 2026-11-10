@@ -15,10 +15,12 @@ import { INITIAL_PROJECTS } from '@/data/projects';
 import { INITIAL_EXPERIENCE } from '@/data/experience';
 
 import { Navbar } from '@/components/Navbar';
-import { PreloaderCurtain } from '@/components/PreloaderCurtain';
 import { Hero } from '@/components/Hero';
 import { WorkGallery } from '@/components/WorkGallery';
 import { CaseStudyView } from '@/components/CaseStudyView';
+import { About } from '@/components/About';
+import { Capabilities } from '@/components/Capabilities';
+import { ExperienceSection } from '@/components/ExperienceSection';
 import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
 import { ShowreelModal } from '@/components/ShowreelModal';
@@ -27,7 +29,6 @@ import {
     playStudioTick
 } from '@/components/MotionPrimitives';
 import { ImpactDeckSection } from '@/components/ImpactDeckSection';
-import { ServicesIntroSection } from '@/components/ServicesIntroSection';
 import { BrandOrbitSection } from '@/components/BrandOrbitSection';
 import { CraftShowcase } from '@/components/CraftShowcase';
 import { ProcessWorkflowSection } from '@/components/ProcessWorkflowSection';
@@ -123,7 +124,7 @@ export default function Home() {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 30);
             if (activeRoute.page === 'home') {
-                const sections = ['home', 'services', 'work', 'brands', 'process', 'contact'];
+                const sections = ['home', 'work', 'about', 'capabilities', 'experience', 'contact'];
                 const scrollPos = window.scrollY + 200;
                 for (const id of sections) {
                     const el = document.getElementById(id);
@@ -275,10 +276,7 @@ export default function Home() {
                 color: theme.text
             }}
         >
-            {/* Initial 00 -> 100 Digit-Roll Preloader Curtain */}
-            <PreloaderCurtain theme={theme} />
-
-            {/* Minimal CodeofSagar-Style Header Navigation */}
+            {/* Header Navigation */}
             <Navbar
                 theme={theme}
                 activeThemeKey={activeThemeKey}
@@ -330,15 +328,6 @@ export default function Home() {
                             soundEnabled={soundEnabled}
                         />
 
-                        <ServicesIntroSection
-                            theme={theme}
-                            soundEnabled={soundEnabled}
-                            onSelectWorkCategory={(cat) => {
-                                setSelectedCategory(cat);
-                                navigateToSection('work');
-                            }}
-                        />
-
                         <WorkGallery
                             theme={theme}
                             projects={projects}
@@ -348,7 +337,6 @@ export default function Home() {
                             hoveredProjectSlug={hoveredProjectSlug}
                             setHoveredProjectSlug={setHoveredProjectSlug}
                             openCaseStudy={openCaseStudy}
-                            openShowreelTheaterModal={openShowreelTheaterModal}
                             soundEnabled={soundEnabled}
                         />
 
@@ -360,10 +348,26 @@ export default function Home() {
 
                         <CraftShowcase theme={theme} />
 
+                        <About
+                            theme={theme}
+                            siteConfig={siteConfig}
+                            navigateToSection={navigateToSection}
+                        />
+
+                        <Capabilities
+                            theme={theme}
+                            onSelectWorkCategory={(cat) => {
+                                setSelectedCategory(cat);
+                                navigateToSection('work');
+                            }}
+                        />
+
                         <ProcessWorkflowSection
                             theme={theme}
                             soundEnabled={soundEnabled}
                         />
+
+                        <ExperienceSection theme={theme} experiences={experiences} />
 
                         <ContactSection theme={theme} siteConfig={siteConfig} />
                     </motion.main>
