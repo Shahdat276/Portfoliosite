@@ -170,21 +170,21 @@ export function WorkOrbitStage({
         targetAngleRef.current += direction * step;
     };
 
-    // Bold edge-to-edge 3D ellipse & large foreground scale matching CodeofSagar WorkOrbit
+    // Centered full-page 3D ellipse matching CodeofSagar WorkOrbit (middle of screen)
     const rx = stageWidth < 640
         ? stageWidth * 0.44
         : Math.min(860, stageWidth * 0.46);
     const ry = stageWidth < 640
-        ? 36
-        : Math.min(105, stageHeight * 0.115);
+        ? 34
+        : Math.min(82, stageHeight * 0.095);
     const cardBaseWidth = stageWidth < 640
-        ? 225
+        ? 220
         : stageWidth < 1024
-        ? 360
-        : Math.min(540, stageWidth * 0.31);
+        ? 350
+        : Math.min(520, stageWidth * 0.30);
     const orbitVerticalOffset = stageWidth < 640
         ? 44
-        : Math.round(stageHeight * 0.05);
+        : Math.round(stageHeight * 0.06);
     const total = projects.length;
 
     let frontIndex = 0;
@@ -226,10 +226,10 @@ export function WorkOrbitStage({
                 {/* Vertical Architectural Hairline Grid */}
                 <ArchitecturalGuides borderColor={theme.border} columns={5} />
 
-                {/* Top Giant Headline positioned behind Cutout's Crown (z-[5] < Portrait z-[15]) */}
-                <div className="relative z-[5] pt-20 sm:pt-24 lg:pt-24 px-4 text-center pointer-events-none">
+                {/* Headline Positioned Cleanly Below Head / Behind Neck Level (z-[5] < Avatar z-[15]) */}
+                <div className="absolute top-[27svh] sm:top-[26svh] inset-x-0 z-[5] px-4 text-center pointer-events-none">
                     <SkewMaskReveal>
-                        <h2 className="font-display text-5xl sm:text-8xl lg:text-[122px] xl:text-[148px] font-medium leading-[0.88] tracking-[-0.05em]">
+                        <h2 className="font-display text-5xl sm:text-8xl lg:text-[120px] xl:text-[146px] font-medium leading-[0.88] tracking-[-0.05em]">
                             Selected Work
                             <span
                                 className="inline-block w-[0.15em] h-[0.15em] rounded-full ml-1 align-baseline"
@@ -239,13 +239,13 @@ export function WorkOrbitStage({
                     </SkewMaskReveal>
                 </div>
 
-                {/* Fullscreen 3D Orbital Arena + Center Transparent Cutout Portrait */}
+                {/* Fullscreen 3D Orbital Arena Centered Vertically in Middle of Viewport */}
                 <div
-                    className="relative w-full flex-1 flex items-center justify-center"
+                    className="absolute inset-0 flex items-center justify-center"
                     style={{ perspective: 1200 }}
                 >
-                    {/* Transparent Background-Free Director PNG Standing Tall from Bottom (z-[15]) */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[15] pointer-events-none select-none h-[72svh] sm:h-[82svh] lg:h-[86svh] w-[min(90vw,580px)] flex items-end justify-center">
+                    {/* Transparent Character Centerpiece Standing Tall from Bottom (z-[15]) */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[15] pointer-events-none select-none h-[76svh] sm:h-[84svh] lg:h-[88svh] w-[min(94vw,760px)] flex items-end justify-center">
                         <Image
                             src="/images/shahdat-cutout.png"
                             alt={siteConfig.name}
