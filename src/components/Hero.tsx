@@ -100,11 +100,11 @@ export function Hero({
             )}
 
             <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 items-center">
-                    {/* Left Column (7 Cols): Editorial Typography Hero (Faster Upward Parallax) */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 xl:gap-12 items-center">
+                    {/* Left Column (5 Cols): Editorial Typography Hero (Faster Upward Parallax) */}
                     <motion.div
                         style={shouldReduce ? undefined : { y: leftColY }}
-                        className="lg:col-span-6 xl:col-span-7 will-change-transform"
+                        className="lg:col-span-5 will-change-transform"
                     >
                         <motion.div
                             initial={shouldReduce ? false : { opacity: 0, y: 20 }}
@@ -136,7 +136,7 @@ export function Hero({
                             {siteConfig.heroSecondaryHeadline}
                         </p>
 
-                        <h1 className="font-display text-4xl sm:text-6xl lg:text-6xl xl:text-[74px] 2xl:text-[86px] font-semibold leading-[1.02] tracking-tight mb-4 sm:mb-6">
+                        <h1 className="font-display text-4xl sm:text-5xl lg:text-[44px] xl:text-[52px] 2xl:text-[68px] font-semibold leading-[1.03] tracking-tight mb-4 sm:mb-6">
                             Crafting{' '}
                             <span
                                 className="font-serif-italic font-normal px-1"
@@ -150,7 +150,7 @@ export function Hero({
 
                         {/* Supporting Introduction */}
                         <p
-                            className="text-sm sm:text-lg lg:text-xl leading-relaxed max-w-2xl mb-5 sm:mb-8"
+                            className="text-sm sm:text-base xl:text-lg leading-relaxed max-w-xl mb-5 sm:mb-7"
                             style={{ color: theme.textMuted }}
                         >
                             {siteConfig.heroIntro}
@@ -158,7 +158,7 @@ export function Hero({
 
                         {/* Key Credentials Row */}
                         <div
-                            className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 py-3.5 px-4 sm:py-4 sm:px-5 rounded-2xl border mb-6 sm:mb-8 max-w-3xl"
+                            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 2xl:grid-cols-4 gap-3 sm:gap-4 py-3.5 px-4 sm:py-4 sm:px-5 rounded-2xl border mb-6 sm:mb-8 max-w-2xl"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border
@@ -186,7 +186,7 @@ export function Hero({
                                     {totalVideos}+ Works
                                 </span>
                             </div>
-                            <div className="sm:border-l sm:pl-4" style={{ borderColor: theme.border }}>
+                            <div className="sm:border-l lg:border-l-0 2xl:border-l sm:pl-4 lg:pl-0 2xl:pl-4" style={{ borderColor: theme.border }}>
                                 <span
                                     className="font-mono text-[10px] uppercase tracking-wider block"
                                     style={{ color: theme.textMuted }}
@@ -257,10 +257,10 @@ export function Hero({
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Column (5 Cols): Continuous Official Master Showreel Theater */}
+                    {/* Right Column (7 Cols): Expanded Continuous Official Master Showreel Theater */}
                     <motion.div
                         style={shouldReduce ? undefined : { y: rightColY }}
-                        className="lg:col-span-6 xl:col-span-5 will-change-transform"
+                        className="lg:col-span-7 will-change-transform"
                     >
                         <motion.div
                             initial={shouldReduce ? false : { opacity: 0, y: 24 }}
@@ -268,14 +268,14 @@ export function Hero({
                             transition={{ duration: 0.65, delay: 0.12, ease: MOTION_EASE }}
                         >
                             <div
-                                className="rounded-3xl border p-3.5 sm:p-5 shadow-sm transition-colors"
+                                className="rounded-2xl sm:rounded-3xl border p-2.5 sm:p-3.5 shadow-sm transition-colors"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.border
                                 }}
                             >
                                 {/* Top Card Bar */}
-                                <div className="flex items-center justify-between px-1 pb-3">
+                                <div className="flex items-center justify-between px-1.5 pb-2.5">
                                     <div className="flex items-center gap-2">
                                         <span
                                             className="w-2 h-2 rounded-full animate-pulse shrink-0"
