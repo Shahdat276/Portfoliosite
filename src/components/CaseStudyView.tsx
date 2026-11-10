@@ -51,11 +51,11 @@ export function CaseStudyView({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -14 }}
             transition={{ duration: 0.35 }}
-            className="pt-28 pb-24"
+            className="pt-24 sm:pt-28 pb-16 sm:pb-24"
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 {/* Back to Selected Works */}
-                <div className="flex items-center justify-between mb-10">
+                <div className="flex items-center justify-between mb-6 sm:mb-10">
                     <button
                         onClick={() => navigateToSection('work')}
                         className="inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-75 cursor-pointer"
@@ -70,7 +70,7 @@ export function CaseStudyView({
                 </div>
 
                 {/* Case Study Title & Header */}
-                <div className="max-w-4xl mb-12">
+                <div className="max-w-4xl mb-7 sm:mb-12">
                     <div className="flex flex-wrap items-center gap-3 mb-4">
                         <span
                             className="px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider"
@@ -131,7 +131,7 @@ export function CaseStudyView({
 
                 {/* Metadata Specification Strip */}
                 <div
-                    className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-6 sm:p-8 rounded-2xl border mb-12"
+                    className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-8 rounded-2xl border mb-8 sm:mb-12"
                     style={{
                         backgroundColor: theme.surface,
                         borderColor: theme.border

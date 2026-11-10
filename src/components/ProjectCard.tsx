@@ -46,14 +46,14 @@ export function ProjectCard({
             onMouseLeave={onMouseLeave}
             className={`${
                 selectedCategory === 'All' ? project.gridSpan : 'lg:col-span-6'
-            } group cursor-pointer rounded-3xl border p-3.5 sm:p-5 transition-all duration-300 hover:shadow-md flex flex-col justify-between`}
+            } group cursor-pointer rounded-2xl sm:rounded-3xl border p-3 sm:p-5 transition-all duration-300 hover:shadow-md flex flex-col justify-between`}
             style={{
                 backgroundColor: theme.surface,
                 borderColor: isHovered ? theme.borderStrong : theme.border
             }}
         >
             {/* Crisp Framed Thumbnail */}
-            <div className={`rounded-2xl overflow-hidden mb-5 relative bg-black ${aspectClass}`}>
+            <div className={`rounded-xl sm:rounded-2xl overflow-hidden mb-3.5 sm:mb-5 relative bg-black ${aspectClass}`}>
                 {project.coverUrl ? (
                     <>
                         <Image

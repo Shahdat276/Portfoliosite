@@ -53,13 +53,13 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
     return (
         <section
             id="capabilities"
-            className="py-24 md:py-32 border-b"
+            className="py-12 sm:py-16 md:py-24 lg:py-28 border-b"
             style={{ borderColor: theme.border }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                 {/* 12 Core Capabilities */}
-                <div className="mb-24">
-                    <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+                <div className="mb-12 sm:mb-18 lg:mb-24">
+                    <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 sm:mb-10 gap-4 sm:gap-6">
                         <div className="max-w-2xl">
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -99,7 +99,7 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5 lg:gap-6">
                         {filteredCapabilities.map((skill) => {
                             const IconComponent =
                                 (skill.icon && CAPABILITY_ICON_MAP[skill.icon]) || Sparkles;
@@ -107,7 +107,7 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
                             return (
                                 <div
                                     key={skill.num}
-                                    className="group p-6 sm:p-7 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col justify-between gap-5"
+                                    className="group p-4 sm:p-6 lg:p-7 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col justify-between gap-3.5 sm:gap-5"
                                     style={{
                                         backgroundColor: theme.surface,
                                         borderColor: theme.border
@@ -115,7 +115,7 @@ export function Capabilities({ theme, onSelectWorkCategory }: CapabilitiesProps)
                                 >
                                     <div>
                                         {/* Top Row: Number + Group Label & Framed Icon Medallion */}
-                                        <div className="flex items-start justify-between gap-4 mb-5">
+                                        <div className="flex items-start justify-between gap-4 mb-3 sm:mb-5">
                                             <div>
                                                 <span
                                                     className="font-mono text-xs font-semibold block"

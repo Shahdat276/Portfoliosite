@@ -27,7 +27,8 @@ export function ContactSection({
         message: ''
     });
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-    const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'activation' | 'error'>('idle');
+    const [formErrorMessage, setFormErrorMessage] = useState<string>('');
 
     const handleCopy = (text: string, label: string) => {
         navigator.clipboard.writeText(text);
@@ -57,40 +58,50 @@ export function ContactSection({
         }
 
         setFormStatus('submitting');
+        setFormErrorMessage('');
 
         if (siteConfig.contact.formEndpoint) {
             try {
+                const payload = new FormData();
+                payload.append('name', formData.name);
+                payload.append('email', formData.email);
+                payload.append('subject', formData.subject);
+                payload.append('_subject', `[Portfolio Inquiry] ${formData.subject} — ${formData.name}`);
+                payload.append('_replyto', formData.email);
+                payload.append('_template', 'table');
+                payload.append('message', formData.message);
+
                 const res = await fetch(siteConfig.contact.formEndpoint, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         Accept: 'application/json'
                     },
-                    body: JSON.stringify({
-                        name: formData.name,
-                        email: formData.email,
-                        subject: formData.subject,
-                        _subject: `[Portfolio Inquiry] ${formData.subject} — ${formData.name}`,
-                        _replyto: formData.email,
-                        _template: 'table',
-                        message: formData.message
-                    })
+                    body: payload
                 });
 
-                if (!res.ok) {
-                    throw new Error('Submission failed');
+                const result = await res.json().catch(() => ({}));
+                const msg = typeof result?.message === 'string' ? result.message : '';
+
+                if (msg.toLowerCase().includes('activat')) {
+                    setFormErrorMessage(msg);
+                    setFormStatus('activation');
+                    return;
                 }
 
-                const result = await res.json();
-                if (result.success === false || result.success === 'false') {
-                    throw new Error(result.message || 'Endpoint rejected request');
+                if (!res.ok || result.success === false || result.success === 'false') {
+                    throw new Error(msg || `Relay error (${res.status})`);
                 }
 
                 setFormStatus('success');
                 setFormData({ name: '', email: '', subject: '', message: '' });
                 setTimeout(() => setFormStatus('idle'), 7000);
                 return;
-            } catch {
+            } catch (err) {
+                setFormErrorMessage(
+                    err instanceof Error && err.message
+                        ? err.message
+                        : 'Network or mail relay temporarily unreachable.'
+                );
                 setFormStatus('error');
                 return;
             }
@@ -132,13 +143,13 @@ export function ContactSection({
     return (
         <section
             id="contact"
-            className="py-24 md:py-32"
+            className="py-12 sm:py-16 md:py-24 lg:py-28"
             style={{ backgroundColor: theme.bg }}
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-16 items-start">
                         {/* Left 6 Columns: Contact Details & Direct Reaches */}
-                        <div className="lg:col-span-6 space-y-8">
+                        <div className="lg:col-span-6 space-y-5 sm:space-y-8">
                             <div>
                                 <span
                                     className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -146,12 +157,12 @@ export function ContactSection({
                                 >
                                     07 / Direct Connect
                                 </span>
-                                <h2 className="font-display text-4xl sm:text-6xl font-semibold leading-tight">
+                                <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold leading-tight">
                                     Let&apos;s Create Visuals That{' '}
                                     <span className="font-serif-italic font-normal">Resonate.</span>
                                 </h2>
                                 <p
-                                    className="text-base sm:text-lg mt-5 leading-relaxed max-w-lg"
+                                    className="text-sm sm:text-lg mt-3 sm:mt-5 leading-relaxed max-w-lg"
                                     style={{ color: theme.textMuted }}
                                 >
                                     Available for senior editorial commissions, brand campaigns, motion systems, and full-time senior agency leadership.
@@ -159,7 +170,7 @@ export function ContactSection({
                             </div>
 
                             {/* Direct Channel Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 {/* Email Card */}
                                 <div
                                     className="p-5 rounded-2xl border flex flex-col justify-between gap-4 transition-all"
@@ -305,6 +316,8 @@ export function ContactSection({
                                 formErrors={formErrors}
                                 setFormErrors={setFormErrors}
                                 formStatus={formStatus}
+                                formErrorMessage={formErrorMessage}
+                                recipientEmail={siteConfig.contact.email}
                                 handleFormSubmit={handleFormSubmit}
                                 handleWhatsAppSubmit={handleWhatsAppSubmit}
                                 fallbackMailtoUrl={buildMailtoUrl()}

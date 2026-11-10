@@ -12,13 +12,13 @@ interface FooterProps {
 export function Footer({ theme, siteConfig }: FooterProps) {
     return (
         <footer
-            className="border-t py-10"
+            className="border-t py-6 sm:py-10"
             style={{
                 backgroundColor: theme.surface,
                 borderColor: theme.border
             }}
         >
-                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: theme.textMuted }}>
+                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-center sm:text-left" style={{ color: theme.textMuted }}>
                     <div className="flex items-center gap-3">
                         <span
                             className="w-2 h-2 rounded-full"

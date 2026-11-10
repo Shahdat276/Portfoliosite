@@ -19,22 +19,22 @@ export function About({
     return (
         <section
             id="about"
-            className="py-24 md:py-32 border-b"
+            className="py-12 sm:py-16 md:py-24 lg:py-28 border-b"
             style={{ borderColor: theme.border }}
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-12 items-start">
                         {/* Left 5 Columns: Portrait Frame Card */}
                         <div className="lg:col-span-5">
                             <div
-                                className="rounded-3xl border p-4 sm:p-5"
+                                className="rounded-2xl sm:rounded-3xl border p-3 sm:p-5"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.border
                                 }}
                             >
                                 <div
-                                    className="rounded-2xl aspect-[4/5] relative overflow-hidden flex flex-col justify-between p-7 border"
+                                    className="rounded-xl sm:rounded-2xl aspect-square sm:aspect-[4/5] relative overflow-hidden flex flex-col justify-between p-5 sm:p-7 border"
                                     style={{
                                         backgroundColor: theme.surfaceAlt,
                                         borderColor: theme.border
@@ -120,7 +120,7 @@ export function About({
                             >
                                 03 / About Me
                             </span>
-                            <h2 className="font-display text-3xl sm:text-5xl font-semibold leading-[1.08] mb-8">
+                            <h2 className="font-display text-3xl sm:text-5xl font-semibold leading-[1.08] mb-5 sm:mb-8">
                                 Creativity Meets{' '}
                                 <span className="font-serif-italic font-normal" style={{ color: theme.accent }}>
                                     Technical Precision.
@@ -128,7 +128,7 @@ export function About({
                             </h2>
 
                             <div
-                                className="space-y-5 text-base sm:text-lg leading-relaxed mb-10"
+                                className="space-y-3.5 sm:space-y-5 text-sm sm:text-lg leading-relaxed mb-6 sm:mb-10"
                                 style={{ color: theme.textMuted }}
                             >
                                 {siteConfig.aboutBioParagraphs.map((paragraph, index) => (
@@ -145,9 +145,9 @@ export function About({
                             </div>
 
                             {/* Philosophy & Approach Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 mb-6 sm:mb-10">
                                 <div
-                                    className="p-6 rounded-2xl border"
+                                    className="p-4 sm:p-6 rounded-2xl border"
                                     style={{
                                         backgroundColor: theme.surface,
                                         borderColor: theme.border
@@ -165,7 +165,7 @@ export function About({
                                 </div>
 
                                 <div
-                                    className="p-6 rounded-2xl border"
+                                    className="p-4 sm:p-6 rounded-2xl border"
                                     style={{
                                         backgroundColor: theme.surface,
                                         borderColor: theme.border
@@ -184,7 +184,7 @@ export function About({
 
                                 {siteConfig.education && (
                                     <div
-                                        className="p-5 rounded-2xl border"
+                                        className="p-4 sm:p-5 rounded-2xl border"
                                         style={{
                                             backgroundColor: theme.surfaceAlt,
                                             borderColor: theme.border
@@ -204,7 +204,7 @@ export function About({
 
                                 {siteConfig.languages && (
                                     <div
-                                        className="p-5 rounded-2xl border"
+                                        className="p-4 sm:p-5 rounded-2xl border"
                                         style={{
                                             backgroundColor: theme.surfaceAlt,
                                             borderColor: theme.border
@@ -224,11 +224,11 @@ export function About({
                             </div>
 
                             {/* Download CV & Contact Buttons */}
-                            <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                                 <a
                                     href={siteConfig.contact.cvUrl}
                                     download
-                                    className="px-7 py-4 rounded-full text-sm font-medium inline-flex items-center gap-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 cursor-pointer"
+                                    className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium inline-flex items-center gap-2 sm:gap-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 cursor-pointer"
                                     style={{
                                         backgroundColor: theme.accent,
                                         color: theme.accentText
@@ -240,7 +240,7 @@ export function About({
 
                                 <button
                                     onClick={() => navigateToSection('contact')}
-                                    className="px-7 py-4 rounded-full text-sm font-medium border inline-flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 cursor-pointer"
+                                    className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium border inline-flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 cursor-pointer"
                                     style={{
                                         backgroundColor: theme.surface,
                                         borderColor: theme.borderStrong,

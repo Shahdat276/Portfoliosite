@@ -19,7 +19,7 @@ export function CategoryFilter({
 }: CategoryFilterProps) {
     return (
         <div
-            className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-4 mb-12 border-b"
+            className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 sm:pb-4 sm:mb-10 border-b"
             style={{ borderColor: theme.border }}
             role="tablist"
             aria-label="Filter Projects by Category"

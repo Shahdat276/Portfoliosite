@@ -16,13 +16,13 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
     return (
         <section
             id="experience"
-            className="py-24 md:py-32 border-b"
+            className="py-12 sm:py-16 md:py-24 lg:py-28 border-b"
             style={{ borderColor: theme.border }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-12 items-start">
                     {/* Left 4 Columns Sticky Summary + Employer Logos */}
-                    <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
+                    <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-4 sm:space-y-6">
                         <div>
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -42,7 +42,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
 
                         {/* Interactive Company Emblem Wall */}
                         <div
-                            className="p-5 rounded-2xl border"
+                            className="p-4 sm:p-5 rounded-2xl border"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border
@@ -100,7 +100,7 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
                     </div>
 
                     {/* Right 8 Columns Extracted Expandable Cards */}
-                    <div className="lg:col-span-8 space-y-4">
+                    <div className="lg:col-span-8 space-y-3 sm:space-y-4">
                         {experiences.map((exp, idx) => (
                             <ExperienceCard
                                 key={exp.id}

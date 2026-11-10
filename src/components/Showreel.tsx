@@ -45,11 +45,11 @@ export function Showreel({
     return (
         <section
             id="showreel"
-            className="py-20 md:py-28 border-b"
+            className="py-12 sm:py-16 md:py-24 lg:py-28 border-b"
             style={{ borderColor: theme.border }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 max-w-[980px] xl:max-w-[1040px] mx-auto">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-3 sm:gap-6 max-w-[980px] xl:max-w-[1040px] mx-auto">
                     <div>
                         <span
                             className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"

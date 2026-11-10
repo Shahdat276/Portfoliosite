@@ -33,11 +33,11 @@ export function WorkGallery({
     return (
         <section
             id="work"
-            className="py-24 md:py-32 border-b"
+            className="py-12 sm:py-16 md:py-24 lg:py-28 border-b"
             style={{ borderColor: theme.border }}
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-3 sm:gap-6">
                         <div>
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -71,7 +71,7 @@ export function WorkGallery({
                     {/* Asymmetrical Bento/Editorial Project Grid */}
                     <motion.div
                         layout
-                        className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+                        className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-7 lg:gap-8"
                     >
                         <AnimatePresence mode="popLayout">
                             {filteredProjects.map((project) => (

@@ -22,7 +22,7 @@ export function SoftwareTools({ theme }: SoftwareToolsProps) {
 
     return (
         <div>
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 sm:mb-10 gap-4 sm:gap-6">
                 <div>
                     <span
                         className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
@@ -62,18 +62,18 @@ export function SoftwareTools({ theme }: SoftwareToolsProps) {
             </div>
 
             {/* Software Tool Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5 lg:gap-6">
                 {filteredSoftware.map((tool, index) => (
                     <div
                         key={tool.name}
-                        className="group p-6 sm:p-7 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col justify-between gap-5 cursor-default"
+                        className="group p-4 sm:p-6 lg:p-7 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col justify-between gap-3.5 sm:gap-5 cursor-default"
                         style={{
                             backgroundColor: theme.surface,
                             borderColor: theme.border
                         }}
                     >
                         <div>
-                            <div className="flex items-start justify-between gap-4 mb-4">
+                            <div className="flex items-start justify-between gap-4 mb-2.5 sm:mb-4">
                                 <div>
                                     <div className="flex items-center gap-2 mb-1">
                                         <span

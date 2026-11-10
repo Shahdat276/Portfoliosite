@@ -31,7 +31,7 @@ export function ExperienceCard({
         >
             <button
                 onClick={onToggle}
-                className="w-full p-6 sm:p-7 text-left flex items-start sm:items-center justify-between gap-4 cursor-pointer"
+                className="w-full p-4 sm:p-6 lg:p-7 text-left flex items-start sm:items-center justify-between gap-3 sm:gap-4 cursor-pointer"
             >
                 <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
                     <span
@@ -121,7 +121,7 @@ export function ExperienceCard({
                         className="border-t overflow-hidden"
                         style={{ borderColor: theme.border }}
                     >
-                        <div className="p-6 sm:p-7 space-y-5" style={{ backgroundColor: theme.surfaceAlt }}>
+                        <div className="p-4 sm:p-7 space-y-3.5 sm:space-y-5" style={{ backgroundColor: theme.surfaceAlt }}>
                             <p className="text-sm leading-relaxed" style={{ color: theme.text }}>
                                 {exp.summary}
                             </p>

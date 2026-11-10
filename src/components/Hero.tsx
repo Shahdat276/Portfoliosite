@@ -74,14 +74,14 @@ export function Hero({
     return (
         <section
             id="home"
-            className="pt-28 pb-16 md:pt-32 md:pb-20 min-h-[calc(100vh-5rem)] flex items-center border-b transition-colors duration-500"
+            className="pt-24 pb-10 sm:pt-28 sm:pb-14 lg:pt-32 lg:pb-20 lg:min-h-[calc(100vh-5rem)] flex items-center border-b transition-colors duration-500"
             style={{
                 backgroundColor: theme.bg,
                 borderColor: theme.border
             }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 items-center">
                     {/* Left Column (7 Cols): Editorial Typography Hero */}
                     <motion.div
                         initial={{ opacity: 0, y: 18 }}
@@ -91,7 +91,7 @@ export function Hero({
                     >
                         {/* Availability Pill */}
                         <div
-                            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border mb-7"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 rounded-full border mb-4 sm:mb-7"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border
@@ -108,13 +108,13 @@ export function Hero({
 
                         {/* Oversized Headline */}
                         <p
-                            className="font-mono text-xs uppercase tracking-[0.22em] mb-3"
+                            className="font-mono text-xs uppercase tracking-[0.22em] mb-2 sm:mb-3"
                             style={{ color: theme.accent }}
                         >
                             {siteConfig.heroSecondaryHeadline}
                         </p>
 
-                        <h1 className="font-display text-4xl sm:text-6xl lg:text-6xl xl:text-[74px] 2xl:text-[86px] font-semibold leading-[1.02] tracking-tight mb-6">
+                        <h1 className="font-display text-4xl sm:text-6xl lg:text-6xl xl:text-[74px] 2xl:text-[86px] font-semibold leading-[1.02] tracking-tight mb-4 sm:mb-6">
                             Crafting{' '}
                             <span
                                 className="font-serif-italic font-normal px-1"
@@ -128,7 +128,7 @@ export function Hero({
 
                         {/* Supporting Introduction */}
                         <p
-                            className="text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mb-8"
+                            className="text-sm sm:text-lg lg:text-xl leading-relaxed max-w-2xl mb-5 sm:mb-8"
                             style={{ color: theme.textMuted }}
                         >
                             {siteConfig.heroIntro}
@@ -136,7 +136,7 @@ export function Hero({
 
                         {/* Key Credentials Row */}
                         <div
-                            className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 px-5 rounded-2xl border mb-8 max-w-3xl"
+                            className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 py-3.5 px-4 sm:py-4 sm:px-5 rounded-2xl border mb-6 sm:mb-8 max-w-3xl"
                             style={{
                                 backgroundColor: theme.surface,
                                 borderColor: theme.border
@@ -189,10 +189,10 @@ export function Hero({
                         </div>
 
                         {/* Primary & Secondary CTAs */}
-                        <div className="flex flex-wrap items-center gap-3.5">
+                        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5">
                             <button
                                 onClick={() => navigateToSection('work')}
-                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center gap-2.5 shadow-sm cursor-pointer"
+                                className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex items-center gap-2 shadow-sm cursor-pointer"
                                 style={{
                                     backgroundColor: theme.text,
                                     color: theme.bg
@@ -204,7 +204,7 @@ export function Hero({
 
                             <button
                                 onClick={() => navigateToSection('showreel')}
-                                className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 flex items-center gap-2.5 cursor-pointer"
+                                className="px-5 py-3 sm:px-7 sm:py-4 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.borderStrong,
@@ -221,7 +221,7 @@ export function Hero({
                             <a
                                 href={siteConfig.contact.cvUrl}
                                 download
-                                className="px-5 py-3.5 sm:py-4 rounded-full text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
+                                className="px-4 py-3 sm:px-5 sm:py-4 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surfaceAlt,
                                     borderColor: theme.border,

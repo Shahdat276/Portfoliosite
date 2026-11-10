@@ -32,7 +32,7 @@ export function ShowreelControls({
     setShowreelModalOpen
 }: ShowreelControlsProps) {
     return (
-        <div className="pt-4 px-2 flex flex-col gap-4">
+        <div className="pt-3 sm:pt-4 px-1 sm:px-2 flex flex-col gap-3 sm:gap-4">
             {/* Scrubber Bar */}
             <div
                 onClick={(e) => {
@@ -57,11 +57,11 @@ export function ShowreelControls({
             </div>
 
             {/* Transport Controls & Chapter Selector */}
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
+                <div className="flex items-center gap-2 sm:gap-3">
                     <button
                         onClick={toggleShowreelPlay}
-                        className="px-4 py-2 rounded-full text-xs font-medium border flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-medium border flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                         style={{
                             backgroundColor: isShowreelPlaying ? theme.accent : theme.surfaceAlt,
                             borderColor: isShowreelPlaying ? theme.accent : theme.border,
@@ -83,7 +83,7 @@ export function ShowreelControls({
 
                     <button
                         onClick={toggleShowreelMute}
-                        className="px-4 py-2 rounded-full text-xs font-medium border flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                        className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-medium border flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                         style={{
                             backgroundColor: theme.surfaceAlt,
                             borderColor: theme.border,
@@ -105,7 +105,7 @@ export function ShowreelControls({
                 </div>
 
                 {/* Chapter Quick Buttons (Responsive on Tablet & Desktop) */}
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     {siteConfig.showreel.chapters.map((chap, idx) => (
                         <button
                             key={chap.id}
@@ -113,7 +113,7 @@ export function ShowreelControls({
                                 setActiveChapterIndex(idx);
                                 seekShowreel(chap.progress, chap.seconds);
                             }}
-                            className="px-3 py-1.5 rounded-full text-xs font-mono border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                            className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-mono border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                             style={{
                                 backgroundColor:
                                     idx === activeChapterIndex ? theme.accent : theme.surfaceAlt,
