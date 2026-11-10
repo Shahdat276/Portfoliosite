@@ -60,21 +60,24 @@ export function Navbar({
                     {/* Brand Wordmark */}
                     <button
                         onClick={() => navigateToSection('home')}
-                        className="flex items-center gap-3 text-left group focus:outline-none shrink-0"
+                        className="flex items-center gap-3 text-left group focus:outline-none shrink-0 cursor-pointer"
                     >
                         <span
-                            className="w-2.5 h-2.5 rounded-full transition-transform group-hover:scale-125"
+                            className="w-2.5 h-2.5 rounded-full transition-transform group-hover:scale-125 shrink-0"
                             style={{ backgroundColor: theme.accent }}
                         />
-                        <div>
-                            <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none">
+                        <div className="inline-flex flex-col w-max">
+                            <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none whitespace-nowrap">
                                 {siteConfig.wordmark}
                             </span>
                             <span
-                                className="font-mono text-[10px] uppercase tracking-[0.2em] block mt-1"
+                                className="w-full flex items-center justify-between font-mono text-[8.5px] sm:text-[9.5px] uppercase tracking-[0.08em] sm:tracking-[0.1em] mt-1.5 leading-none whitespace-nowrap"
                                 style={{ color: theme.textMuted }}
                             >
-                                Senior Editor & Motion
+                                <span>Senior</span>
+                                <span>Editor</span>
+                                <span>&amp;</span>
+                                <span>Motion</span>
                             </span>
                         </div>
                     </button>
