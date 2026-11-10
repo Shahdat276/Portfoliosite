@@ -421,29 +421,50 @@ export function CaseStudyView({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                         {currentCaseStudy.supportingVisuals.map((vis, idx) => (
                             <div
                                 key={idx}
-                                className="rounded-2xl border p-3 transition-all"
+                                className="group rounded-2xl border p-3 sm:p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.border
                                 }}
                             >
-                                <div className="rounded-xl overflow-hidden mb-4">
-                                    <EditorialVisualFrame
-                                        theme={theme}
-                                        index={`0${idx + 1}`}
-                                        category={vis.title}
-                                        aspectClass="aspect-[16/10]"
-                                        pattern={idx % 2 === 0 ? 'orbital-rings' : 'kinetic-grid'}
-                                        badgeText="Supporting Still"
-                                    />
+                                <div className="rounded-xl overflow-hidden mb-3.5 sm:mb-4 relative">
+                                    {vis.imageUrl ? (
+                                        <div className="relative w-full aspect-[16/10] bg-[#11100F] overflow-hidden">
+                                            <Image
+                                                src={vis.imageUrl}
+                                                alt={vis.title}
+                                                fill
+                                                unoptimized
+                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25 pointer-events-none" />
+                                            <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                                                <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
+                                                    0{idx + 1} / Breakdown
+                                                </span>
+                                                <span className="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-black/65 text-white backdrop-blur-sm border border-white/15">
+                                                    Studio Still
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <EditorialVisualFrame
+                                            theme={theme}
+                                            index={`0${idx + 1}`}
+                                            category={vis.title}
+                                            aspectClass="aspect-[16/10]"
+                                            pattern={idx % 2 === 0 ? 'orbital-rings' : 'kinetic-grid'}
+                                            badgeText="Supporting Still"
+                                        />
+                                    )}
                                 </div>
-                                <div className="px-2 pb-1">
+                                <div className="px-1.5 sm:px-2 pb-1">
                                     <h4 className="font-display text-base font-semibold">{vis.title}</h4>
-                                    <p className="text-xs mt-1" style={{ color: theme.textMuted }}>
+                                    <p className="text-xs sm:text-sm mt-1" style={{ color: theme.textMuted }}>
                                         {vis.caption}
                                     </p>
                                 </div>

@@ -77,6 +77,7 @@ export interface SiteConfig {
 export interface SupportingVisual {
     title: string;
     caption: string;
+    imageUrl?: string;
 }
 
 export interface ProjectVideoItem {

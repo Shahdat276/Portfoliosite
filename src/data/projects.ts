@@ -35,19 +35,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / Three-Act Narrative Assembly",
-                "caption": "Paced commercial cut matching music dynamics in Premiere Pro."
+                "caption": "Paced commercial cut matching music dynamics in Premiere Pro.",
+                "imageUrl": "/images/stills/premiere-timeline.jpg"
             },
             {
                 "title": "02 / Motion Graphic Callouts",
-                "caption": "Clean kinetic title cards and lower thirds in After Effects."
+                "caption": "Clean kinetic title cards and lower thirds in After Effects.",
+                "imageUrl": "/images/stills/motion-kinetic-type.jpg"
             },
             {
                 "title": "03 / Color Grading Node Tree",
-                "caption": "High-contrast commercial look balancing in DaVinci Resolve."
+                "caption": "High-contrast commercial look balancing in DaVinci Resolve.",
+                "imageUrl": "/images/stills/davinci-color-nodes.jpg"
             },
             {
                 "title": "04 / Master Broadcast Delivery",
-                "caption": "16:9 broadcast and 9:16 digital master deliverables."
+                "caption": "16:9 broadcast and 9:16 digital master deliverables.",
+                "imageUrl": "/images/stills/broadcast-master-suite.jpg"
             }
         ],
         "videoUrl": "https://www.youtube.com/watch?v=9i26S0O48nU",
@@ -104,19 +108,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / Opening Editorial Title",
-                "caption": "Minimalist kinetic typography over warm studio grain."
+                "caption": "Minimalist kinetic typography over warm studio grain.",
+                "imageUrl": "/images/stills/motion-kinetic-type.jpg"
             },
             {
                 "title": "02 / Texture & Silhouette Cut",
-                "caption": "Slow-motion macro framing showcasing fine textile weaving."
+                "caption": "Slow-motion macro framing showcasing fine textile weaving.",
+                "imageUrl": "/images/stills/fashion-film-frame.jpg"
             },
             {
                 "title": "03 / Film Color Grade",
-                "caption": "Warm cinematic tones and rich skin tones balanced in DaVinci Resolve."
+                "caption": "Warm cinematic tones and rich skin tones balanced in DaVinci Resolve.",
+                "imageUrl": "/images/stills/davinci-color-nodes.jpg"
             },
             {
                 "title": "04 / Theatrical Master Frame",
-                "caption": "2.39:1 widescreen theatrical presentation."
+                "caption": "2.39:1 widescreen theatrical presentation.",
+                "imageUrl": "/images/stills/showreel-director-stage.jpg"
             }
         ],
         "videoUrl": "https://www.youtube.com/watch?v=xNlc8XCD1Vs",
@@ -197,19 +205,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / Kinetic Typography Rigs",
-                "caption": "Procedural expression-driven text animations in After Effects."
+                "caption": "Procedural expression-driven text animations in After Effects.",
+                "imageUrl": "/images/stills/after-effects-graph.jpg"
             },
             {
                 "title": "02 / Vector Asset Preparation",
-                "caption": "Precision vector iconography prepared in Adobe Illustrator."
+                "caption": "Precision vector iconography prepared in Adobe Illustrator.",
+                "imageUrl": "/images/stills/vector-deconstruction.jpg"
             },
             {
                 "title": "03 / Multi-Layer Compositing",
-                "caption": "Depth passes and subtle optical glows layered for broadcast."
+                "caption": "Depth passes and subtle optical glows layered for broadcast.",
+                "imageUrl": "/images/stills/3d-lighting-clay.jpg"
             },
             {
                 "title": "04 / Modular Template Delivery",
-                "caption": "Multi-aspect ratio outputs for social and broadcast TV."
+                "caption": "Multi-aspect ratio outputs for social and broadcast TV.",
+                "imageUrl": "/images/stills/broadcast-master-suite.jpg"
             }
         ],
         "videoUrl": "https://www.youtube.com/watch?v=i1O-PwOXNR4",
@@ -378,19 +390,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / Vector Deconstruction",
-                "caption": "Layered brand mark breakdown in Adobe Illustrator."
+                "caption": "Layered brand mark breakdown in Adobe Illustrator.",
+                "imageUrl": "/images/stills/vector-deconstruction.jpg"
             },
             {
                 "title": "02 / Kinetic Path Animation",
-                "caption": "Fluid bezier speed-graph choreography in After Effects."
+                "caption": "Fluid bezier speed-graph choreography in After Effects.",
+                "imageUrl": "/images/stills/after-effects-graph.jpg"
             },
             {
                 "title": "03 / 3D Extrusion & Lighting",
-                "caption": "Subtle bevel and ambient occlusion passes in Cinema 4D."
+                "caption": "Subtle bevel and ambient occlusion passes in Cinema 4D.",
+                "imageUrl": "/images/stills/cinema4d-wireframe.jpg"
             },
             {
                 "title": "04 / Transparent Alpha Master",
-                "caption": "ProRes 4444 lossless delivery for versatile production usage."
+                "caption": "ProRes 4444 lossless delivery for versatile production usage.",
+                "imageUrl": "/images/stills/broadcast-master-suite.jpg"
             }
         ],
         "videoUrl": "https://www.youtube.com/watch?v=A4yw8q0QZE8",
@@ -479,19 +495,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / 3D Asset Wireframe",
-                "caption": "Topology and subdivision modeling in Blender."
+                "caption": "Topology and subdivision modeling in Blender.",
+                "imageUrl": "/images/stills/cinema4d-wireframe.jpg"
             },
             {
                 "title": "02 / Studio Lighting Setup",
-                "caption": "Three-point lighting and physical shader development in Cinema 4D."
+                "caption": "Three-point lighting and physical shader development in Cinema 4D.",
+                "imageUrl": "/images/stills/3d-lighting-clay.jpg"
             },
             {
                 "title": "03 / Multi-Pass Compositing",
-                "caption": "Depth of field, ambient occlusion, and motion blur integration in After Effects."
+                "caption": "Depth of field, ambient occlusion, and motion blur integration in After Effects.",
+                "imageUrl": "/images/stills/after-effects-graph.jpg"
             },
             {
                 "title": "04 / Final Stylized Master",
-                "caption": "Complete stylized 3D/2D composite frame."
+                "caption": "Complete stylized 3D/2D composite frame.",
+                "imageUrl": "/images/stills/ai-generative-concept.jpg"
             }
         ],
         "videoUrl": "https://www-ccv.adobe.io/v1/player/ccv/IIs_IxoMxgp/embed?api_key=behance1&bgcolor=%23191919",
@@ -563,19 +583,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / The 3-Second Hook Frame",
-                "caption": "High-energy visual and auditory trigger designed for thumb-stopping retention."
+                "caption": "High-energy visual and auditory trigger designed for thumb-stopping retention.",
+                "imageUrl": "/images/stills/reels-mobile-safezone.jpg"
             },
             {
                 "title": "02 / Dynamic Kinetic Captions",
-                "caption": "Word-by-word highlighted subtitles synced to speech rhythm."
+                "caption": "Word-by-word highlighted subtitles synced to speech rhythm.",
+                "imageUrl": "/images/stills/motion-kinetic-type.jpg"
             },
             {
                 "title": "03 / Sound FX Layering",
-                "caption": "Whooshes, riser hits, and pop sound effects mapped in Premiere Pro."
+                "caption": "Whooshes, riser hits, and pop sound effects mapped in Premiere Pro.",
+                "imageUrl": "/images/stills/premiere-timeline.jpg"
             },
             {
                 "title": "04 / Mobile Platform Optimization",
-                "caption": "9:16 vertical safe-zone layout ensuring UI elements do not block content."
+                "caption": "9:16 vertical safe-zone layout ensuring UI elements do not block content.",
+                "imageUrl": "/images/stills/broadcast-master-suite.jpg"
             }
         ],
         "videoUrl": "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F26145482391788983%2F&show_text=false&width=267&t=0",
@@ -712,19 +736,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / Generative AI Concept Frame",
-                "caption": "High-detail visual synthesis crafted with custom prompt engineering."
+                "caption": "High-detail visual synthesis crafted with custom prompt engineering.",
+                "imageUrl": "/images/stills/ai-generative-concept.jpg"
             },
             {
                 "title": "02 / Temporal Deflicker & Stabilization",
-                "caption": "Frame-to-frame coherence tuning in After Effects."
+                "caption": "Frame-to-frame coherence tuning in After Effects.",
+                "imageUrl": "/images/stills/after-effects-graph.jpg"
             },
             {
                 "title": "03 / Film Grain & Halation Harmony",
-                "caption": "Organic film texture simulation applied in DaVinci Resolve."
+                "caption": "Organic film texture simulation applied in DaVinci Resolve.",
+                "imageUrl": "/images/stills/davinci-color-nodes.jpg"
             },
             {
                 "title": "04 / Final Cinematic Render",
-                "caption": "4K widescreen master delivery blending AI visuals with cinematic editing."
+                "caption": "4K widescreen master delivery blending AI visuals with cinematic editing.",
+                "imageUrl": "/images/stills/showreel-director-stage.jpg"
             }
         ],
         "videoUrl": "https://www-ccv.adobe.io/v1/player/ccv/7v3bzrumLfj/embed?api_key=behance1&bgcolor=%23191919",
@@ -797,19 +825,23 @@ export const INITIAL_PROJECTS: Project[] = [
         "supportingVisuals": [
             {
                 "title": "01 / Rhythmic Commercial Montage",
-                "caption": "High-octane montage cutting on musical transients."
+                "caption": "High-octane montage cutting on musical transients.",
+                "imageUrl": "/images/stills/premiere-timeline.jpg"
             },
             {
                 "title": "02 / Fashion Film Section",
-                "caption": "Editorial couture cutting focused on movement and silhouetting."
+                "caption": "Editorial couture cutting focused on movement and silhouetting.",
+                "imageUrl": "/images/stills/fashion-film-frame.jpg"
             },
             {
                 "title": "03 / 3D & VFX Highlight Reel",
-                "caption": "Cinema 4D and Blender simulations integrated seamlessly."
+                "caption": "Cinema 4D and Blender simulations integrated seamlessly.",
+                "imageUrl": "/images/stills/cinema4d-wireframe.jpg"
             },
             {
                 "title": "04 / Theatrical End Frame",
-                "caption": "Brand sign-off and artist contact credential card."
+                "caption": "Brand sign-off and artist contact credential card.",
+                "imageUrl": "/images/stills/showreel-director-stage.jpg"
             }
         ],
         "videoUrl": "https://www.youtube.com/watch?v=ZVPus_WBp3Q",
