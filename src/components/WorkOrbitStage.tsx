@@ -227,8 +227,8 @@ export function WorkOrbitStage({
                 {/* Vertical Architectural Hairline Grid */}
                 <ArchitecturalGuides borderColor={theme.border} columns={5} />
 
-                {/* Headline in Background Behind Character Avatar Layer (z-[1] < Arena z-[10]) */}
-                <div className="absolute top-[13svh] sm:top-[14svh] lg:top-[15svh] inset-x-0 z-[1] px-4 text-center pointer-events-none">
+                {/* Headline Positioned High at User-Marked Line, Emerging Behind Hair (z-[1] < Arena z-[10]) */}
+                <div className="absolute top-[8svh] sm:top-[8.5svh] lg:top-[9svh] inset-x-0 z-[1] px-4 text-center pointer-events-none">
                     <SkewMaskReveal>
                         <h2 className="font-display text-5xl sm:text-8xl lg:text-[124px] xl:text-[150px] font-medium leading-[0.88] tracking-[-0.05em]">
                             Selected Work
