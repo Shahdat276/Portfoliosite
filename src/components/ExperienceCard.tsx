@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, MapPin, Check } from 'lucide-react';
 import { StudioTheme, ExperienceItem } from '@/types';
@@ -32,21 +33,43 @@ export function ExperienceCard({
                 onClick={onToggle}
                 className="w-full p-6 sm:p-7 text-left flex items-start sm:items-center justify-between gap-4 cursor-pointer"
             >
-                <div className="flex items-start gap-4">
+                <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
                     <span
-                        className="font-mono text-xs pt-1"
+                        className="font-mono text-xs shrink-0 hidden sm:inline"
                         style={{ color: theme.accent }}
                     >
                         0{idx + 1}
                     </span>
-                    <div>
-                        <div className="flex flex-wrap items-center gap-2.5 mb-1">
-                            <h3 className="font-display text-lg sm:text-xl font-semibold">
+
+                    {exp.logoUrl && (
+                        <div
+                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl border overflow-hidden relative shrink-0 shadow-xs ${
+                                exp.logoDarkBg ? 'bg-[#1B1B1D]' : 'bg-white'
+                            }`}
+                            style={{ borderColor: theme.border }}
+                        >
+                            <Image
+                                src={exp.logoUrl}
+                                alt={`${exp.organization} logo`}
+                                fill
+                                unoptimized
+                                className={
+                                    exp.logoDarkBg
+                                        ? 'object-cover'
+                                        : 'object-contain p-1.5'
+                                }
+                            />
+                        </div>
+                    )}
+
+                    <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <h3 className="font-display text-base sm:text-xl font-semibold">
                                 {exp.organization}
                             </h3>
                             {idx === 0 && (
                                 <span
-                                    className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider"
+                                    className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider shrink-0"
                                     style={{
                                         backgroundColor: theme.accentSoft,
                                         color: theme.accent
@@ -56,8 +79,11 @@ export function ExperienceCard({
                                 </span>
                             )}
                         </div>
-                        <p className="text-sm font-medium" style={{ color: theme.textMuted }}>
+                        <p className="text-xs sm:text-sm font-medium truncate" style={{ color: theme.textMuted }}>
                             {exp.role}
+                        </p>
+                        <p className="font-mono text-[11px] mt-1 sm:hidden" style={{ color: theme.accent }}>
+                            {exp.period}
                         </p>
                     </div>
                 </div>

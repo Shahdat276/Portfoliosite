@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { StudioTheme, ExperienceItem } from '@/types';
 import { ExperienceCard } from './ExperienceCard';
 
@@ -18,10 +19,11 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
             className="py-24 md:py-32 border-b"
             style={{ borderColor: theme.border }}
         >
-                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                        {/* Left 4 Columns Heading */}
-                        <div className="lg:col-span-4">
+            <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    {/* Left 4 Columns Sticky Summary + Employer Logos */}
+                    <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
+                        <div>
                             <span
                                 className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
                                 style={{ color: theme.accent }}
@@ -38,21 +40,80 @@ export function ExperienceSection({ theme, experiences }: ExperienceSectionProps
                             </p>
                         </div>
 
-                        {/* Right 8 Columns Extracted Expandable Cards */}
-                        <div className="lg:col-span-8 space-y-4">
-                            {experiences.map((exp, idx) => (
-                                <ExperienceCard
-                                    key={exp.id}
-                                    exp={exp}
-                                    idx={idx}
-                                    isOpen={expandedExpId === exp.id}
-                                    onToggle={() => setExpandedExpId(expandedExpId === exp.id ? null : exp.id)}
-                                    theme={theme}
-                                />
-                            ))}
+                        {/* Interactive Company Emblem Wall */}
+                        <div
+                            className="p-5 rounded-2xl border"
+                            style={{
+                                backgroundColor: theme.surface,
+                                borderColor: theme.border
+                            }}
+                        >
+                            <div className="flex items-center justify-between mb-3.5">
+                                <span
+                                    className="font-mono text-[10px] uppercase tracking-wider"
+                                    style={{ color: theme.textMuted }}
+                                >
+                                    Organizations &amp; Brands ({experiences.length})
+                                </span>
+                                <span className="font-mono text-[10px]" style={{ color: theme.accent }}>
+                                    2017 — Present
+                                </span>
+                            </div>
+
+                            <div className="grid grid-cols-5 lg:grid-cols-3 gap-2.5">
+                                {experiences.map((exp) => {
+                                    const isSelected = expandedExpId === exp.id;
+                                    if (!exp.logoUrl) return null;
+                                    return (
+                                        <button
+                                            key={exp.id}
+                                            onClick={() => setExpandedExpId(exp.id)}
+                                            title={`${exp.organization} (${exp.period})`}
+                                            className={`aspect-square rounded-xl border relative overflow-hidden transition-all cursor-pointer ${
+                                                exp.logoDarkBg ? 'bg-[#1B1B1D]' : 'bg-white'
+                                            }`}
+                                            style={{
+                                                borderColor: isSelected ? theme.accent : theme.border,
+                                                boxShadow: isSelected ? `0 0 0 2px ${theme.accentSoft}` : undefined
+                                            }}
+                                        >
+                                            <Image
+                                                src={exp.logoUrl}
+                                                alt={exp.organization}
+                                                fill
+                                                unoptimized
+                                                className={
+                                                    exp.logoDarkBg
+                                                        ? 'object-cover'
+                                                        : 'object-contain p-2'
+                                                }
+                                            />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            <p className="text-[11px] font-mono mt-3" style={{ color: theme.textMuted }}>
+                                Click any company emblem to inspect responsibilities &amp; key milestones.
+                            </p>
                         </div>
                     </div>
+
+                    {/* Right 8 Columns Extracted Expandable Cards */}
+                    <div className="lg:col-span-8 space-y-4">
+                        {experiences.map((exp, idx) => (
+                            <ExperienceCard
+                                key={exp.id}
+                                exp={exp}
+                                idx={idx}
+                                isOpen={expandedExpId === exp.id}
+                                onToggle={() => setExpandedExpId(expandedExpId === exp.id ? null : exp.id)}
+                                theme={theme}
+                            />
+                        ))}
+                    </div>
                 </div>
+            </div>
         </section>
     );
 }

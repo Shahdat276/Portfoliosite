@@ -8,6 +8,8 @@ export const INITIAL_EXPERIENCE: ExperienceItem[] = [
         period: 'May 2021 — Present (Running)',
         status: 'Current Organization',
         location: 'Dhaka, Bangladesh',
+        logoUrl: '/images/companies/amanat-shah-group.jpg',
+        logoDarkBg: true,
         summary:
             'Leading commercial video editing, fashion & textile brand campaigns, motion graphics systems, and high-impact digital video production.',
         responsibilities: [
@@ -25,6 +27,8 @@ export const INITIAL_EXPERIENCE: ExperienceItem[] = [
         period: 'Nov 2020 — Apr 2021',
         status: 'Previous Experience',
         location: 'Dhaka, Bangladesh',
+        logoUrl: '/images/companies/neways.png',
+        logoDarkBg: false,
         summary:
             'Produced commercial video advertisements, promotional campaigns, and motion graphics for international and domestic digital channels.',
         responsibilities: [
@@ -42,6 +46,8 @@ export const INITIAL_EXPERIENCE: ExperienceItem[] = [
         period: 'Aug 2019 — Apr 2020',
         status: 'Previous Experience',
         location: 'Dhaka, Bangladesh',
+        logoUrl: '/images/companies/ingenium.jpg',
+        logoDarkBg: false,
         summary:
             'Delivered visual storytelling, dynamic video editing, and animated motion design across a wide variety of agency client briefs.',
         responsibilities: [
@@ -59,6 +65,8 @@ export const INITIAL_EXPERIENCE: ExperienceItem[] = [
         period: 'Mar 2018 — Sep 2018',
         status: 'Previous Experience',
         location: 'Dhaka, Bangladesh',
+        logoUrl: '/images/companies/computer-world.jpg',
+        logoDarkBg: false,
         summary:
             'Executed digital video editing and graphic design workflows across digital marketing campaigns and multimedia collateral.',
         responsibilities: [
@@ -76,6 +84,8 @@ export const INITIAL_EXPERIENCE: ExperienceItem[] = [
         period: 'Jan 2017 — Feb 2018',
         status: 'Previous Experience',
         location: 'Dhaka, Bangladesh',
+        logoUrl: '/images/companies/dewan-ict.jpg',
+        logoDarkBg: false,
         summary:
             'Created creative graphic design collateral, visual brand assets, and marketing layouts for diverse organizational initiatives.',
         responsibilities: [

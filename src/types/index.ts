@@ -136,6 +136,8 @@ export interface ExperienceItem {
     period: string;
     status: string;
     location: string;
+    logoUrl?: string;
+    logoDarkBg?: boolean;
     summary: string;
     responsibilities: string[];
     contributions: string;
