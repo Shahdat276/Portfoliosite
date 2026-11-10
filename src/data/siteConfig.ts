@@ -44,10 +44,10 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
     contact: {
         email: 'shahdathossain0779@gmail.com',
         whatsapp: '+880 1850-993126',
-        linkedin: 'https://linkedin.com',
-        behance: 'https://behance.net',
+        linkedin: 'https://www.linkedin.com/in/shahdatofficial/',
+        behance: 'https://www.behance.net/shahdathossain6',
         vimeo: 'https://vimeo.com',
-        youtube: 'https://youtube.com',
+        youtube: 'https://www.youtube.com/@samtutsofficial',
         cvUrl: '/cv/Shahdat_Hossain_CV.pdf',
         formEndpoint: ''
     }

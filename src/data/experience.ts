@@ -4,79 +4,86 @@ export const INITIAL_EXPERIENCE: ExperienceItem[] = [
     {
         id: 'exp-1',
         organization: 'Amanat Shah Group (ASG)',
-        role: 'Senior Video Editor & Motion Graphics Designer',
-        period: 'Present — [Insert Start Year]',
+        role: 'Video Editor & Motion Graphics Designer',
+        period: 'May 2021 — Present (Running)',
         status: 'Current Organization',
         location: 'Dhaka, Bangladesh',
         summary:
-            'Leading commercial video editing, fashion & textile film production, brand campaign visuals, and motion graphics systems.',
+            'Leading commercial video editing, fashion & textile brand campaigns, motion graphics systems, and high-impact digital video production.',
         responsibilities: [
             'Directing end-to-end post-production for commercial campaigns, fashion films, and corporate brand communications.',
-            'Designing bespoke 2D/3D motion graphics packages, kinetic typography, and visual identity animations.',
-            'Overseeing color grading, audio finishing, and multi-platform mastering across digital and broadcast channels.'
+            'Designing bespoke 2D/3D motion graphics packages, kinetic typography, and visual identity animations in After Effects.',
+            'Executing cinema-grade color grading, shot-matching, audio finishing, and multi-format export for TV broadcast and digital media.'
         ],
-        contributions: '[Editable Placeholder — Add key campaign milestones & projects at Amanat Shah Group]'
+        contributions:
+            'Spearheaded flagship promotional films and digital product campaigns that significantly enhanced brand presence across multi-channel media.'
     },
     {
         id: 'exp-2',
         organization: 'Neways International Company Limited',
-        role: 'Video Editor & Motion Graphics Designer [Editable Title]',
-        period: '[Start Year — End Year]',
+        role: 'Video Editor',
+        period: 'Nov 2020 — Apr 2021',
         status: 'Previous Experience',
         location: 'Dhaka, Bangladesh',
         summary:
-            'Produced commercial video advertisements, promotional campaigns, and motion graphics for digital and corporate channels.',
+            'Produced commercial video advertisements, promotional campaigns, and motion graphics for international and domestic digital channels.',
         responsibilities: [
-            'Edited commercial spots, product showcases, and social media video campaigns.',
-            'Created custom motion graphics, lower thirds, logo reveals, and visual effects sequences.',
-            'Collaborated closely with creative and marketing teams from concept to final delivery.'
+            'Edited high-retention commercial spots, lifestyle product showcases, and social media promotional videos.',
+            'Designed custom motion graphics, lower-thirds, animated logo reveals, and visual effects sequences.',
+            'Collaborated closely with creative directors and marketing strategists from concept to final delivery.'
         ],
-        contributions: '[Editable Placeholder — Add key achievements at Neways International]'
+        contributions:
+            'Delivered high-converting digital advertising campaigns with rapid turnaround times while maintaining rigorous aesthetic standards.'
     },
     {
         id: 'exp-3',
         organization: 'Ingenium BD',
-        role: 'Video Editor & Motion Designer [Editable Title]',
-        period: '[Start Year — End Year]',
+        role: 'Video Editor',
+        period: 'Aug 2019 — Apr 2020',
         status: 'Previous Experience',
         location: 'Dhaka, Bangladesh',
         summary:
-            'Delivered visual storytelling, video editing, and animated motion graphics across diverse client briefs.',
+            'Delivered visual storytelling, dynamic video editing, and animated motion design across a wide variety of agency client briefs.',
         responsibilities: [
-            'Assembled and refined commercial edits, brand stories, and product videos.',
-            'Developed 2D and 3D motion design assets using Adobe After Effects and 3D software.'
+            'Assembled and refined commercial cuts, brand stories, and product videos with rhythmic, musical pacing.',
+            'Developed 2D and 3D motion design assets utilizing Adobe After Effects, Illustrator, and 3D pipelines.',
+            'Executed multi-track audio synchronization, sound design enhancement, and color correction.'
         ],
-        contributions: '[Editable Placeholder — Add key achievements at Ingenium BD]'
+        contributions:
+            'Enhanced agency client satisfaction by streamlining post-production workflows and elevating storytelling pacing.'
     },
     {
         id: 'exp-4',
         organization: 'Computer World',
-        role: 'Multimedia & Video Specialist [Editable Title]',
-        period: '[Start Year — End Year]',
+        role: 'Graphic Design & Video Editor',
+        period: 'Mar 2018 — Sep 2018',
         status: 'Previous Experience',
-        location: 'Bangladesh',
+        location: 'Dhaka, Bangladesh',
         summary:
-            'Focused on digital video production, visual design, and multimedia post-production workflows.',
+            'Executed digital video editing and graphic design workflows across digital marketing campaigns and multimedia collateral.',
         responsibilities: [
-            'Executed video editing, visual design, and digital media asset preparation.',
-            'Supported creative production pipelines across Adobe Creative Cloud applications.'
+            'Edited promotional video clips and digital brand assets for marketing initiatives.',
+            'Designed marketing graphics, social media banners, and promotional print collateral.',
+            'Ensured consistent brand visual language across all digital assets and video deliverables.'
         ],
-        contributions: '[Editable Placeholder — Add key achievements at Computer World]'
+        contributions:
+            'Successfully blended static graphic design foundations with kinetic video storytelling across diverse client requirements.'
     },
     {
         id: 'exp-5',
-        organization: 'Dewan ICT Institute',
-        role: 'Video Editing & Multimedia Role [Editable Title]',
-        period: '[Start Year — End Year]',
+        organization: 'Dewan ICT Co.',
+        role: 'Graphic Designer',
+        period: 'Jan 2017 — Feb 2018',
         status: 'Previous Experience',
-        location: 'Bangladesh',
+        location: 'Dhaka, Bangladesh',
         summary:
-            'Built strong technical and creative foundations in digital media, video editing, and motion design.',
+            'Created creative graphic design collateral, visual brand assets, and marketing layouts for diverse organizational initiatives.',
         responsibilities: [
-            'Applied core video editing, graphic design, and animation principles across practical projects.',
-            'Developed deep fluency in industry-standard post-production software.'
+            'Designed brand identity assets, vector graphics, print layouts, and digital promotional banners.',
+            'Applied fundamental color theory, typography, and visual hierarchy across all creative projects.',
+            'Collaborated with design teams to master digital design workflows in Adobe Photoshop and Illustrator.'
         ],
-        contributions: '[Editable Placeholder — Add role details at Dewan ICT Institute]'
+        contributions:
+            'Established a deep technical and artistic foundation in visual composition, layout, and typography that fuels senior motion design today.'
     }
 ];
-

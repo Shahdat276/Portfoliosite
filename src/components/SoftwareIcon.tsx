@@ -215,3 +215,4 @@ export function SoftwareIcon({ code, name = '', className = 'w-11 h-11' }: Softw
         </div>
     );
 }
+
