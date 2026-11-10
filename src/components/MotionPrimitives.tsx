@@ -14,8 +14,11 @@ import {
 } from 'framer-motion';
 import { StudioTheme } from '@/types';
 
-/** After Effects inspired Speed-Graph cubic-bezier easing curve. */
+/** After Effects inspired Speed-Graph deceleration curve. */
 export const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Signature editorial masked-rise cubic-bezier curve. */
+export const STUDIO_EASE = [0.65, 0, 0.2, 1] as const;
 
 const TICKER_ITEMS = [
     'Commercial Editing',
@@ -29,6 +32,195 @@ const TICKER_ITEMS = [
     'DaVinci Resolve',
     'Reels & Social Cuts'
 ];
+
+let sharedAudioCtx: AudioContext | null = null;
+
+/**
+ * Plays a minimal Web Audio API studio click/tick cue when sound mode is enabled.
+ */
+export function playStudioTick(enabled: boolean, pitch = 680) {
+    if (!enabled || typeof window === 'undefined') return;
+    try {
+        const Ctx =
+            window.AudioContext ||
+            (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        if (!Ctx) return;
+        if (!sharedAudioCtx) {
+            sharedAudioCtx = new Ctx();
+        }
+        if (sharedAudioCtx.state === 'suspended') {
+            sharedAudioCtx.resume().catch(() => {});
+        }
+        const osc = sharedAudioCtx.createOscillator();
+        const gain = sharedAudioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(pitch, sharedAudioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(pitch * 0.45, sharedAudioCtx.currentTime + 0.045);
+
+        gain.gain.setValueAtTime(0.035, sharedAudioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, sharedAudioCtx.currentTime + 0.05);
+
+        osc.connect(gain);
+        gain.connect(sharedAudioCtx.destination);
+        osc.start();
+        osc.stop(sharedAudioCtx.currentTime + 0.055);
+    } catch {
+        // Ignore audio restrictions cleanly
+    }
+}
+
+interface MonogramMarkProps {
+    accentColor: string;
+    className?: string;
+}
+
+/**
+ * Geometric SH studio monogram mark with signature rotate-scale arrival animation.
+ */
+export function MonogramMark({ accentColor, className = 'w-7 h-7' }: MonogramMarkProps) {
+    return (
+        <svg
+            viewBox="0 0 36 36"
+            fill="none"
+            aria-hidden="true"
+            className={`cos-monogram-enter shrink-0 ${className}`}
+        >
+            <rect
+                x="1.5"
+                y="1.5"
+                width="33"
+                height="33"
+                rx="9"
+                stroke="currentColor"
+                strokeOpacity="0.22"
+                strokeWidth="1.5"
+            />
+            <path
+                d="M11 23.5L11 12.5H17.5M18.5 12.5V23.5H25"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <circle cx="24.5" cy="12.5" r="2.5" fill={accentColor} />
+        </svg>
+    );
+}
+
+interface RollTextProps {
+    text: string;
+    className?: string;
+}
+
+/**
+ * Staggered character-by-character vertical roll hover animation ([data-roll-letter] effect).
+ */
+export function RollText({ text, className = '' }: RollTextProps) {
+    const chars = Array.from(text);
+    return (
+        <span className={`inline-flex overflow-hidden leading-[1.08] cos-roll-trigger ${className}`}>
+            {chars.map((char, idx) => {
+                const display = char === ' ' ? '\u00A0' : char;
+                const delay = `${Math.min(idx, 18) * 16}ms`;
+                return (
+                    <span
+                        key={`${idx}-${char}`}
+                        className="relative inline-block overflow-hidden h-[1.12em]"
+                    >
+                        <span
+                            className="cos-roll-letter block leading-[1.12em]"
+                            style={{ transitionDelay: delay }}
+                        >
+                            <span className="block">{display}</span>
+                            <span aria-hidden="true" className="block">
+                                {display}
+                            </span>
+                        </span>
+                    </span>
+                );
+            })}
+        </span>
+    );
+}
+
+interface SkewMaskRevealProps {
+    children: React.ReactNode;
+    delay?: number;
+    className?: string;
+}
+
+/**
+ * Masked editorial headline reveal matching `@keyframes arrive` (translateY + skewY).
+ */
+export function SkewMaskReveal({ children, delay = 0, className = '' }: SkewMaskRevealProps) {
+    const shouldReduce = useReducedMotion();
+
+    if (shouldReduce) {
+        return <div className={className}>{children}</div>;
+    }
+
+    return (
+        <div className={`overflow-clip py-[0.06em] -my-[0.06em] ${className}`}>
+            <motion.div
+                initial={{ opacity: 0, y: '110%', skewY: 3.5 }}
+                whileInView={{ opacity: 1, y: '0%', skewY: 0 }}
+                viewport={{ once: true, amount: 0.08 }}
+                transition={{
+                    duration: 0.85,
+                    delay,
+                    ease: STUDIO_EASE
+                }}
+            >
+                {children}
+            </motion.div>
+        </div>
+    );
+}
+
+interface ArchitecturalGuidesProps {
+    borderColor: string;
+    columns?: 3 | 5;
+}
+
+/**
+ * Vertical architectural grid hairline columns expanding downward cleanly into view.
+ */
+export function ArchitecturalGuides({
+    borderColor,
+    columns = 5
+}: ArchitecturalGuidesProps) {
+    const shouldReduce = useReducedMotion();
+
+    return (
+        <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-0 grid ${
+                columns === 5 ? 'grid-cols-3 lg:grid-cols-5' : 'grid-cols-3'
+            } px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] z-0`}
+        >
+            {Array.from({ length: columns }).map((_, idx) => (
+                <motion.i
+                    key={idx}
+                    initial={shouldReduce ? false : { scaleY: 0 }}
+                    whileInView={{ scaleY: 1 }}
+                    viewport={{ once: true, amount: 0.05 }}
+                    transition={{
+                        duration: 0.9,
+                        delay: idx * 0.06,
+                        ease: STUDIO_EASE
+                    }}
+                    className={`border-l origin-top h-full ${
+                        columns === 5 && idx >= 3 ? 'hidden lg:block' : 'block'
+                    }`}
+                    style={{
+                        borderColor,
+                        opacity: 0.45
+                    }}
+                />
+            ))}
+        </div>
+    );
+}
 
 interface TimelineScrollBarProps {
     theme: StudioTheme;
@@ -94,7 +286,7 @@ export function KineticReveal({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.06 }}
             transition={{
-                duration: 0.58,
+                duration: 0.62,
                 delay,
                 ease: MOTION_EASE
             }}
@@ -315,7 +507,6 @@ export function MotionVelocityTicker({ theme }: MotionVelocityTickerProps) {
             directionRef.current = 1;
         }
 
-        // Steady base drift + velocity boost mapped smoothly in -50%..0% loop
         const baseStep = directionRef.current * -2.2 * (clampedDelta / 1000);
         const velocityBoost = -vFactor * 3.8 * (clampedDelta / 1000);
         let next = baseX.get() + baseStep + velocityBoost;

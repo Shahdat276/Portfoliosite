@@ -24,12 +24,28 @@ import { ExperienceSection } from '@/components/ExperienceSection';
 import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
 import { ShowreelModal } from '@/components/ShowreelModal';
-import { MotionVelocityTicker } from '@/components/MotionPrimitives';
+import {
+    MotionVelocityTicker,
+    playStudioTick
+} from '@/components/MotionPrimitives';
+import { ImpactDeckSection } from '@/components/ImpactDeckSection';
+import { BrandOrbitSection } from '@/components/BrandOrbitSection';
+import { CraftShowcase } from '@/components/CraftShowcase';
+import { ProcessWorkflowSection } from '@/components/ProcessWorkflowSection';
 
 export default function Home() {
-    // 1. Theme State (Default: Cinema Gold)
+    // 1. Theme & Studio Sound State (Default: Cinema Obsidian)
     const [activeThemeKey, setActiveThemeKey] = useState<string>('cinema');
     const theme: StudioTheme = STUDIO_THEMES[activeThemeKey] || STUDIO_THEMES.cinema;
+    const [soundEnabled, setSoundEnabled] = useState<boolean>(false);
+
+    const handleToggleSound = () => {
+        const next = !soundEnabled;
+        setSoundEnabled(next);
+        if (next) {
+            playStudioTick(true, 880);
+        }
+    };
 
     // 2. Data State
     const [siteConfig] = useState<SiteConfig>(INITIAL_SITE_CONFIG);
@@ -272,6 +288,8 @@ export default function Home() {
                 isScrolled={isScrolled}
                 mobileMenuOpen={mobileMenuOpen}
                 setMobileMenuOpen={setMobileMenuOpen}
+                soundEnabled={soundEnabled}
+                onToggleSound={handleToggleSound}
             />
 
             {/* View Router */}
@@ -304,6 +322,12 @@ export default function Home() {
 
                         <MotionVelocityTicker theme={theme} />
 
+                        <ImpactDeckSection
+                            theme={theme}
+                            experiences={experiences}
+                            soundEnabled={soundEnabled}
+                        />
+
                         <WorkGallery
                             theme={theme}
                             projects={projects}
@@ -313,6 +337,14 @@ export default function Home() {
                             setHoveredProjectSlug={setHoveredProjectSlug}
                             openCaseStudy={openCaseStudy}
                         />
+
+                        <BrandOrbitSection
+                            theme={theme}
+                            experiences={experiences}
+                            soundEnabled={soundEnabled}
+                        />
+
+                        <CraftShowcase theme={theme} />
 
                         <About
                             theme={theme}
@@ -326,6 +358,11 @@ export default function Home() {
                                 setSelectedCategory(cat);
                                 navigateToSection('work');
                             }}
+                        />
+
+                        <ProcessWorkflowSection
+                            theme={theme}
+                            soundEnabled={soundEnabled}
                         />
 
                         <ExperienceSection theme={theme} experiences={experiences} />

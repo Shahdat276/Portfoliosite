@@ -9,7 +9,11 @@ import {
 } from 'lucide-react';
 import { StudioTheme, SiteConfig, ContactFormData } from '@/types';
 import { ContactForm } from './ContactForm';
-import { KineticReveal } from './MotionPrimitives';
+import {
+    KineticReveal,
+    SkewMaskReveal,
+    ArchitecturalGuides
+} from './MotionPrimitives';
 
 interface ContactSectionProps {
     theme: StudioTheme;
@@ -144,33 +148,39 @@ export function ContactSection({
     return (
         <section
             id="contact"
-            className="py-12 sm:py-16 md:py-24 lg:py-28"
+            className="relative py-14 sm:py-20 md:py-24 lg:py-28 overflow-x-clip"
             style={{ backgroundColor: theme.bg }}
         >
-                <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-16 items-start">
-                        {/* Left 6 Columns: Contact Details & Direct Reaches */}
-                        <div className="lg:col-span-6 space-y-5 sm:space-y-8">
-                            <KineticReveal>
-                            <div>
-                                <span
-                                    className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
-                                    style={{ color: theme.accent }}
-                                >
-                                    06 / Direct Connect
-                                </span>
-                                <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold leading-tight">
-                                    Let&apos;s Create Visuals That{' '}
-                                    <span className="font-serif-italic font-normal">Resonate.</span>
+            <ArchitecturalGuides borderColor={theme.border} columns={5} />
+
+            <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-16 items-start">
+                    {/* Left 6 Columns: Contact Details & Direct Reaches */}
+                    <div className="lg:col-span-6 space-y-5 sm:space-y-8">
+                        <KineticReveal>
+                        <div>
+                            <span
+                                className="font-mono text-xs uppercase tracking-[0.2em] block mb-2"
+                                style={{ color: theme.accent }}
+                            >
+                                06 / Still scrolling? Good sign.
+                            </span>
+                            <SkewMaskReveal>
+                                <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.04] tracking-[-0.04em]">
+                                    Got a project in{' '}
+                                    <span className="font-serif-italic font-normal" style={{ color: theme.accent }}>
+                                        mind?
+                                    </span>
                                 </h2>
-                                <p
-                                    className="text-sm sm:text-lg mt-3 sm:mt-5 leading-relaxed max-w-lg"
-                                    style={{ color: theme.textMuted }}
-                                >
-                                    Available for senior editorial commissions, brand campaigns, motion systems, and full-time senior agency leadership.
-                                </p>
-                            </div>
-                            </KineticReveal>
+                            </SkewMaskReveal>
+                            <p
+                                className="text-sm sm:text-lg mt-3 sm:mt-5 leading-relaxed max-w-lg"
+                                style={{ color: theme.textMuted }}
+                            >
+                                Available for senior editorial commissions, brand campaigns, motion systems, and full-time senior agency leadership.
+                            </p>
+                        </div>
+                        </KineticReveal>
 
                             {/* Direct Channel Cards */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">

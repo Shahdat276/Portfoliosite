@@ -7,7 +7,7 @@ import { ArrowUpRight, Play } from 'lucide-react';
 import { StudioTheme, Project } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
 import { SoftwareIcon } from './SoftwareIcon';
-import { MOTION_EASE, ParallaxImageWindow } from './MotionPrimitives';
+import { MOTION_EASE, ParallaxImageWindow, RollText } from './MotionPrimitives';
 
 interface ProjectCardProps {
     project: Project;
@@ -133,8 +133,8 @@ export function ProjectCard({
                     </div>
 
                     <div className="flex items-baseline justify-between gap-4">
-                        <h3 className="font-display text-xl sm:text-2xl font-semibold group-hover:underline">
-                            {project.title}
+                        <h3 className="font-display text-xl sm:text-2xl font-semibold">
+                            <RollText text={project.title} />
                         </h3>
                     </div>
 
@@ -164,7 +164,7 @@ export function ProjectCard({
                     </div>
 
                     <span
-                        className="text-xs font-mono font-medium inline-flex items-center gap-1 transition-colors"
+                        className="text-xs font-mono font-medium inline-flex items-center gap-1 transition-colors cos-link-underline pb-0.5"
                         style={{ color: isHovered ? theme.accent : theme.text }}
                     >
                         <span>

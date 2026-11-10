@@ -18,10 +18,90 @@
   }
 }
 
+/* Signature CodeofSagar Keyframe Choreography */
+@keyframes cos-arrive {
+  0% {
+    opacity: 0;
+    transform: translateY(45%) skewY(4deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cos-link-redraw {
+  0% {
+    background-position: right 100%;
+    background-size: 100% 1px;
+  }
+  45% {
+    background-position: right 100%;
+    background-size: 0% 1px;
+  }
+  46% {
+    background-position: 0 100%;
+    background-size: 0% 1px;
+  }
+  to {
+    background-position: 0 100%;
+    background-size: 100% 1px;
+  }
+}
+
+@keyframes cos-eq {
+  0% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(0.95);
+  }
+  to {
+    transform: scaleY(0.4);
+  }
+}
+
+@keyframes cos-grain {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-5%, 4%); }
+  30% { transform: translate(4%, -6%); }
+  45% { transform: translate(-7%, -3%); }
+  60% { transform: translate(6%, 5%); }
+  75% { transform: translate(-3%, 7%); }
+  90% { transform: translate(7%, -2%); }
+  to { transform: translate(0, 0); }
+}
+
+@keyframes cos-sky-pulse {
+  0%, to {
+    box-shadow: 0 0 0 1px rgba(235, 94, 40, 0.25), 0 0 10px 0 rgba(235, 94, 40, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(235, 94, 40, 0.55), 0 0 20px 2px rgba(235, 94, 40, 0.28);
+  }
+}
+
+@keyframes cos-monogram-arrive {
+  0% {
+    opacity: 0;
+    transform: rotate(-35deg) scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes cos-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @layer utilities {
   .font-display {
     font-family: var(--font-space-grotesk), sans-serif;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.035em;
   }
   .font-serif-italic {
     font-family: "Instrument Serif", Georgia, serif;
@@ -34,5 +114,45 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .cos-link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+  }
+  .cos-link-underline:hover {
+    animation: cos-link-redraw 0.75s cubic-bezier(0.65, 0, 0.2, 1) forwards;
+  }
+
+  .cos-eq-bar {
+    transform-origin: bottom center;
+    animation: cos-eq 0.9s ease-in-out infinite alternate;
+  }
+
+  .cos-monogram-enter {
+    animation: cos-monogram-arrive 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .cos-status-pulse {
+    animation: cos-sky-pulse 2.4s ease-in-out infinite;
+  }
+
+  .cos-film-grain {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 0);
+    background-size: 18px 18px;
+    animation: cos-grain 0.8s steps(8, end) infinite;
+  }
+
+  /* 3D Character-by-Character Roll Hover (Matching CodeofSagar [data-roll-letter]) */
+  .cos-roll-letter {
+    display: inline-block;
+    transition: transform 0.45s cubic-bezier(0.65, 0, 0.2, 1);
+    transform: translateY(0%);
+  }
+  .group:hover .cos-roll-letter,
+  .cos-roll-trigger:hover .cos-roll-letter {
+    transform: translateY(-100%);
   }
 }

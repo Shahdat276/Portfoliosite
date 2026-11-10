@@ -63,7 +63,7 @@ export function MobileMenu({
                     </div>
 
                     <div className="flex flex-col gap-3 py-2">
-                        {navItems.map((item) => {
+                        {navItems.map((item, idx) => {
                             const isActive =
                                 activeRoute.page === 'case-study'
                                     ? item.id === 'work'
@@ -75,12 +75,17 @@ export function MobileMenu({
                                         navigateToSection(item.id);
                                         onClose();
                                     }}
-                                    className="text-left text-2xl font-display font-semibold py-2 transition-colors flex items-center justify-between"
+                                    className="text-left text-2xl font-display font-semibold py-2 transition-colors flex items-center justify-between group"
                                     style={{
                                         color: isActive ? theme.accent : theme.text
                                     }}
                                 >
-                                    <span>{item.label}</span>
+                                    <span className="flex items-baseline gap-3">
+                                        <span className="font-mono text-xs opacity-50">
+                                            0{idx + 1}
+                                        </span>
+                                        <span>{item.label}</span>
+                                    </span>
                                     {isActive && (
                                         <span
                                             className="w-2 h-2 rounded-full"

@@ -18,7 +18,12 @@ import {
 } from 'lucide-react';
 import { StudioTheme, SiteConfig } from '@/types';
 import { EditorialVisualFrame } from './EditorialVisualFrame';
-import { MOTION_EASE } from './MotionPrimitives';
+import {
+    ArchitecturalGuides,
+    MOTION_EASE,
+    RollText,
+    STUDIO_EASE
+} from './MotionPrimitives';
 import { formatUniversalVideoEmbed } from '@/utils/video';
 
 interface HeroProps {
@@ -80,6 +85,9 @@ export function Hero({
                 borderColor: theme.border
             }}
         >
+            {/* Vertical Architectural Hairline Grid Backdrop */}
+            <ArchitecturalGuides borderColor={theme.border} columns={5} />
+
             {/* Ambient Key-Light Studio Glow (Slowest Parallax Plane) */}
             {!shouldReduce && (
                 <motion.div
@@ -122,7 +130,7 @@ export function Hero({
                             </span>
                         </div>
 
-                        {/* Oversized Headline */}
+                        {/* Oversized Masked Skew-Up Headline */}
                         <p
                             className="font-mono text-xs uppercase tracking-[0.22em] mb-2 sm:mb-3"
                             style={{ color: theme.accent }}
@@ -131,15 +139,33 @@ export function Hero({
                         </p>
 
                         <h1 className="font-display text-4xl sm:text-5xl lg:text-[44px] xl:text-[52px] 2xl:text-[66px] font-semibold leading-[1.04] tracking-tight mb-4 sm:mb-6">
-                            Crafting{' '}
-                            <span
-                                className="font-serif-italic font-normal"
-                                style={{ color: theme.accent }}
-                            >
-                                Stories
-                            </span>{' '}
-                            Through{' '}
-                            <span className="font-serif-italic font-normal">Motion.</span>
+                            <span className="block overflow-clip py-[0.04em] -my-[0.04em]">
+                                <motion.span
+                                    initial={shouldReduce ? false : { opacity: 0, y: '105%', skewY: 3.5 }}
+                                    animate={{ opacity: 1, y: '0%', skewY: 0 }}
+                                    transition={{ duration: 0.8, ease: STUDIO_EASE }}
+                                    className="block"
+                                >
+                                    Crafting{' '}
+                                    <span
+                                        className="font-serif-italic font-normal"
+                                        style={{ color: theme.accent }}
+                                    >
+                                        Stories
+                                    </span>
+                                </motion.span>
+                            </span>
+                            <span className="block overflow-clip py-[0.04em] -my-[0.04em]">
+                                <motion.span
+                                    initial={shouldReduce ? false : { opacity: 0, y: '105%', skewY: 3.5 }}
+                                    animate={{ opacity: 1, y: '0%', skewY: 0 }}
+                                    transition={{ duration: 0.85, delay: 0.08, ease: STUDIO_EASE }}
+                                    className="block"
+                                >
+                                    Through{' '}
+                                    <span className="font-serif-italic font-normal">Motion.</span>
+                                </motion.span>
+                            </span>
                         </h1>
 
                         {/* Supporting Introduction */}
@@ -217,19 +243,19 @@ export function Hero({
                         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5">
                             <button
                                 onClick={() => navigateToSection('work')}
-                                className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 inline-flex items-center gap-2 shadow-sm cursor-pointer"
+                                className="group px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95 inline-flex items-center gap-2 shadow-sm cursor-pointer"
                                 style={{
                                     backgroundColor: theme.text,
                                     color: theme.bg
                                 }}
                             >
-                                <span>Explore All Works</span>
-                                <ArrowUpRight className="w-4 h-4" />
+                                <RollText text="Explore All Works" />
+                                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                             </button>
 
                             <button
                                 onClick={openShowreelTheaterModal}
-                                className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
+                                className="group px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surface,
                                     borderColor: theme.borderStrong,
@@ -240,13 +266,13 @@ export function Hero({
                                     className="w-3.5 h-3.5"
                                     style={{ color: theme.accent, fill: theme.accent }}
                                 />
-                                <span>Master Showreel</span>
+                                <RollText text="Master Showreel" />
                             </button>
 
                             <a
                                 href={siteConfig.contact.cvUrl}
                                 download
-                                className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
+                                className="group px-5 py-3 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                                 style={{
                                     backgroundColor: theme.surfaceAlt,
                                     borderColor: theme.border,
@@ -254,7 +280,7 @@ export function Hero({
                                 }}
                             >
                                 <Download className="w-3.5 h-3.5" style={{ color: theme.accent }} />
-                                <span>CV / Resume</span>
+                                <RollText text="CV / Resume" />
                             </a>
                         </div>
                         </motion.div>
