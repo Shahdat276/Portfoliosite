@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { StudioTheme, SiteConfig } from '@/types';
-import { MonogramMark, RollText } from './MotionPrimitives';
+import { RollText } from './MotionPrimitives';
 
 interface FooterProps {
     theme: StudioTheme;
@@ -100,13 +100,12 @@ export function Footer({ theme, siteConfig }: FooterProps) {
                     </div>
                 </div>
 
-                {/* Bottom Copyright & Monogram Row */}
+                {/* Bottom Copyright & Brand Row */}
                 <div
                     className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-center sm:text-left"
                     style={{ color: theme.textMuted }}
                 >
-                    <div className="flex items-center gap-3">
-                        <MonogramMark accentColor={theme.accent} className="w-6 h-6" />
+                    <div className="flex items-center gap-2.5">
                         <span className="font-display font-semibold" style={{ color: theme.text }}>
                             {siteConfig.name}
                         </span>

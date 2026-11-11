@@ -8,7 +8,6 @@ import { ThemeSwitcher } from './ThemeSwitcher';
 import { MobileMenu } from './MobileMenu';
 import {
     TimelineScrollBar,
-    MonogramMark,
     RollText,
     playStudioTick
 } from './MotionPrimitives';
@@ -64,18 +63,14 @@ export function Navbar({
             }}
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px] h-20 flex items-center justify-between gap-4">
-                    {/* Custom SH Monogram + Brand Wordmark */}
+                    {/* Brand Wordmark */}
                     <button
                         onClick={() => {
                             playStudioTick(soundEnabled, 720);
                             navigateToSection('home');
                         }}
-                        className="flex items-center gap-3 text-left group focus:outline-none shrink-0 cursor-pointer"
+                        className="text-left group focus:outline-none shrink-0 cursor-pointer"
                     >
-                        <MonogramMark
-                            accentColor={theme.accent}
-                            className="w-8 h-8 transition-transform duration-300 group-hover:scale-105"
-                        />
                         <div className="inline-flex flex-col w-max">
                             <span className="font-display font-bold tracking-tight text-base sm:text-lg block leading-none whitespace-nowrap">
                                 {siteConfig.wordmark}
