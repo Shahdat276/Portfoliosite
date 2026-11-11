@@ -41,6 +41,9 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
     },
     portrait: {
         imageUrl: '/images/shahdat.jpg',
+        posterUrl: '/images/shahdat-portrait-poster.jpg',
+        videoWebmUrl: '/videos/shahdat-portrait.webm',
+        videoMp4Url: '/videos/shahdat-portrait.mp4',
         placeholderNote: 'Shahdat Hossain — Senior Video Editor & Motion Designer'
     },
     contact: {

@@ -60,6 +60,9 @@ export interface SiteConfig {
     };
     portrait: {
         imageUrl: string;
+        posterUrl?: string;
+        videoWebmUrl?: string;
+        videoMp4Url?: string;
         placeholderNote: string;
     };
     contact: {

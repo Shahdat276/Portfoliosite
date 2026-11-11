@@ -1,8 +1,16 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { Download, ArrowUpRight } from 'lucide-react';
+import {
+    Download,
+    ArrowUpRight,
+    Volume2,
+    VolumeX,
+    RotateCcw,
+    Play
+} from 'lucide-react';
+import { useInView, useReducedMotion } from 'framer-motion';
 import { StudioTheme, SiteConfig } from '@/types';
 import {
     KineticReveal,
@@ -16,11 +24,104 @@ interface AboutProps {
     navigateToSection: (id: string) => void;
 }
 
+type PortraitPlaybackPhase = 'idle' | 'playing' | 'ended';
+
 export function About({
     theme,
     siteConfig,
     navigateToSection
 }: AboutProps) {
+    const portraitRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const autoPlayedRef = useRef(false);
+
+    const shouldReduce = useReducedMotion();
+    // Pre-buffer the portrait reel slightly before the visitor enters #about.
+    const nearInView = useInView(portraitRef, { margin: '450px' });
+    // Trigger playback once 35% of the portrait card is visible in viewport.
+    const triggerInView = useInView(portraitRef, { amount: 0.35 });
+    // Keep track of whether the card is still anywhere on screen to pause/reset cleanly offscreen.
+    const isStillOnScreen = useInView(portraitRef, { amount: 0.01 });
+
+    const [phase, setPhase] = useState<PortraitPlaybackPhase>('idle');
+    const [videoVisible, setVideoVisible] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
+    const [progress, setProgress] = useState(0);
+
+    const mutedRef = useRef(isMuted);
+    useEffect(() => {
+        mutedRef.current = isMuted;
+        if (videoRef.current) {
+            videoRef.current.muted = isMuted;
+        }
+    }, [isMuted]);
+
+    const posterSrc = siteConfig.portrait.posterUrl || siteConfig.portrait.imageUrl;
+    const hasVideo = Boolean(siteConfig.portrait.videoWebmUrl || siteConfig.portrait.videoMp4Url);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video || !hasVideo) return;
+
+        if (!isStillOnScreen) {
+            if (autoPlayedRef.current || !video.paused || video.currentTime > 0) {
+                autoPlayedRef.current = false;
+                video.pause();
+                video.currentTime = 0;
+                const rafId = requestAnimationFrame(() => {
+                    setVideoVisible(false);
+                    setPhase('idle');
+                    setProgress(0);
+                });
+                return () => cancelAnimationFrame(rafId);
+            }
+            return;
+        }
+
+        if (triggerInView && !autoPlayedRef.current && !shouldReduce) {
+            autoPlayedRef.current = true;
+            if (video.ended || video.currentTime > 0) {
+                video.currentTime = 0;
+            }
+            video.muted = mutedRef.current;
+            void video.play().catch(() => {
+                // Guarantee autoplay compliance if browser blocked unmuted start.
+                video.muted = true;
+                mutedRef.current = true;
+                setIsMuted(true);
+                void video.play().catch(() => {
+                    autoPlayedRef.current = false;
+                });
+            });
+        }
+    }, [triggerInView, isStillOnScreen, hasVideo, shouldReduce]);
+
+    const handleReplay = useCallback(() => {
+        const video = videoRef.current;
+        if (!video || !hasVideo) return;
+        autoPlayedRef.current = true;
+        video.currentTime = 0;
+        video.muted = mutedRef.current;
+        setProgress(0);
+        void video.play().catch(() => {
+            video.muted = true;
+            mutedRef.current = true;
+            setIsMuted(true);
+            void video.play().catch(() => undefined);
+        });
+    }, [hasVideo]);
+
+    const handleToggleMute = useCallback(() => {
+        setIsMuted((prev) => {
+            const next = !prev;
+            mutedRef.current = next;
+            if (videoRef.current) {
+                videoRef.current.muted = next;
+            }
+            return next;
+        });
+    }, []);
+
     return (
         <section
             id="about"
@@ -29,7 +130,7 @@ export function About({
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-12 items-start">
-                        {/* Left 5 Columns: Portrait Frame Card with Counter-Depth Parallax */}
+                        {/* Left 5 Columns: Living Portrait Frame Card with Counter-Depth Parallax */}
                         <div className="lg:col-span-5">
                             <ParallaxDepthLayer speed={-18}>
                             <div
@@ -40,24 +141,119 @@ export function About({
                                 }}
                             >
                                 <div
-                                    className="rounded-xl sm:rounded-2xl aspect-square sm:aspect-[4/5] relative overflow-hidden flex flex-col justify-between p-5 sm:p-7 border"
+                                    ref={portraitRef}
+                                    className="rounded-xl sm:rounded-2xl aspect-[4/5] relative overflow-hidden flex flex-col justify-between p-4 sm:p-7 border"
                                     style={{
                                         backgroundColor: theme.surfaceAlt,
                                         borderColor: theme.border
                                     }}
                                 >
-                                    {siteConfig.portrait.imageUrl ? (
+                                    {posterSrc ? (
                                         <>
                                             <ParallaxImageWindow travel={14} baseScale={1.12}>
                                                 <Image
-                                                    src={siteConfig.portrait.imageUrl}
+                                                    src={posterSrc}
                                                     alt={siteConfig.name}
                                                     fill
                                                     unoptimized
-                                                    className="object-cover object-top"
+                                                    className="object-cover object-[50%_12%]"
                                                 />
+                                                {hasVideo && (
+                                                    <video
+                                                        ref={videoRef}
+                                                        poster={posterSrc}
+                                                        preload={nearInView ? 'auto' : 'metadata'}
+                                                        playsInline
+                                                        muted={isMuted}
+                                                        disablePictureInPicture
+                                                        aria-label={`${siteConfig.name} — Living Portrait`}
+                                                        onPlaying={() => {
+                                                            setVideoVisible(true);
+                                                            setPhase('playing');
+                                                        }}
+                                                        onEnded={() => {
+                                                            setPhase('ended');
+                                                            setProgress(1);
+                                                        }}
+                                                        onTimeUpdate={(e) => {
+                                                            const vid = e.currentTarget;
+                                                            if (vid.duration > 0) {
+                                                                setProgress(Math.min(1, vid.currentTime / vid.duration));
+                                                            }
+                                                        }}
+                                                        className={`absolute inset-0 w-full h-full object-cover object-[50%_12%] pointer-events-none transition-opacity duration-500 ease-out ${
+                                                            videoVisible ? 'opacity-100' : 'opacity-0'
+                                                        }`}
+                                                    >
+                                                        {siteConfig.portrait.videoMp4Url && (
+                                                            <source src={siteConfig.portrait.videoMp4Url} type="video/mp4" />
+                                                        )}
+                                                        {siteConfig.portrait.videoWebmUrl && (
+                                                            <source src={siteConfig.portrait.videoWebmUrl} type="video/webm" />
+                                                        )}
+                                                    </video>
+                                                )}
                                             </ParallaxImageWindow>
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/25 pointer-events-none" />
+
+                                            {/* Top HUD: Appears discreetly during active/completed motion */}
+                                            {hasVideo && (
+                                                <div className="relative z-10 flex items-center justify-between gap-2">
+                                                    <div
+                                                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/45 backdrop-blur-md border border-white/10 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-white/85 transition-opacity duration-300 ${
+                                                            phase === 'playing' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                                                        }`}
+                                                    >
+                                                        <span
+                                                            className="w-1.5 h-1.5 rounded-full animate-pulse"
+                                                            style={{ backgroundColor: theme.accent }}
+                                                        />
+                                                        <span>LIVE PORTRAIT</span>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-1.5 ml-auto">
+                                                        {phase === 'idle' && shouldReduce && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleReplay}
+                                                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-md border border-white/15 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-white transition-colors"
+                                                            >
+                                                                <Play className="w-2.5 h-2.5 fill-current" />
+                                                                <span>PLAY</span>
+                                                            </button>
+                                                        )}
+
+                                                        {phase === 'ended' && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleReplay}
+                                                                aria-label="Replay portrait video"
+                                                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-md border border-white/15 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-white transition-colors"
+                                                            >
+                                                                <RotateCcw className="w-2.5 h-2.5" />
+                                                                <span>REPLAY</span>
+                                                            </button>
+                                                        )}
+
+                                                        {phase !== 'idle' && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleToggleMute}
+                                                                aria-label={isMuted ? 'Unmute portrait audio' : 'Mute portrait audio'}
+                                                                className="w-7 h-7 rounded-full bg-black/50 hover:bg-black/75 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/90 transition-colors"
+                                                            >
+                                                                {isMuted ? (
+                                                                    <VolumeX className="w-3.5 h-3.5" />
+                                                                ) : (
+                                                                    <Volume2 className="w-3.5 h-3.5" />
+                                                                )}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+
                                             <div className="relative z-10 mt-auto flex items-end justify-between text-white pt-4">
                                                 <div>
                                                     <span className="font-mono text-[10px] uppercase tracking-widest text-white/75 block">
@@ -77,6 +273,23 @@ export function About({
                                                     9+ YRS
                                                 </span>
                                             </div>
+
+                                            {/* Subtle bottom progress hairline while video layer is active */}
+                                            {hasVideo && (
+                                                <div
+                                                    className={`absolute inset-x-0 bottom-0 h-[2px] bg-white/10 z-20 pointer-events-none transition-opacity duration-300 ${
+                                                        videoVisible ? 'opacity-100' : 'opacity-0'
+                                                    }`}
+                                                >
+                                                    <div
+                                                        className="h-full origin-left transition-transform duration-150 ease-linear"
+                                                        style={{
+                                                            backgroundColor: theme.accent,
+                                                            transform: `scaleX(${progress})`
+                                                        }}
+                                                    />
+                                                </div>
+                                            )}
                                         </>
                                     ) : (
                                         <>
