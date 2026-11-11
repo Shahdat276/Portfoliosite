@@ -24,10 +24,7 @@ import { ExperienceSection } from '@/components/ExperienceSection';
 import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
 import { ShowreelModal } from '@/components/ShowreelModal';
-import {
-    MotionVelocityTicker,
-    playStudioTick
-} from '@/components/MotionPrimitives';
+import { MotionVelocityTicker } from '@/components/MotionPrimitives';
 import { ImpactDeckSection } from '@/components/ImpactDeckSection';
 import { BrandOrbitSection } from '@/components/BrandOrbitSection';
 import { CraftShowcase } from '@/components/CraftShowcase';
@@ -37,15 +34,7 @@ export default function Home() {
     // 1. Theme & Studio Sound State (Default: Cinema Obsidian)
     const [activeThemeKey, setActiveThemeKey] = useState<string>('cinema');
     const theme: StudioTheme = STUDIO_THEMES[activeThemeKey] || STUDIO_THEMES.cinema;
-    const [soundEnabled, setSoundEnabled] = useState<boolean>(false);
-
-    const handleToggleSound = () => {
-        const next = !soundEnabled;
-        setSoundEnabled(next);
-        if (next) {
-            playStudioTick(true, 880);
-        }
-    };
+    const soundEnabled = false;
 
     // 2. Data State
     const [siteConfig] = useState<SiteConfig>(INITIAL_SITE_CONFIG);
@@ -288,7 +277,6 @@ export default function Home() {
                 mobileMenuOpen={mobileMenuOpen}
                 setMobileMenuOpen={setMobileMenuOpen}
                 soundEnabled={soundEnabled}
-                onToggleSound={handleToggleSound}
             />
 
             {/* View Router */}

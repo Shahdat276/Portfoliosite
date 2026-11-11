@@ -24,7 +24,6 @@ interface NavbarProps {
     mobileMenuOpen: boolean;
     setMobileMenuOpen: (open: boolean) => void;
     soundEnabled?: boolean;
-    onToggleSound?: () => void;
 }
 
 export function Navbar({
@@ -38,8 +37,7 @@ export function Navbar({
     isScrolled,
     mobileMenuOpen,
     setMobileMenuOpen,
-    soundEnabled = false,
-    onToggleSound
+    soundEnabled = false
 }: NavbarProps) {
     const navItems = [
         { id: 'home', label: 'Home' },
@@ -119,43 +117,8 @@ export function Navbar({
                         })}
                     </nav>
 
-                    {/* Right Controls: Sound Equalizer + 2-Theme Switcher + Let's Talk */}
+                    {/* Right Controls: 2-Theme Switcher + Let's Talk */}
                     <div className="hidden md:flex items-center gap-2.5 lg:gap-3">
-                        {onToggleSound && (
-                            <button
-                                type="button"
-                                onClick={onToggleSound}
-                                aria-label={soundEnabled ? 'Mute studio sound cues' : 'Enable studio sound cues'}
-                                className="px-3 py-1.5 rounded-full border text-xs font-mono flex items-center gap-2 transition-all hover:opacity-90 active:scale-95 cursor-pointer"
-                                style={{
-                                    backgroundColor: theme.surface,
-                                    borderColor: soundEnabled ? theme.accent : theme.border,
-                                    color: soundEnabled ? theme.text : theme.textMuted
-                                }}
-                                title={soundEnabled ? 'Studio SFX: On' : 'Studio SFX: Off'}
-                            >
-                                <span className="flex items-end gap-[2px] h-3" aria-hidden="true">
-                                    {[0, 0.15, 0.3, 0.1].map((delay, idx) => (
-                                        <span
-                                            key={idx}
-                                            className={`w-[2px] rounded-full transition-all ${
-                                                soundEnabled ? 'h-full cos-eq-bar' : 'h-1'
-                                            }`}
-                                            style={{
-                                                backgroundColor: soundEnabled
-                                                    ? theme.accent
-                                                    : theme.textMuted,
-                                                animationDelay: soundEnabled ? `${delay}s` : undefined
-                                            }}
-                                        />
-                                    ))}
-                                </span>
-                                <span className="hidden lg:inline text-[11px] uppercase tracking-wider">
-                                    Sound
-                                </span>
-                            </button>
-                        )}
-
                         <ThemeSwitcher
                             theme={theme}
                             activeThemeKey={activeThemeKey}
@@ -185,33 +148,6 @@ export function Navbar({
 
                     {/* Mobile Menu Trigger */}
                     <div className="flex md:hidden items-center gap-2">
-                        {onToggleSound && (
-                            <button
-                                type="button"
-                                onClick={onToggleSound}
-                                aria-label="Toggle studio sound"
-                                className="p-2 rounded-full border cursor-pointer"
-                                style={{
-                                    backgroundColor: theme.surface,
-                                    borderColor: soundEnabled ? theme.accent : theme.border
-                                }}
-                            >
-                                <span className="flex items-end gap-[2px] h-3.5 w-3.5 justify-center">
-                                    {[0, 0.2, 0.1].map((d, i) => (
-                                        <span
-                                            key={i}
-                                            className={`w-[2px] rounded-full ${
-                                                soundEnabled ? 'h-full cos-eq-bar' : 'h-1.5'
-                                            }`}
-                                            style={{
-                                                backgroundColor: soundEnabled ? theme.accent : theme.textMuted,
-                                                animationDelay: soundEnabled ? `${d}s` : undefined
-                                            }}
-                                        />
-                                    ))}
-                                </span>
-                            </button>
-                        )}
                         <button
                             onClick={() => {
                                 playStudioTick(soundEnabled, 640);
