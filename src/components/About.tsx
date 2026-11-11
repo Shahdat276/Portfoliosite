@@ -71,7 +71,7 @@ export function About({
     return (
         <section
             id="about"
-            className="py-12 sm:py-16 md:py-24 lg:py-28 border-b"
+            className="py-10 sm:py-14 lg:py-16 border-b"
             style={{ borderColor: theme.border }}
         >
                 <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">

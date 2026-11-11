@@ -45,16 +45,16 @@ export function ProcessWorkflowSection({
 
     return (
         <section
-            className="py-16 sm:py-24 lg:py-28 border-b relative overflow-hidden"
+            className="py-10 sm:py-14 lg:py-16 border-b relative overflow-hidden"
             style={{
                 backgroundColor: theme.bg,
                 borderColor: theme.border
             }}
         >
             <div className="w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                     {/* Left 6 Cols: Film Grain Preview Frame + Direct Statement */}
-                    <div className="lg:col-span-6 space-y-6">
+                    <div className="lg:col-span-6 space-y-5">
                         <span
                             className="font-mono text-xs uppercase tracking-[0.22em] block"
                             style={{ color: theme.accent }}
@@ -108,7 +108,7 @@ export function ProcessWorkflowSection({
                                 return (
                                     <li
                                         key={step.num}
-                                        className="py-5 sm:py-6"
+                                        className="py-3.5 sm:py-4"
                                         style={{ borderColor: theme.border }}
                                     >
                                         <button
@@ -129,7 +129,7 @@ export function ProcessWorkflowSection({
                                                     {step.num}
                                                 </span>
                                                 <span
-                                                    className="font-display text-3xl sm:text-5xl font-semibold tracking-[-0.04em] transition-colors"
+                                                    className="font-display text-2xl sm:text-4xl font-semibold tracking-[-0.03em] transition-colors"
                                                     style={{
                                                         color: isOpen ? theme.text : theme.textMuted
                                                     }}

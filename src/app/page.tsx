@@ -352,6 +352,7 @@ export default function Home() {
 
                         <Capabilities
                             theme={theme}
+                            soundEnabled={soundEnabled}
                             onSelectWorkCategory={(cat) => {
                                 setFocusedCategory(cat);
                                 navigateToSection('work');

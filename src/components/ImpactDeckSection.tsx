@@ -65,7 +65,7 @@ export function ImpactDeckSection({
 
     return (
         <section
-            className="relative py-16 sm:py-24 lg:py-32 border-b overflow-hidden transition-colors duration-500"
+            className="relative py-12 sm:py-14 lg:py-20 border-b overflow-hidden transition-colors duration-500"
             style={{
                 backgroundColor: panelBg,
                 color: panelInk,

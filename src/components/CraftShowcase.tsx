@@ -40,7 +40,7 @@ export function CraftShowcase({ theme }: CraftShowcaseProps) {
     return (
         <section
             ref={sectionRef}
-            className="relative py-20 sm:py-28 lg:py-36 border-b overflow-hidden select-none"
+            className="relative py-12 sm:py-16 lg:py-20 border-b overflow-hidden select-none"
             style={{
                 backgroundColor: theme.surfaceAlt,
                 borderColor: theme.border
@@ -58,7 +58,7 @@ export function CraftShowcase({ theme }: CraftShowcaseProps) {
                 }
                 className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-35 will-change-transform"
             >
-                <div className="relative w-[320px] sm:w-[480px] lg:w-[560px] aspect-square flex items-center justify-center">
+                <div className="relative w-[280px] sm:w-[380px] lg:w-[440px] aspect-square flex items-center justify-center">
                     <svg viewBox="0 0 400 400" fill="none" className="w-full h-full">
                         <circle
                             cx="200"
@@ -95,7 +95,7 @@ export function CraftShowcase({ theme }: CraftShowcaseProps) {
             </motion.div>
 
             <div className="relative z-10 w-full px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mx-auto max-w-[1920px]">
-                <div className="min-h-[42vh] sm:min-h-[54vh] flex flex-col justify-between gap-12">
+                <div className="min-h-[26vh] sm:min-h-[34vh] flex flex-col justify-between gap-8">
                     {/* Top Left Oversized Phrase */}
                     <div>
                         <span

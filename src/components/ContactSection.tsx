@@ -148,7 +148,7 @@ export function ContactSection({
     return (
         <section
             id="contact"
-            className="relative py-14 sm:py-20 md:py-24 lg:py-28 overflow-x-clip"
+            className="relative py-12 sm:py-14 lg:py-20 overflow-x-clip"
             style={{ backgroundColor: theme.bg }}
         >
             <ArchitecturalGuides borderColor={theme.border} columns={5} />
