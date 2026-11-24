@@ -174,22 +174,21 @@ export function WorkOrbitStage({
     const isMobile = stageWidth < 640;
     const isTablet = stageWidth >= 640 && stageWidth < 1024;
 
-    // Horizontal radius of the cylinder
+    // True round cylinder proportions in X (width) and Z (3D depth)
     const rx = isMobile
         ? stageWidth * 0.38
         : isTablet
-        ? Math.min(480, stageWidth * 0.40)
-        : Math.min(620, stageWidth * 0.40);
+        ? Math.min(460, stageWidth * 0.38)
+        : Math.min(520, stageWidth * 0.36);
 
-    // Real 3D depth radius of the cylinder (makes it an actual round cylinder in X-Z space)
     const rz = isMobile
-        ? 190
+        ? 180
         : isTablet
-        ? Math.min(320, rx * 0.70)
-        : Math.min(420, rx * 0.70);
+        ? Math.min(360, rx * 0.85)
+        : Math.min(440, rx * 0.85);
 
     // Cylinder tilt angle (elevated camera viewing angle so the circular cylinder rim is visible)
-    const tiltDeg = isMobile ? 6.5 : 8.5;
+    const tiltDeg = isMobile ? 6 : 8.5;
     const tiltRad = (tiltDeg * Math.PI) / 180;
 
     // Proportional card width with breathing room so cards don't clobber each other
@@ -197,12 +196,12 @@ export function WorkOrbitStage({
         ? 200
         : isTablet
         ? 280
-        : Math.min(360, stageWidth * 0.24);
+        : Math.min(340, stageWidth * 0.23);
 
-    // Vertical orbit center offset (front cards pass across mid-torso/forearms)
+    // Vertical orbit center offset: lowered so front cards pass across waist/forearms
     const orbitVerticalOffset = isMobile
-        ? Math.round(stageHeight * 0.04)
-        : Math.round(stageHeight * 0.03);
+        ? Math.round(stageHeight * 0.18)
+        : Math.round(stageHeight * 0.16);
 
     const total = projects.length;
     const hoveredProject = projects.find((p) => p.slug === hoveredSlug) || null;
@@ -271,14 +270,14 @@ export function WorkOrbitStage({
                         const sin = Math.sin(rad);
                         const cos = Math.cos(rad); // +1 = dead front, -1 = far distant back
 
-                        // Pure 3D cylindrical coordinates
+                        // Pure 3D cylindrical coordinates: front is lower (+Y), back is higher (-Y)
                         const xPx = sin * rx;
-                        const yPx = -cos * rz * Math.sin(tiltRad) + orbitVerticalOffset;
+                        const yPx = cos * rz * Math.sin(tiltRad) + orbitVerticalOffset;
                         const zPx = cos * rz;
 
                         // Smooth cylinder curvature rotations
-                        const rotateY = -sin * 54;
-                        const rotateX = -cos * tiltDeg * 0.8;
+                        const rotateY = -sin * 58;
+                        const rotateX = -cos * tiltDeg;
 
                         // Precise layer separation: front cards in front of avatar, back cards behind
                         const isFront = cos > 0.05;
@@ -330,7 +329,7 @@ export function WorkOrbitStage({
                                         ? 'none'
                                         : 'opacity 0.25s ease, border-color 0.25s ease, filter 0.25s ease'
                                 }}
-                                className="absolute aspect-[16/10] rounded-lg sm:rounded-xl overflow-hidden border shadow-[0_24px_60px_rgba(0,0,0,0.55)] cursor-pointer group will-change-transform bg-black"
+                                className="absolute aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden border shadow-[0_24px_60px_rgba(0,0,0,0.65)] cursor-pointer group will-change-transform bg-black"
                             >
                                 {project.coverUrl ? (
                                     <Image
@@ -351,6 +350,20 @@ export function WorkOrbitStage({
                                         isHovered={isFront}
                                     />
                                 )}
+
+                                {/* Cylindrical Curved Display Specular Highlights & Ambient Gradient */}
+                                <div
+                                    aria-hidden="true"
+                                    className="absolute inset-0 pointer-events-none rounded-[inherit] bg-gradient-to-r from-black/20 via-white/[0.08] to-black/20"
+                                />
+                                <div
+                                    aria-hidden="true"
+                                    className="absolute inset-x-0 top-0 h-[2px] pointer-events-none bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-85"
+                                />
+                                <div
+                                    aria-hidden="true"
+                                    className="absolute inset-x-0 bottom-0 h-[2px] pointer-events-none bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-60"
+                                />
 
                                 {/* Subtle Hover Overlay & Play Pill */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
