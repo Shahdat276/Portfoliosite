@@ -160,7 +160,7 @@ export default function Home() {
             sendYouTubeCommand(nextState ? 'playVideo' : 'pauseVideo');
         } else if (videoRef.current) {
             if (nextState) {
-                videoRef.current.play().catch(() => {});
+                videoRef.current.play().catch(() => { });
             } else {
                 videoRef.current.pause();
             }
@@ -224,7 +224,7 @@ export default function Home() {
             sendYouTubeCommand('playVideo');
         } else if (videoRef.current) {
             videoRef.current.muted = true;
-            videoRef.current.play().catch(() => {});
+            videoRef.current.play().catch(() => { });
         }
         setIsShowreelMuted(true);
         setIsShowreelPlaying(true);

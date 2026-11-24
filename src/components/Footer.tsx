@@ -105,31 +105,31 @@ export function Footer({ theme, siteConfig }: FooterProps) {
                     className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-center sm:text-left"
                     style={{ color: theme.textMuted }}
                 >
-                    <div className="flex items-center gap-2.5">
-                        <span className="font-display font-semibold" style={{ color: theme.text }}>
-                            {siteConfig.name}
-                        </span>
-                        <span>—</span>
-                        <span>{siteConfig.title}</span>
-                    </div>
+                        <div className="flex items-center gap-2.5">
+                            <span className="font-display font-semibold" style={{ color: theme.text }}>
+                                {siteConfig.name}
+                            </span>
+                            <span>—</span>
+                            <span>{siteConfig.title}</span>
+                        </div>
 
-                    <div className="flex items-center gap-5">
-                        <span>© 2026 All Rights Reserved</span>
-                        <button
-                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className="group px-4 py-2 rounded-full border font-mono text-xs font-medium inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
-                            style={{
-                                backgroundColor: theme.surfaceAlt,
-                                borderColor: theme.border,
-                                color: theme.text
-                            }}
-                        >
-                            <RollText text="Back to Top" />
-                            <ArrowUp className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5" style={{ color: theme.accent }} />
-                        </button>
+                        <div className="flex items-center gap-5">
+                            <span>© 2026 All Rights Reserved</span>
+                            <button
+                                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                className="group px-4 py-2 rounded-full border font-mono text-xs font-medium inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                                style={{
+                                    backgroundColor: theme.surfaceAlt,
+                                    borderColor: theme.border,
+                                    color: theme.text
+                                }}
+                            >
+                                <RollText text="Back to Top" />
+                                <ArrowUp className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5" style={{ color: theme.accent }} />
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
         </footer>
     );
 }

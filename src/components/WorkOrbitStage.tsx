@@ -170,34 +170,41 @@ export function WorkOrbitStage({
         targetAngleRef.current += direction * step;
     };
 
-    // Centered full-page 3D ellipse matching CodeofSagar WorkOrbit (middle of screen)
-    const rx = stageWidth < 640
-        ? stageWidth * 0.44
-        : Math.min(880, stageWidth * 0.48);
-    const ry = stageWidth < 640
-        ? 34
-        : Math.min(86, stageHeight * 0.10);
-    const cardBaseWidth = stageWidth < 640
-        ? 220
-        : stageWidth < 1024
-        ? 350
-        : Math.min(540, stageWidth * 0.31);
-    // Orbit is placed right in the middle of the screen
-    const orbitVerticalOffset = stageWidth < 640
-        ? 6
-        : Math.round(stageHeight * -0.015);
-    const total = projects.length;
+    // Responsive 3D Cylindrical Orbit Geometry
+    const isMobile = stageWidth < 640;
+    const isTablet = stageWidth >= 640 && stageWidth < 1024;
 
-    let frontIndex = 0;
-    let maxFrontScore = -2;
-    projects.forEach((_, idx) => {
-        const theta = ((angleDeg + (idx / total) * 360) * Math.PI) / 180;
-        const score = Math.cos(theta);
-        if (score > maxFrontScore) {
-            maxFrontScore = score;
-            frontIndex = idx;
-        }
-    });
+    // Horizontal radius of the cylinder
+    const rx = isMobile
+        ? stageWidth * 0.38
+        : isTablet
+        ? Math.min(480, stageWidth * 0.40)
+        : Math.min(620, stageWidth * 0.40);
+
+    // Real 3D depth radius of the cylinder (makes it an actual round cylinder in X-Z space)
+    const rz = isMobile
+        ? 190
+        : isTablet
+        ? Math.min(320, rx * 0.70)
+        : Math.min(420, rx * 0.70);
+
+    // Cylinder tilt angle (elevated camera viewing angle so the circular cylinder rim is visible)
+    const tiltDeg = isMobile ? 6.5 : 8.5;
+    const tiltRad = (tiltDeg * Math.PI) / 180;
+
+    // Proportional card width with breathing room so cards don't clobber each other
+    const cardBaseWidth = isMobile
+        ? 200
+        : isTablet
+        ? 280
+        : Math.min(360, stageWidth * 0.24);
+
+    // Vertical orbit center offset (front cards pass across mid-torso/forearms)
+    const orbitVerticalOffset = isMobile
+        ? Math.round(stageHeight * 0.04)
+        : Math.round(stageHeight * 0.03);
+
+    const total = projects.length;
     const hoveredProject = projects.find((p) => p.slug === hoveredSlug) || null;
 
     return (
@@ -240,7 +247,7 @@ export function WorkOrbitStage({
                     </SkewMaskReveal>
                 </div>
 
-                {/* Fullscreen 3D Orbital Arena Centered Vertically in Middle of Viewport (z-[10]) */}
+                {/* Fullscreen 3D Orbital Arena with Real 3D Perspective (z-[10]) */}
                 <div
                     className="absolute inset-0 z-[10] flex items-center justify-center pointer-events-auto"
                     style={{ perspective: 1200 }}
@@ -257,25 +264,33 @@ export function WorkOrbitStage({
                         />
                     </div>
 
-                    {/* Wide 3D Curved Orbit Cards */}
+                    {/* True 3D Cylinder Orbit Cards */}
                     {projects.map((project, idx) => {
                         const deg = angleDeg + (idx / total) * 360;
                         const rad = (deg * Math.PI) / 180;
                         const sin = Math.sin(rad);
                         const cos = Math.cos(rad); // +1 = dead front, -1 = far distant back
 
+                        // Pure 3D cylindrical coordinates
                         const xPx = sin * rx;
-                        const yPx = cos * ry + orbitVerticalOffset + sin * 22;
-                        const scale = 0.28 + 0.72 * ((cos + 1) / 2);
-                        const rotateY = sin * -44;
-                        const rotateX = cos * -4;
-                        const rotateZ = sin * 3.5;
-                        const zIndex = cos > 0.05
-                            ? Math.round((cos + 1) * 20) + 12
-                            : Math.round((cos + 1) * 4) + 1;
-                        const opacity = cos < -0.45 ? Math.max(0.26, (cos + 1) * 0.7) : 1;
+                        const yPx = -cos * rz * Math.sin(tiltRad) + orbitVerticalOffset;
+                        const zPx = cos * rz;
+
+                        // Smooth cylinder curvature rotations
+                        const rotateY = -sin * 54;
+                        const rotateX = -cos * tiltDeg * 0.8;
+
+                        // Precise layer separation: front cards in front of avatar, back cards behind
+                        const isFront = cos > 0.05;
+                        const zIndex = isFront
+                            ? Math.round(20 + cos * 15) // z: 21 to 35 (in front of avatar z-10)
+                            : Math.round(2 + (cos + 1) * 3); // z: 2 to 8 (behind avatar z-10, in front of headline z-1)
+
+                        // Subtle depth-of-field effect for back cards
+                        const opacity = cos < -0.3 ? Math.max(0.48, (cos + 1) * 0.85) : 1;
+                        const brightness = cos < 0 ? Math.max(0.72, 1 + cos * 0.28) : 1;
+
                         const videoCount = project.galleryVideos ? project.galleryVideos.length : 0;
-                        const isFront = idx === frontIndex;
                         const isCardHovered = hoveredSlug === project.slug;
 
                         return (
@@ -302,19 +317,20 @@ export function WorkOrbitStage({
                                     width: `${cardBaseWidth}px`,
                                     zIndex,
                                     opacity,
+                                    filter: `brightness(${isCardHovered ? 1.05 : brightness})`,
                                     borderColor: isCardHovered
                                         ? theme.accent
                                         : isFront
-                                        ? 'rgba(255,255,255,0.28)'
+                                        ? 'rgba(255,255,255,0.32)'
                                         : 'rgba(255,255,255,0.12)',
-                                    transform: `translate3d(${xPx}px, ${yPx}px, 0) scale(${
-                                        isCardHovered ? scale * 1.03 : scale
-                                    }) perspective(950px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) rotateZ(${rotateZ}deg)`,
+                                    transform: `translate3d(${xPx}px, ${yPx}px, ${zPx}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)${
+                                        isCardHovered ? ' scale(1.04)' : ''
+                                    }`,
                                     transition: isDragging
                                         ? 'none'
-                                        : 'opacity 0.25s ease, border-color 0.25s ease'
+                                        : 'opacity 0.25s ease, border-color 0.25s ease, filter 0.25s ease'
                                 }}
-                                className="absolute aspect-[16/10] rounded-md sm:rounded-lg overflow-hidden border shadow-[0_28px_70px_rgba(0,0,0,0.5)] cursor-pointer group will-change-transform bg-black"
+                                className="absolute aspect-[16/10] rounded-lg sm:rounded-xl overflow-hidden border shadow-[0_24px_60px_rgba(0,0,0,0.55)] cursor-pointer group will-change-transform bg-black"
                             >
                                 {project.coverUrl ? (
                                     <Image
