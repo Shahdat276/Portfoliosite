@@ -17,7 +17,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#0F172A"
         ],
         "pattern": "kinetic-grid",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/cbaea8244620689.Y3JvcCwxMzA5LDEwMjQsMCww.png",
+        "coverUrl": "/images/projects/project-1.png",
         "behanceUrl": "https://www.behance.net/gallery/244620689/Commercial-Video-Editing",
         "shortDescription": "High-impact commercial video editing structured around rhythmic match-cuts, broadcast sound design, and brand recall.",
         "overview": "A premier commercial video production developed for television and digital broadcast. Structured to deliver immediate audience hook, fluid visual momentum, and memorable product messaging.",
@@ -90,7 +90,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#1F1D1A"
         ],
         "pattern": "editorial-arch",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/fa8e95249555473.Y3JvcCwxMzA3LDEwMjMsMCww.png",
+        "coverUrl": "/images/projects/project-2.png",
         "behanceUrl": "https://www.behance.net/gallery/249555473/Fashion-Campaign-Video",
         "shortDescription": "Editorial fashion film celebrating luxury fabric movement, sensory cuts, and warm cinema color grading.",
         "overview": "An atmospheric editorial fashion campaign presenting a seasonal collection through rhythmic visual storytelling and tactile garment closeups.",
@@ -195,7 +195,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#1E1B4B"
         ],
         "pattern": "prism-bars",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/5567d1244620071.Y3JvcCwxMzA5LDEwMjQsMCww.png",
+        "coverUrl": "/images/projects/project-3.png",
         "behanceUrl": "https://www.behance.net/gallery/244620071/Motion-Graphics",
         "shortDescription": "Broadcast motion packages, procedural geometric typography, and kinetic infographic visual systems.",
         "overview": "A comprehensive motion design package encompassing kinetic title sequences, broadcast graphics packages, and procedural typography systems.",
@@ -380,7 +380,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#134E4A"
         ],
         "pattern": "orbital-rings",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/bcdf7c249566333.Y3JvcCwxMzA3LDEwMjMsMCww.png",
+        "coverUrl": "/images/projects/project-4.png",
         "behanceUrl": "https://www.behance.net/gallery/249566333/Logo-Animation",
         "shortDescription": "Kinetic brand mark reveals, 3D volumetric extrusion, and sonic ident synchronization for modern brands.",
         "overview": "A collection of animated brand idents and logo stings crafted to elevate brand presence across video intros, digital ads, and corporate presentations.",
@@ -485,7 +485,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#431407"
         ],
         "pattern": "waveform",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/2a3e19249561039.Y3JvcCwxMjAzLDk0MSwwLDA.png",
+        "coverUrl": "/images/projects/project-5.png",
         "behanceUrl": "https://www.behance.net/gallery/249561039/3D-2D-Aniamtion",
         "shortDescription": "Hybrid 3D CGI and 2D character animation exploring stylized modeling, physics simulations, and compositing.",
         "overview": "Exploration of 3D modeling, lighting, camera tracking, and procedural simulations blended seamlessly with 2D character animation.",
@@ -574,7 +574,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#064E3B"
         ],
         "pattern": "iso-cube",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/88006f249563967.Y3JvcCwxMzA3LDEwMjMsMCww.png",
+        "coverUrl": "/images/projects/project-6.png",
         "behanceUrl": "https://www.behance.net/gallery/249563967/Reels",
         "shortDescription": "Fast-paced 9:16 vertical edits engineered for the first 3-second hook, trending audio sync, and viral audience retention.",
         "overview": "High-performance short-form content optimized for Instagram Reels, YouTube Shorts, and TikTok platforms.",
@@ -726,7 +726,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#3B0764"
         ],
         "pattern": "minimalist-cross",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/af82bf249565157.Y3JvcCwxMzA5LDEwMjQsMCww.png",
+        "coverUrl": "/images/projects/project-7.png",
         "behanceUrl": "https://www.behance.net/gallery/249565157/AI-Content",
         "shortDescription": "Generative video synthesis, AI-assisted visual enhancement, and creative post-production workflows.",
         "overview": "Pioneering the intersection of generative artificial intelligence and traditional video post-production pipelines.",
@@ -815,7 +815,7 @@ export const INITIAL_PROJECTS: Project[] = [
             "#1F1D1A"
         ],
         "pattern": "orbital-rings",
-        "coverUrl": "https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/599f50249566677.Y3JvcCwxMzA5LDEwMjQsMTEzLDA.png",
+        "coverUrl": "/images/projects/project-8.png",
         "behanceUrl": "https://www.behance.net/gallery/249566677/Showreel",
         "shortDescription": "Curated compilation of selected commercial moments, fashion films, motion graphics, and visual effects experiments.",
         "overview": "The definitive master presentation of Shahdat Hossain's 9+ years in high-end video editing and motion design.",
