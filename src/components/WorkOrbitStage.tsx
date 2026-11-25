@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import {
     motion,
     useAnimationFrame,
+    useInView,
     useReducedMotion,
     useScroll
 } from 'framer-motion';
@@ -45,10 +46,11 @@ export function WorkOrbitStage({
     const shouldReduce = useReducedMotion();
     const pinRef = useRef<HTMLDivElement>(null);
     const stageRef = useRef<HTMLDivElement>(null);
+    const isInView = useInView(stageRef, { amount: 0.05 });
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     const [stageWidth, setStageWidth] = useState<number>(1280);
     const [stageHeight, setStageHeight] = useState<number>(800);
-    const [angleDeg, setAngleDeg] = useState<number>(0);
     const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
     const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -95,9 +97,87 @@ export function WorkOrbitStage({
         return () => observer.disconnect();
     }, []);
 
-    // Smooth continuous rotation loop
+    // 3D Cylinder Orbit Proportions: Straight & Upright ("soja") with subtle depth ("halka baka")
+    const isMobile = stageWidth < 640;
+    const isTablet = stageWidth >= 640 && stageWidth < 1024;
+
+    const rx = isMobile
+        ? stageWidth * 0.40
+        : isTablet
+        ? Math.min(460, stageWidth * 0.38)
+        : Math.min(540, stageWidth * 0.38);
+
+    const rz = isMobile
+        ? 180
+        : isTablet
+        ? Math.min(360, rx * 0.82)
+        : Math.min(440, rx * 0.82);
+
+    const tiltDeg = isMobile ? 2.0 : 2.5;
+    const tiltRad = (tiltDeg * Math.PI) / 180;
+
+    const cardBaseWidth = isMobile
+        ? 210
+        : isTablet
+        ? 280
+        : Math.min(340, stageWidth * 0.23);
+
+    const orbitVerticalOffset = isMobile
+        ? Math.round(stageHeight * 0.08)
+        : Math.round(stageHeight * 0.07);
+
+    const total = projects.length;
+
+    // Direct GPU DOM update -> 0 React re-renders per animation frame
+    const applyOrbitTransforms = useCallback(
+        (degValue: number) => {
+            const count = Math.max(projects.length, 1);
+            for (let idx = 0; idx < projects.length; idx++) {
+                const el = cardRefs.current[idx];
+                if (!el) continue;
+                const project = projects[idx];
+                const deg = degValue + (idx / count) * 360;
+                const rad = (deg * Math.PI) / 180;
+                const sin = Math.sin(rad);
+                const cos = Math.cos(rad);
+
+                const xPx = sin * rx;
+                const yPx = cos * rz * Math.sin(tiltRad) + orbitVerticalOffset;
+                const zPx = cos * rz;
+                const rotateY = -sin * 54;
+                const rotateX = -cos * tiltDeg;
+
+                const isFront = cos > 0.05;
+                const zIndex = isFront
+                    ? Math.round(20 + cos * 15)
+                    : Math.round(3 + (cos + 1) * 3);
+                const opacity = cos < -0.3 ? Math.max(0.45, (cos + 1) * 0.85) : 1;
+                const brightness = cos < 0 ? Math.max(0.75, 1 + cos * 0.25) : 1;
+                const isCardHovered = hoveredCardRef.current === project.slug;
+
+                el.style.zIndex = String(zIndex);
+                el.style.opacity = String(opacity);
+                el.style.filter = `brightness(${isCardHovered ? 1.06 : brightness})`;
+                el.style.borderColor = isCardHovered
+                    ? theme.accent
+                    : isFront
+                    ? 'rgba(255,255,255,0.32)'
+                    : 'rgba(255,255,255,0.12)';
+                el.style.transform = `translate3d(${xPx}px, ${yPx}px, ${zPx}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)${
+                    isCardHovered ? ' scale(1.04)' : ''
+                }`;
+            }
+        },
+        [projects, rx, rz, tiltDeg, tiltRad, orbitVerticalOffset, theme.accent]
+    );
+
+    useEffect(() => {
+        applyOrbitTransforms(currentAngleRef.current);
+    }, [applyOrbitTransforms, hoveredSlug]);
+
+    // Smooth continuous rotation loop (pauses completely when off-screen)
     useAnimationFrame((_, delta) => {
-        if (shouldReduce) return;
+        if (shouldReduce || !isInView) return;
         const dt = Math.min(delta, 48) / 1000;
 
         if (!isDraggingRef.current) {
@@ -113,7 +193,7 @@ export function WorkOrbitStage({
         const diff = combinedTarget - currentAngleRef.current;
         if (Math.abs(diff) > 0.01) {
             currentAngleRef.current += diff * Math.min(1, dt * 11);
-            setAngleDeg(currentAngleRef.current);
+            applyOrbitTransforms(currentAngleRef.current);
         }
     });
 
@@ -170,40 +250,6 @@ export function WorkOrbitStage({
         targetAngleRef.current += direction * step;
     };
 
-    // 3D Cylinder Orbit Proportions: Straight & Upright ("soja") with subtle depth ("halka baka")
-    const isMobile = stageWidth < 640;
-    const isTablet = stageWidth >= 640 && stageWidth < 1024;
-
-    // Radius of circular cylinder in X and Z
-    const rx = isMobile
-        ? stageWidth * 0.40
-        : isTablet
-        ? Math.min(460, stageWidth * 0.38)
-        : Math.min(540, stageWidth * 0.38);
-
-    const rz = isMobile
-        ? 180
-        : isTablet
-        ? Math.min(360, rx * 0.82)
-        : Math.min(440, rx * 0.82);
-
-    // Subtle 2.5° tilt ("halka baka") so the cylinder is upright ("soja") without tilting into a bowl
-    const tiltDeg = isMobile ? 2.0 : 2.5;
-    const tiltRad = (tiltDeg * Math.PI) / 180;
-
-    // Card width
-    const cardBaseWidth = isMobile
-        ? 210
-        : isTablet
-        ? 280
-        : Math.min(340, stageWidth * 0.23);
-
-    // Vertical orbit center offset: right around mid-torso / waist level
-    const orbitVerticalOffset = isMobile
-        ? Math.round(stageHeight * 0.08)
-        : Math.round(stageHeight * 0.07);
-
-    const total = projects.length;
     const hoveredProject = projects.find((p) => p.slug === hoveredSlug) || null;
 
     return (
@@ -278,27 +324,21 @@ export function WorkOrbitStage({
 
                     {/* True 3D Cylinder Orbit Cards: 360° around body */}
                     {projects.map((project, idx) => {
-                        const deg = angleDeg + (idx / total) * 360;
+                        const deg = (idx / total) * 360;
                         const rad = (deg * Math.PI) / 180;
                         const sin = Math.sin(rad);
-                        const cos = Math.cos(rad); // +1 = dead front, -1 = far back
+                        const cos = Math.cos(rad);
 
-                        // Pure 3D coordinates: upright cylinder with subtle 2.5° depth
                         const xPx = sin * rx;
                         const yPx = cos * rz * Math.sin(tiltRad) + orbitVerticalOffset;
                         const zPx = cos * rz;
-
-                        // Cylinder tangent rotations: cards turn naturally along the circle perimeter
                         const rotateY = -sin * 54;
                         const rotateX = -cos * tiltDeg;
 
-                        // Precise layer separation: front cards (z 20-35) in front of avatar (z 15), back cards (z 3-8) behind
                         const isFront = cos > 0.05;
                         const zIndex = isFront
                             ? Math.round(20 + cos * 15)
                             : Math.round(3 + (cos + 1) * 3);
-
-                        // Subtle depth-of-field effect for cards curving around the back
                         const opacity = cos < -0.3 ? Math.max(0.45, (cos + 1) * 0.85) : 1;
                         const brightness = cos < 0 ? Math.max(0.75, 1 + cos * 0.25) : 1;
 
@@ -308,6 +348,9 @@ export function WorkOrbitStage({
                         return (
                             <div
                                 key={project.slug}
+                                ref={(el) => {
+                                    cardRefs.current[idx] = el;
+                                }}
                                 onPointerEnter={() => {
                                     hoveredCardRef.current = project.slug;
                                     setHoveredSlug(project.slug);
@@ -340,9 +383,9 @@ export function WorkOrbitStage({
                                     }`,
                                     transition: isDragging
                                         ? 'none'
-                                        : 'opacity 0.25s ease, border-color 0.25s ease, filter 0.25s ease'
+                                        : 'border-color 0.25s ease'
                                 }}
-                                className="absolute aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden border shadow-[0_24px_60px_rgba(0,0,0,0.65)] cursor-pointer group will-change-transform bg-black"
+                                className="absolute aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden border shadow-[0_18px_40px_rgba(0,0,0,0.6)] cursor-pointer group will-change-transform bg-black"
                             >
                                 {project.coverUrl ? (
                                     <Image
@@ -381,7 +424,7 @@ export function WorkOrbitStage({
                                 {/* Video Count Pill */}
                                 <div className="absolute top-3 right-3 opacity-90 group-hover:opacity-100 transition-opacity duration-300">
                                     <span
-                                        className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider text-white border border-white/20 backdrop-blur-sm shadow-md"
+                                        className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider text-white border border-white/20 shadow-md"
                                         style={{ backgroundColor: theme.accent }}
                                     >
                                         {videoCount} {videoCount === 1 ? 'Video' : 'Videos'}

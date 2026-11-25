@@ -33,7 +33,6 @@ export function MobileMenu({
         { id: 'home', label: 'Home' },
         { id: 'work', label: 'Work' },
         { id: 'about', label: 'About' },
-        { id: 'capabilities', label: 'Capabilities' },
         { id: 'experience', label: 'Experience' },
         { id: 'contact', label: 'Contact' }
     ];

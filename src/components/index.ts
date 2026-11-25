@@ -11,7 +11,6 @@ export * from './WorkGallery';
 export * from './WorkOrbitStage';
 export * from './CaseStudyView';
 export * from './About';
-export * from './Capabilities';
 export * from './ExperienceSection';
 export * from './ExperienceCard';
 export * from './ContactSection';

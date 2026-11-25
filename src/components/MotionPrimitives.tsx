@@ -10,7 +10,8 @@ import {
     useVelocity,
     useAnimationFrame,
     useMotionTemplate,
-    useReducedMotion
+    useReducedMotion,
+    useInView
 } from 'framer-motion';
 import { StudioTheme } from '@/types';
 
@@ -481,6 +482,8 @@ interface MotionVelocityTickerProps {
  * smoothly with page scroll velocity.
  */
 export function MotionVelocityTicker({ theme }: MotionVelocityTickerProps) {
+    const tickerRef = useRef<HTMLDivElement>(null);
+    const isInView = useInView(tickerRef, { amount: 0.05 });
     const shouldReduce = useReducedMotion();
     const { scrollY } = useScroll();
     const scrollVelocity = useVelocity(scrollY);
@@ -497,7 +500,7 @@ export function MotionVelocityTicker({ theme }: MotionVelocityTickerProps) {
     const directionRef = useRef<number>(1);
 
     useAnimationFrame((_, delta) => {
-        if (shouldReduce) return;
+        if (shouldReduce || !isInView) return;
         const clampedDelta = Math.min(delta, 48);
         const vFactor = velocityFactor.get();
 
@@ -540,6 +543,7 @@ export function MotionVelocityTicker({ theme }: MotionVelocityTickerProps) {
 
     return (
         <div
+            ref={tickerRef}
             aria-hidden="true"
             className="w-full py-2.5 sm:py-3.5 border-b overflow-hidden select-none"
             style={{

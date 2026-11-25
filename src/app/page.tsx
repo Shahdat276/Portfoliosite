@@ -19,7 +19,6 @@ import { Hero } from '@/components/Hero';
 import { WorkGallery } from '@/components/WorkGallery';
 import { CaseStudyView } from '@/components/CaseStudyView';
 import { About } from '@/components/About';
-import { Capabilities } from '@/components/Capabilities';
 import { ExperienceSection } from '@/components/ExperienceSection';
 import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
@@ -50,13 +49,9 @@ export default function Home() {
     // 4. Showreel & Modal Player State
     const [isShowreelPlaying, setIsShowreelPlaying] = useState<boolean>(true);
     const [isShowreelMuted, setIsShowreelMuted] = useState<boolean>(true);
-    const [showreelProgress, setShowreelProgress] = useState<number>(8);
     const [showreelModalOpen, setShowreelModalOpen] = useState<boolean>(false);
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
-
-    // 5. Work Orbit Highlight State
-    const [focusedCategory, setFocusedCategory] = useState<string | null>(null);
 
     // Active Chapter
     const activeChapter = siteConfig.showreel.chapters[0];
@@ -112,7 +107,7 @@ export default function Home() {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 30);
             if (activeRoute.page === 'home') {
-                const sections = ['home', 'work', 'about', 'capabilities', 'experience', 'contact'];
+                const sections = ['home', 'work', 'about', 'experience', 'contact'];
                 const scrollPos = window.scrollY + 200;
                 for (const id of sections) {
                     const el = document.getElementById(id);
@@ -131,15 +126,6 @@ export default function Home() {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, [activeRoute.page]);
-
-    // Showreel Progress Simulation
-    useEffect(() => {
-        if (!isShowreelPlaying) return;
-        const interval = setInterval(() => {
-            setShowreelProgress((prev) => (prev >= 100 ? 0 : +(prev + 0.35).toFixed(1)));
-        }, 200);
-        return () => clearInterval(interval);
-    }, [isShowreelPlaying]);
 
     // YouTube Controller
     const sendYouTubeCommand = (func: string, args: unknown[] = []) => {
@@ -180,7 +166,6 @@ export default function Home() {
     };
 
     const seekShowreel = (progressPercent: number, exactSeconds?: number) => {
-        setShowreelProgress(progressPercent);
         const targetSeconds = typeof exactSeconds === 'number' ? exactSeconds : (progressPercent / 100) * 108;
 
         const isYT = siteConfig.showreel.videoUrl?.includes('youtube') || siteConfig.showreel.videoUrl?.includes('youtu.be');
@@ -298,7 +283,6 @@ export default function Home() {
                             navigateToSection={navigateToSection}
                             isShowreelPlaying={isShowreelPlaying}
                             isShowreelMuted={isShowreelMuted}
-                            showreelProgress={showreelProgress}
                             toggleShowreelPlay={toggleShowreelPlay}
                             toggleShowreelMute={toggleShowreelMute}
                             seekShowreel={seekShowreel}
@@ -320,7 +304,6 @@ export default function Home() {
                             projects={projects}
                             siteConfig={siteConfig}
                             openCaseStudy={openCaseStudy}
-                            focusedCategory={focusedCategory}
                             soundEnabled={soundEnabled}
                         />
 
@@ -336,15 +319,6 @@ export default function Home() {
                             theme={theme}
                             siteConfig={siteConfig}
                             navigateToSection={navigateToSection}
-                        />
-
-                        <Capabilities
-                            theme={theme}
-                            soundEnabled={soundEnabled}
-                            onSelectWorkCategory={(cat) => {
-                                setFocusedCategory(cat);
-                                navigateToSection('work');
-                            }}
                         />
 
                         <ProcessWorkflowSection

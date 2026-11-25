@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useRef, RefObject } from 'react';
+import React, { useRef, RefObject, useEffect } from 'react';
 import {
     motion,
     useScroll,
     useTransform,
     useSpring,
-    useReducedMotion
+    useReducedMotion,
+    useInView
 } from 'framer-motion';
 import {
     ArrowUpRight,
@@ -32,7 +33,6 @@ interface HeroProps {
     navigateToSection: (id: string) => void;
     isShowreelPlaying: boolean;
     isShowreelMuted: boolean;
-    showreelProgress: number;
     toggleShowreelPlay: () => void;
     toggleShowreelMute: () => void;
     seekShowreel: (pct: number, exactSeconds?: number) => void;
@@ -47,7 +47,6 @@ export function Hero({
     navigateToSection,
     isShowreelPlaying,
     isShowreelMuted,
-    showreelProgress,
     toggleShowreelPlay,
     toggleShowreelMute,
     seekShowreel,
@@ -58,7 +57,22 @@ export function Hero({
     const videoData = formatUniversalVideoEmbed(siteConfig.showreel.videoUrl, { chromeless: true });
 
     const heroRef = useRef<HTMLElement>(null);
+    const progressFillRef = useRef<HTMLDivElement>(null);
+    const progressValRef = useRef<number>(8);
+    const isHeroInView = useInView(heroRef, { amount: 0.05 });
     const shouldReduce = useReducedMotion();
+
+    useEffect(() => {
+        if (!isShowreelPlaying || !isHeroInView) return;
+        const interval = window.setInterval(() => {
+            const next = progressValRef.current >= 100 ? 0 : +(progressValRef.current + 0.35).toFixed(1);
+            progressValRef.current = next;
+            if (progressFillRef.current) {
+                progressFillRef.current.style.width = `${next}%`;
+            }
+        }, 250);
+        return () => window.clearInterval(interval);
+    }, [isShowreelPlaying, isHeroInView]);
 
     const { scrollYProgress } = useScroll({
         target: heroRef,
@@ -450,6 +464,10 @@ export function Hero({
                                             0,
                                             Math.min(100, Math.round(((e.clientX - rect.left) / rect.width) * 100))
                                         );
+                                        progressValRef.current = pct;
+                                        if (progressFillRef.current) {
+                                            progressFillRef.current.style.width = `${pct}%`;
+                                        }
                                         seekShowreel(pct);
                                     }}
                                     className="mt-3 w-full h-1.5 rounded-full cursor-pointer overflow-hidden relative"
@@ -457,9 +475,10 @@ export function Hero({
                                     title="Click to scrub showreel timeline"
                                 >
                                     <div
+                                        ref={progressFillRef}
                                         className="h-full transition-all duration-300"
                                         style={{
-                                            width: `${showreelProgress}%`,
+                                            width: '8%',
                                             backgroundColor: theme.accent
                                         }}
                                     />
